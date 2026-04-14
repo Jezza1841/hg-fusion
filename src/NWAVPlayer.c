@@ -21,7 +21,7 @@
 #include "../include/debug.h"
 #include "../include/sound.h"
 //#include "Memory.h"
-#include <stdlib.h> // Required for malloc/free
+
 
 /*==============================================================\
 |  Player settings, change these according to your game needs.  |
@@ -36,6 +36,26 @@
 #define STRM_BUF_PAGESIZE (64 * 32)
 #define STRM_BUF_PAGESIZE_STEREO (STRM_BUF_PAGESIZE * 2)
 #define STRM_BUF_SIZE (STRM_BUF_PAGESIZE * 2)
+
+
+#ifndef MATH_CLAMP
+#define MATH_CLAMP(x, low, high)  (((x) > (high)) ? (high) : (((x) < (low)) ? (low) : (x)))
+#endif
+
+// Route these to hg-engine's internal memory allocators
+// Adjust "0" if you need to allocate to a specific heap ID (like the SOUND heap)
+#define NWAV_ALLOC(size) sys_AllocMemory(0, size) 
+#define NWAV_FREE(ptr)   sys_FreeMemoryEz(ptr)
+
+#define OS_MESSAGE_NOBLOCK 0
+#define OS_MESSAGE_BLOCK 1
+
+#define SND_TIMER_CLOCK 16756991
+
+// Route OS_Panic to Game Freak's native crash handler
+#ifndef OS_Panic
+#define OS_Panic() GF_ASSERT(FALSE)
+#endif
 
 /*==========================\
 |  Structure declarations.  |
@@ -86,7 +106,7 @@ typedef struct StreamInfo
     int eventIDBlockSize;
     int eventBlockSize;
 
-    EventHandler eventHandler;
+    //EventHandler eventHandler;
 } StreamInfo;
 
 #define HEADER_SIZE sizeof(Header)
@@ -238,10 +258,10 @@ static void stop_internal(int frames, BOOL waitForUpdate)
 
         //Free memory (Removed C++ new/delete and NSMBDS heap code)
         if (hInfo.numEvents && events != NULL)
-            free(events);
+            NWAV_FREE(events);
             
         if (pStrmBuf != NULL)
-            free(pStrmBuf); 
+            NWAV_FREE(pStrmBuf); 
     }
 }
 
@@ -251,6 +271,7 @@ void NWAVPlayer_stop(int frames)
     stop_internal(frames, FALSE);
 }
 
+/*
 //Sets the event handler function.
 void NWAVPlayer_setEventHandler(EventHandler func) { sInfo.eventHandler = func; }
 
@@ -269,7 +290,7 @@ static void updateEvents(StreamInfo* sInfo)
             sInfo->eventHandler(info.eventID);
         }
     }
-}
+}*/
 
 //Updates the music fading.
 BOOL NWAVPlayer_updateFade(void)
@@ -358,7 +379,7 @@ static void update(StreamInfo* sInfo)
 
     //Update the events.
     updateCheckEnd(sInfo, pBuf, len);
-    updateEvents(sInfo);
+    //updateEvents(sInfo);
 }
 
 //The sound alarm function that unblocks the thread.
@@ -423,6 +444,7 @@ void NWAVPlayer_setSpeed(fx32 speed)
     reloadTimers();
 }
 
+/*
 //Loads the NWAV events that will be used to trigger the current callback function set.
 static void loadEvents(void)
 {
@@ -447,7 +469,7 @@ static void loadEvents(void)
         FS_ReadFile(&file, &val, 4);
         events[i].sample = val;
     }
-}
+}*/
 
 //Plays the music.
 void NWAVPlayer_play(int fileID)
@@ -482,7 +504,7 @@ void NWAVPlayer_play(int fileID)
         int unalignedEvents = (hInfo.numEvents % 4);
         sInfo.eventIDBlockSize = hInfo.numEvents + (4 - unalignedEvents);
         sInfo.eventBlockSize = sInfo.eventIDBlockSize + (hInfo.numEvents * 4);
-        loadEvents();
+        //loadEvents();
     }
     else
     {
@@ -494,7 +516,7 @@ void NWAVPlayer_play(int fileID)
     sInfo.musicEnd = (((hInfo.fileSize - HEADER_SIZE - sInfo.eventBlockSize) / sInfo.chCount) / sInfo.bytesPerSample);
 
     //Allocate stream buffer.
-    pStrmBuf = (pStrmBufT)(malloc(STRM_BUF_SIZE * sInfo.chCount));
+    pStrmBuf = (pStrmBufT)(NWAV_ALLOC(STRM_BUF_SIZE * sInfo.chCount));
 
     //Start music read and updater.
     seek(0, TRUE);
