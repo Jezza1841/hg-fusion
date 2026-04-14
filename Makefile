@@ -1,7 +1,7 @@
 # Makefile
 
-ROMNAME = rom.nds
-BUILDROM = test.nds
+ROMNAME = hgfresh.nds
+BUILDROM = musicNWAV.nds
 
 define n
 

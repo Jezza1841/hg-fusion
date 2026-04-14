@@ -588,3 +588,8 @@ arm9 PartyMenu_StartContextMenuButtonPressAnim_FromCursorObj 0207CB9C 3
 
 # determine rock smash table to use for items
 0001 DetermineRockSmashItem_hook 02204E28 1
+
+
+#Streamed Audio
+arm9 PlayBGM_Hook 02005D48 1
+arm9 GF_SndHandleMoveVolume_Hook 02005408 3

@@ -843,3 +843,30 @@ sBattleBgProfileTable = 0x0226E70C;
 UpdateFriendshipFainted = 0x02248558 | 1;
 
 StringExpandPlaceholders = 0x0200CBBC | 1;
+
+
+/*Streamed Audio*/
+/* implies arm function, 4 byte instructions no need for | 1*/
+/* If 2 byte instruction, then thumb mode, then need | 1. */
+/* Looks like they are all thumb functions */
+
+/*OS_Panic = ?, MI_CpuFill8 = ?*/
+OS_CreateThread = 0x020D1AD4;
+OS_WakeUpThreadDirect = 0x020D1F34;
+OS_InitMessageQueue = 0x020D2388;
+OS_SendMessage = 0x020D23B0;
+OS_ReceiveMessage = 0x020D2444;
+OS_Terminate = 0x020D3F48;
+
+SND_SetupChannelPcm = 0x020D52E8;
+SND_SetChannelVolume = 0x020D52A0;
+SND_LockChannel = 0x020D5240;
+SND_SetupAlarm = 0x020D5200; 
+SND_StartTimer = 0x020D5174;
+SND_StopTimer = 0x020D519C;
+
+FS_InitFile = 0x020D7F98;
+FS_OpenFileFast = 0x020D8208;
+FS_ReadFile = 0x020D83CC;
+FS_SeekFile = 0x020D83DC;
+FS_CloseFile = 0x020D82C0;
