@@ -63,7 +63,7 @@ void LONG_CALL NNS_SndPlayerStopSeqByPlayerNo_Hook(u8 playerID, int fadeFrame)
     
 }
 
-
+/*
 static BOOL GetIfSequenced(int seqID)
 {
     int wavID = firstWavID + seqID; //firstWavID is the index in NWAVPlayer.h
@@ -85,6 +85,7 @@ static BOOL GetIfSequenced(int seqID)
     }
     return TRUE;
 }
+*/
 
 
 //replace the play function
@@ -94,6 +95,7 @@ void LONG_CALL PlayBGM_Hook(u16 seqno)
     PlayBGM_Original(seqno);
     debug_printf("[PlayBGM_Original] seq=%d\n", seqno);
     
+    /*
     int wavID = firstWavID + seqno;
 
     int* currSeq = (int*)0x02088B64; //this value is for nsmbds, might need the get seq playing?
@@ -111,7 +113,7 @@ void LONG_CALL PlayBGM_Hook(u16 seqno)
         NWAVPlayer_play(wavID);
         *currSeq = seqno;
     }
-
+    */
 
 }
 
@@ -120,7 +122,7 @@ void LONG_CALL PlayBGM_Hook(u16 seqno)
 BOOL LONG_CALL GF_Snd_LoadSeq(int seqNo) {
     BOOL ret;
     struct SND_WORK *work;
-    if (GetIfSequenced(seqNo))
+    if (TRUE)//GetIfSequenced(seqNo) || 
     {
         
         work = GetSoundDataPointer();

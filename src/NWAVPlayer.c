@@ -135,6 +135,7 @@ static pStrmBufT pStrmBuf;
 \=========================*/
 
 static void update(StreamInfo* sInfo);
+static void StrmThread(void* arg);
 	
 //Aligns a sample so it doesn't mess up on stereo.
 static int alignSample(int pos)
@@ -468,6 +469,25 @@ static void loadEvents(void)
 //Plays the music.
 void NWAVPlayer_play(int fileID)
 {
+    if(strmThread == NULL)
+	{
+        strmThreadStack = (u8*)NWAV_ALLOC(THREAD_STACK_SIZE);
+        strmThread = (OSThread*)NWAV_ALLOC(sizeof(OSThread));
+
+        //Startup stream thread.
+        OS_InitMessageQueue(&msgQ, &msgBuf, 1);
+        OS_CreateThread(
+            strmThread,
+            StrmThread,
+            NULL,
+            &strmThreadStack[THREAD_STACK_SIZE],
+            THREAD_STACK_SIZE,
+            STREAM_THREAD_PRIO
+        );
+        OS_WakeUpThreadDirect(strmThread);
+    }
+
+
     //If music is already playing, stop it.
     if (sInfo.isPlaying)
         stop_internal(0, FALSE);
@@ -546,19 +566,4 @@ void NWAVPlayer_init(void)
     //Lock the channels.
     SND_LockChannel(1 << CHANNEL_L_NUM | 1 << CHANNEL_R_NUM, 0);
 
-	// 3. Dynamically allocate the thread and stack to save ROM space!
-    strmThreadStack = (u8*)NWAV_ALLOC(THREAD_STACK_SIZE);
-    strmThread = (OSThread*)NWAV_ALLOC(sizeof(OSThread));
-
-    //Startup stream thread.
-    OS_InitMessageQueue(&msgQ, &msgBuf, 1);
-    OS_CreateThread(
-        strmThread,
-        StrmThread,
-        NULL,
-        &strmThreadStack[THREAD_STACK_SIZE],
-        THREAD_STACK_SIZE,
-        STREAM_THREAD_PRIO
-    );
-    OS_WakeUpThreadDirect(strmThread);
 }
