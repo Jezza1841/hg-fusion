@@ -30,8 +30,7 @@
 #include "../include/sound.h"
 
 
-#define FX32_CAST(x) ((fx32)x)
-#define FX32_SHIFT 12
+
 
 //The function type of the function that will handle the events.
 typedef void(*NWAVPlayer_EventHandler)(int); 

@@ -870,3 +870,5 @@ FS_OpenFileFast = 0x020D8208;
 FS_ReadFile = 0x020D83CC;
 FS_SeekFile = 0x020D83DC;
 FS_CloseFile = 0x020D82C0;
+
+MI_CpuFill8 = 0x020D4994;

@@ -1,0 +1,538 @@
+/*============================================================\
+|  This file was made by TheGameratorT.                       |
+|                                                             |
+|  This code is meant to work with the following template:    |
+|  https://github.com/Overblade/NSMB-ASMReference             |
+|                                                             |
+|  You may modify this file and use it for whatever you want  |
+|  just be sure to credit me (TheGameratorT).                 |
+|                                                             |
+|  Hope you like it just as much as I had fun coding this!    |
+|                                                             |
+|  ---------------------------------------------------------  |
+|                                                             |
+|  NWAV player core.                                          |
+|  This is main code that allows for music playback on DS.    |
+\============================================================*/
+
+#include "../include/NWAVPlayer.h"
+#include "../include/types.h"
+#include "../include/config.h"
+#include "../include/debug.h"
+#include "../include/sound.h"
+//#include "Memory.h"
+#include <stdlib.h> // Required for malloc/free
+
+/*==============================================================\
+|  Player settings, change these according to your game needs.  |
+\==============================================================*/
+
+#define CHANNEL_L_NUM 6
+#define CHANNEL_R_NUM 7
+#define CHANNEL_MASK (1 << CHANNEL_L_NUM | ((1 << CHANNEL_R_NUM) * hInfo.stereo))
+#define ALARM_NUM 1
+#define STREAM_THREAD_PRIO 12
+#define THREAD_STACK_SIZE 512
+#define STRM_BUF_PAGESIZE (64 * 32)
+#define STRM_BUF_PAGESIZE_STEREO (STRM_BUF_PAGESIZE * 2)
+#define STRM_BUF_SIZE (STRM_BUF_PAGESIZE * 2)
+
+/*==========================\
+|  Structure declarations.  |
+\==========================*/
+
+typedef struct EventInfo
+{
+    int eventID;
+    int sample;
+} EventInfo;
+
+typedef struct Header
+{
+    int magic;
+    int fileSize;
+    int sampleRate;
+    int loopStart;
+    int loopEnd;
+    SNDWaveFormat format : 8;
+    u8 stereo;
+    u8 numEvents;
+    u8 padding;
+} Header;
+
+// Assuming EventHandler is defined in NWAVPlayer.h as: typedef void (*EventHandler)(int);
+typedef struct StreamInfo
+{
+    u8 isPlaying;
+    u8 isPaused;
+    u8 reserved[2];
+
+    fx32 speed;
+    int volume;
+
+    int bufPage;
+    int musicEnd;
+    int musicCursor;
+    int samplesPerUpdate;
+    int playRate;
+    int targetVolume;
+    int fadeDec;
+    int fadeFrame;
+    u8 loops;
+    u8 stopMode;
+    u8 chCount;
+    u8 bytesPerSample;
+
+    int eventIDBlockSize;
+    int eventBlockSize;
+
+    EventHandler eventHandler;
+} StreamInfo;
+
+#define HEADER_SIZE sizeof(Header)
+#define EVENT_INFO_SIZE sizeof(EventInfo)
+
+/*=======================\
+|  Static declarations.  |
+\=======================*/
+
+static Header hInfo;
+static StreamInfo sInfo = {
+    .isPlaying = FALSE,
+    .isPaused = TRUE,
+    .speed = 0x1000,
+    .volume = 127,
+    .fadeFrame = 0
+};
+static FSFile file;
+
+static u8 strmThreadStack[THREAD_STACK_SIZE];
+static OSThread strmThread;
+static OSMessageQueue msgQ;
+static OSMessage msgBuf;
+
+static EventInfo* events;
+
+typedef u8(*pStrmBufT)[2][STRM_BUF_SIZE];
+static pStrmBufT pStrmBuf;
+
+/*=========================\
+|  Function declarations.  |
+\=========================*/
+
+static void update(StreamInfo* sInfo);
+	
+//Aligns a sample so it doesn't mess up on stereo.
+static int alignSample(int pos)
+{
+    if (hInfo.stereo)
+    {
+        int sampleAlign = sInfo.samplesPerUpdate;
+        int unaligned = (pos % sampleAlign);
+
+        if (unaligned > (sampleAlign / 2))
+            pos += (sampleAlign - unaligned);
+        else
+            pos -= unaligned;
+    }
+    return pos;
+}
+
+//Goes to a certain position in the file, either based on byte index or music sample.
+static void seek(int pos, BOOL sample)
+{
+    if (sample)
+    {
+        //Calculate file absolute file position.
+        pos = alignSample(pos);
+        sInfo.musicCursor = pos;
+
+        pos *= sInfo.chCount;
+        pos *= sInfo.bytesPerSample;
+        pos += HEADER_SIZE;
+        pos += sInfo.eventBlockSize;
+    }
+
+    //Seek position in file.
+    FS_SeekFile(&file, pos, FS_SEEK_SET);
+}
+
+//Use this before playing or resuming music. (Keeps buffer aligned and makes it update instantly)
+static void prepareBuffer(void)
+{
+    sInfo.bufPage = 0;
+    update(&sInfo);
+    update(&sInfo);
+}
+
+//Gets if the music is paused.
+BOOL NWAVPlayer_getPaused(void) { return sInfo.isPaused; }
+
+//Sets if the music is paused by stopping or starting the timers.
+void NWAVPlayer_setPaused(BOOL paused)
+{
+    //If music is playing and stopped flag isn't the one already set.
+    if (sInfo.isPlaying && sInfo.isPaused != paused)
+    {
+        if (paused)
+        {
+            SND_StopTimer(CHANNEL_MASK, 0, 1 << ALARM_NUM, 0);
+        }
+        else
+        {
+            prepareBuffer();
+            SND_StartTimer(CHANNEL_MASK, 0, 1 << ALARM_NUM, 0);
+        }
+        sInfo.isPaused = paused;
+    }
+}
+
+//Gets the current volume.
+int NWAVPlayer_getVolume(void) { return sInfo.volume; }
+
+//Sets the volume by shifting it during the specified frame period.
+void NWAVPlayer_setVolume(int volume, int frames)
+{
+    //Do nothing if volume doesn't change.
+    if (sInfo.volume == volume)
+        return;
+
+    if (frames == 0)
+    {
+        SND_SetChannelVolume(CHANNEL_MASK, volume, SND_CHANNEL_DATASHIFT_NONE);
+        sInfo.volume = volume;
+    }
+    else
+    {
+        int volumeDiff = sInfo.volume - volume;
+        int remove = volumeDiff > 0 ? 1 : -1;
+
+        sInfo.fadeDec = (volumeDiff / frames) + remove;
+        sInfo.fadeFrame = frames;
+        sInfo.targetVolume = volume;
+    }
+}
+
+//Stops the music. (For internal use ONLY)
+static void stop_internal(int frames, BOOL waitForUpdate)
+{
+    //Do nothing if not playing.
+    if (!sInfo.isPlaying)
+        return;
+
+    if (frames || waitForUpdate)
+    {
+        //Begin special sound stop.
+        if (frames)
+            NWAVPlayer_setVolume(0, frames);
+        sInfo.stopMode = waitForUpdate + 1;
+    }
+    else
+    {
+        //Stop music timers.
+        NWAVPlayer_setPaused(TRUE);
+        sInfo.isPlaying = FALSE;
+
+        //Close the file.
+        FS_CloseFile(&file);
+
+        //Free memory (Removed C++ new/delete and NSMBDS heap code)
+        if (hInfo.numEvents && events != NULL)
+            free(events);
+            
+        if (pStrmBuf != NULL)
+            free(pStrmBuf); 
+    }
+}
+
+//Stops the music. (For external use ONLY)
+void NWAVPlayer_stop(int frames)
+{
+    stop_internal(frames, FALSE);
+}
+
+//Sets the event handler function.
+void NWAVPlayer_setEventHandler(EventHandler func) { sInfo.eventHandler = func; }
+
+//Updates the events.
+static void updateEvents(StreamInfo* sInfo)
+{
+    if (!hInfo.numEvents || !sInfo->eventHandler)
+        return;
+
+    for (int i = 0; i < hInfo.numEvents; i++)
+    {
+        EventInfo info = events[i];
+        if (info.sample > sInfo->musicCursor &&
+            info.sample < sInfo->musicCursor + sInfo->samplesPerUpdate)
+        {
+            sInfo->eventHandler(info.eventID);
+        }
+    }
+}
+
+//Updates the music fading.
+BOOL NWAVPlayer_updateFade(void)
+{
+    if (sInfo.isPlaying && sInfo.fadeFrame)
+    {
+        int newVolume = sInfo.volume - sInfo.fadeDec;
+        newVolume = MATH_CLAMP(newVolume, 0, 127);
+
+        NWAVPlayer_setVolume(newVolume, 0);
+        sInfo.fadeFrame--;
+
+        if (sInfo.fadeFrame == 0)
+        {
+            NWAVPlayer_setVolume(sInfo.targetVolume, 0);
+            if (sInfo.stopMode == 1)
+            {
+                stop_internal(0, FALSE);
+                return FALSE;
+            }
+        }
+    }
+    return TRUE;
+}
+
+//Checks if the music has reached end or loop point and updates the music state accordingly.
+static void updateCheckEnd(StreamInfo* sInfo, pStrmBufT pBuf, int len)
+{
+    int leftOver = STRM_BUF_PAGESIZE - len;
+    if (sInfo->loops)
+    {
+        if (sInfo->musicCursor > hInfo.loopEnd)
+        {
+            seek(hInfo.loopStart, TRUE);
+            if (leftOver > 0)
+            {
+                for (int i = 0; i < sInfo->chCount; i++)
+                    FS_ReadFile(&file, &(*pBuf)[i][len], leftOver);
+            }
+            seek(hInfo.loopStart + (leftOver / sInfo->bytesPerSample), TRUE);
+        }
+    }
+    else
+    {
+        if (sInfo->musicCursor > sInfo->musicEnd)
+        {
+            //Instead of instantly stopping the music, we must wait for the buffer end, otherwise the music will stop sooner.
+            if (leftOver > 0)
+            {
+                for (int i = 0; i < sInfo->chCount; i++)
+                    // MI_CpuClear8 is a NitroSDK function, but if missing use memset
+                    MI_CpuFill8(&(*pBuf)[i][len], 0, leftOver); 
+            }
+            stop_internal(0, TRUE); //Stop the music and wait for the buffer end.
+        }
+    }
+}
+
+//Updates the music.
+static void update(StreamInfo* sInfo)
+{
+    //Check for delayed stop.
+    if (sInfo->stopMode == 2)
+    {
+        stop_internal(0, FALSE);
+        return;
+    }
+
+    //Get buffer page and swap.
+    pStrmBufT pBuf = (pStrmBufT)(**pStrmBuf + (STRM_BUF_PAGESIZE * sInfo->bufPage));
+    sInfo->bufPage = !sInfo->bufPage;
+
+    //Get read length.
+    int len = STRM_BUF_PAGESIZE;
+    int limit = sInfo->loops ? hInfo.loopEnd : sInfo->musicEnd;
+    int remain = (limit - sInfo->musicCursor) * sInfo->bytesPerSample;
+    if (remain < len)
+        len = remain;
+
+    //Read the data to the buffer.
+    for (int i = 0; i < sInfo->chCount; i++)
+        FS_ReadFile(&file, (*pBuf)[i], len);
+
+    //Increment the music cursor.
+    sInfo->musicCursor += sInfo->samplesPerUpdate;
+
+    //Update the events.
+    updateCheckEnd(sInfo, pBuf, len);
+    updateEvents(sInfo);
+}
+
+//The sound alarm function that unblocks the thread.
+static void SoundAlarmHandler(void* arg)
+{
+    //Unblock updater thread.
+    OS_SendMessage(&msgQ, (OSMessage)arg, OS_MESSAGE_NOBLOCK);
+}
+
+//Setups the music channels, timers and sound alarm.
+static void setup(void)
+{
+    //Calculate timer values.
+    s32 timerValue = SND_TIMER_CLOCK / sInfo.playRate;
+    u32 alarmPeriod = timerValue * (STRM_BUF_PAGESIZE / sInfo.bytesPerSample) / 32;
+
+    s32 loopLen = STRM_BUF_SIZE / sizeof(u32);
+
+    //Setup channels.
+    for (int i = 0; i < sInfo.chCount; i++)
+    {
+        BOOL left = i == 0;
+        SND_SetupChannelPcm(
+            left ? CHANNEL_L_NUM : CHANNEL_R_NUM,
+            hInfo.format,
+            left ? (*pStrmBuf)[0] : (*pStrmBuf)[1],
+            SND_CHANNEL_LOOP_REPEAT,
+            0,
+            loopLen,
+            sInfo.volume,
+            SND_CHANNEL_DATASHIFT_NONE,
+            timerValue,
+            !hInfo.stereo ? 64 : (left ? 0 : 127)
+        );
+    }
+
+    //Setup sound alarm for updater thread.
+    SND_SetupAlarm(ALARM_NUM, alarmPeriod, alarmPeriod, SoundAlarmHandler, &sInfo);
+}
+
+//Reloads the current timers to apply new settings.
+static void reloadTimers(void)
+{
+    BOOL notPaused = !sInfo.isPaused;
+    if (notPaused)
+        NWAVPlayer_setPaused(TRUE);
+    setup();
+    if (notPaused)
+        NWAVPlayer_setPaused(FALSE);
+}
+
+//Gets the music speed.
+fx32 NWAVPlayer_getSpeed(void) { return sInfo.speed; }
+
+//Sets the music speed.
+void NWAVPlayer_setSpeed(fx32 speed)
+{
+    //Set the music speed.
+    fx32 sampleRate = hInfo.sampleRate << FX32_SHIFT;
+    sInfo.playRate = FX_MulInline(sampleRate, speed) >> FX32_SHIFT;
+    sInfo.speed = speed;
+    reloadTimers();
+}
+
+//Loads the NWAV events that will be used to trigger the current callback function set.
+static void loadEvents(void)
+{
+    //Allocate events.
+    events = (EventInfo*)malloc(hInfo.numEvents * sizeof(EventInfo));
+
+    //Read event IDs.
+    for (int i = 0; i < hInfo.numEvents; i++)
+    {
+        int val = 0;
+        FS_ReadFile(&file, &val, 1);
+        events[i].eventID = val;
+    }
+
+    //Jump to "samples for event IDs" block.
+    seek(HEADER_SIZE + sInfo.eventIDBlockSize, FALSE);
+
+    //Read samples for event IDs
+    for (int i = 0; i < hInfo.numEvents; i++)
+    {
+        int val;
+        FS_ReadFile(&file, &val, 4);
+        events[i].sample = val;
+    }
+}
+
+//Plays the music.
+void NWAVPlayer_play(int fileID)
+{
+    //If music is already playing, stop it.
+    if (sInfo.isPlaying)
+        stop_internal(0, FALSE);
+
+    //Initialize file and try to open it, otherwise crash.
+    FS_InitFile(&file);
+    
+    // CRITICAL FIX: Replaced hardcoded NSMB pointer 0x02096114 with GetSoundDataPointer()
+    if (!FS_OpenFileFast(&file, GetSoundDataPointer(), fileID))
+        OS_Panic();
+
+    //Read the file header.
+    FS_ReadFile(&file, &hInfo, HEADER_SIZE);
+
+    //Reset variables
+    sInfo.loops = hInfo.loopEnd != 0;
+    sInfo.fadeDec = 0;
+    sInfo.fadeFrame = 0;
+    sInfo.stopMode = 0;
+    sInfo.volume = 127;
+    sInfo.chCount = hInfo.stereo ? 2 : 1;
+    sInfo.bytesPerSample = hInfo.format ? 2 : 1;
+    sInfo.samplesPerUpdate = (STRM_BUF_PAGESIZE / sInfo.bytesPerSample);
+
+    //Setup events.
+    if (hInfo.numEvents)
+    {
+        int unalignedEvents = (hInfo.numEvents % 4);
+        sInfo.eventIDBlockSize = hInfo.numEvents + (4 - unalignedEvents);
+        sInfo.eventBlockSize = sInfo.eventIDBlockSize + (hInfo.numEvents * 4);
+        loadEvents();
+    }
+    else
+    {
+        sInfo.eventIDBlockSize = 0;
+        sInfo.eventBlockSize = 0;
+    }
+
+    //Calculate music size.
+    sInfo.musicEnd = (((hInfo.fileSize - HEADER_SIZE - sInfo.eventBlockSize) / sInfo.chCount) / sInfo.bytesPerSample);
+
+    //Allocate stream buffer.
+    pStrmBuf = (pStrmBufT)(malloc(STRM_BUF_SIZE * sInfo.chCount));
+
+    //Start music read and updater.
+    seek(0, TRUE);
+    NWAVPlayer_setSpeed(sInfo.speed);
+
+    sInfo.isPlaying = TRUE;
+    sInfo.isPaused = TRUE;
+    NWAVPlayer_setPaused(FALSE);
+}
+
+//The OS thread that runs the updater.
+static void StrmThread(void* arg)
+{
+    OSMessage message;
+
+    //Main thread loop
+    while (TRUE)
+    {
+        OS_ReceiveMessage(&msgQ, &message, OS_MESSAGE_BLOCK); //Block thread until message is received by the sound alarm.
+        update((StreamInfo*)message);       //Update the music.
+    }
+}
+
+//Initializes the NWAV player.
+void NWAVPlayer_init(void)
+{
+    //Lock the channels.
+    SND_LockChannel(1 << CHANNEL_L_NUM | 1 << CHANNEL_R_NUM, 0);
+
+    //Startup stream thread.
+    OS_InitMessageQueue(&msgQ, &msgBuf, 1);
+    OS_CreateThread(
+        &strmThread,
+        StrmThread,
+        NULL,
+        &strmThreadStack[THREAD_STACK_SIZE],
+        THREAD_STACK_SIZE,
+        STREAM_THREAD_PRIO
+    );
+    OS_WakeupThreadDirect(&strmThread);
+}

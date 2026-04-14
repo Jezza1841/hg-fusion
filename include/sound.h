@@ -245,6 +245,9 @@ typedef enum
 	FS_SEEK_END
 } FSSeekFileMode;
 
+#define FX32_CAST(x) ((fx32)x)
+#define FX32_SHIFT 12
+
 //void OS_Panic();
 void LONG_CALL OS_WakeupThreadDirect(OSThread *thread);
 void LONG_CALL OS_CreateThread(OSThread *thread, void (*func)(void *), void *arg, void *stack, u32 stackSize, u32 prio);
@@ -252,10 +255,10 @@ BOOL LONG_CALL OS_ReceiveMessage(OSMessageQueue *mq, OSMessage *msg, s32 flags);
 BOOL LONG_CALL OS_SendMessage(OSMessageQueue *mq, OSMessage msg, s32 flags);
 void LONG_CALL OS_InitMessageQueue(OSMessageQueue *mq, OSMessage *msgArray, s32 msgCount);
 
-//void MI_CpuFill8(void *dest, u8 data, u32 size);
-//static inline void MI_CpuClear8(void *dest, u32 size) {
-//    MI_CpuFill8(dest, 0, size);
-//}
+void MI_CpuFill8(void *dest, u8 data, u32 size);
+static inline void MI_CpuClear8(void *dest, u32 size) {
+    MI_CpuFill8(dest, 0, size);
+}
 
 void LONG_CALL SND_SetupChannelPcm(int chNo, SNDWaveFormat format, const void *dataAddr, SNDChannelLoop loop, int loopStart, int dataLen, int volume, SNDChannelDataShift shift, int timer, int pan);
 void LONG_CALL SND_SetChannelVolume(u32 chBitMask, int volume, SNDChannelDataShift shift);
@@ -270,10 +273,10 @@ BOOL LONG_CALL FS_CloseFile(FSFile *p_file);
 BOOL LONG_CALL FS_OpenFileFast(FSFile* p_file, void* archivePtr, int file_id);
 void LONG_CALL FS_InitFile(FSFile *p_file);
 
-/*
+
 static inline fx32 FX_MulInline(fx32 v1, fx32 v2) {
     return FX32_CAST(((s64)(v1)*v2 + 0x800LL) >> FX32_SHIFT);
 }
-*/
+
 
 #endif // SOUND_H
