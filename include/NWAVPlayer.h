@@ -155,6 +155,7 @@ s32  LONG_CALL FS_ReadFile(FSFile *p_file, void *dst, s32 len);
 BOOL LONG_CALL FS_CloseFile(FSFile *p_file);
 BOOL LONG_CALL FS_OpenFileFast(FSFile* p_file, void* archivePtr, int file_id);
 void LONG_CALL FS_InitFile(FSFile *p_file);
+void* LONG_CALL FS_FindArchive(const char* name, int len);
 
 
 static inline fx32 FX_MulInline(fx32 v1, fx32 v2) {

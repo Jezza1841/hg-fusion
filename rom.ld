@@ -860,15 +860,16 @@ OS_Terminate = 0x020D3F48;
 
 SND_SetupChannelPcm = 0x020D52E8;
 SND_SetChannelVolume = 0x020D52A0;
-SND_LockChannel = 0x020D5240;
-SND_SetupAlarm = 0x020D5200; 
-SND_StartTimer = 0x020D5174;
-SND_StopTimer = 0x020D519C;
+SND_LockChannel =   0x020D5240;
+SND_SetupAlarm =    0x020D5200; 
+SND_StartTimer =    0x020D5174;
+SND_StopTimer =     0x020D519C;
 
-FS_InitFile = 0x020D7F98;
-FS_OpenFileFast = 0x020D8208;
-FS_ReadFile = 0x020D83CC;
-FS_SeekFile = 0x020D83DC;
-FS_CloseFile = 0x020D82C0;
+FS_InitFile =       0x020D7F98;
+FS_OpenFileFast =   0x020D8208;
+FS_ReadFile =       0x020D83CC;
+FS_SeekFile =       0x020D83DC;
+FS_CloseFile =      0x020D82C0;
+FS_FindArchive =    0x020D7958;
 
-MI_CpuFill8 = 0x020D4994;
+MI_CpuFill8 =       0x020D4994;

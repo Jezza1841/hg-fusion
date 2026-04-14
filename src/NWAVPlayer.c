@@ -44,7 +44,7 @@
 
 // Route these to hg-engine's internal memory allocators
 // Adjust "0" if you need to allocate to a specific heap ID (like the SOUND heap)
-#define NWAV_ALLOC(size) sys_AllocMemory(0, size) 
+#define NWAV_ALLOC(size) sys_AllocMemory(3, size) 
 #define NWAV_FREE(ptr)   sys_FreeMemoryEz(ptr)
 
 #define OS_MESSAGE_NOBLOCK 0
@@ -494,9 +494,10 @@ void NWAVPlayer_play(int fileID)
 
     //Initialize file and try to open it, otherwise crash.
     FS_InitFile(&file);
-    
+
+    void* romArchive = FS_FindArchive("rom", 3);
     // CRITICAL FIX: Replaced hardcoded NSMB pointer 0x02096114 with GetSoundDataPointer()
-    if (!FS_OpenFileFast(&file, GetSoundDataPointer(), fileID))
+    if (!FS_OpenFileFast(&file, romArchive, fileID))
         OS_Panic();
 
     //Read the file header.

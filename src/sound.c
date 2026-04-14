@@ -6,19 +6,19 @@
 
 
 
-int firstWavID = 2088; //defo need to update this
+int firstWavID = 533; //put nwav into base/root/waves folder, build hg-e, check in tinke
 
 
 
 void LONG_CALL NNS_SndInit_Hook(void){
     NNS_SndInit_Original();
-    //NWAVPlayer::init();
+    NWAVPlayer_init();
     //debug_printf("[NNS_SndInit_Hook] Initializing sound system.\n");
 }
 
 void LONG_CALL NNS_SndMain_Hook(void){
     NNS_SndMain_Original();
-    //NWAVPlayer::updateFade();
+    NWAVPlayer_updateFade();
     //Works, spams prints to console :D
 }
 
@@ -63,7 +63,7 @@ void LONG_CALL NNS_SndPlayerStopSeqByPlayerNo_Hook(u8 playerID, int fadeFrame)
     
 }
 
-/*
+
 static BOOL GetIfSequenced(int seqID)
 {
     int wavID = firstWavID + seqID; //firstWavID is the index in NWAVPlayer.h
@@ -85,16 +85,19 @@ static BOOL GetIfSequenced(int seqID)
     }
     return TRUE;
 }
-*/
+
 
 
 //replace the play function
 void LONG_CALL PlayBGM_Hook(u16 seqno)
 {
 
-    PlayBGM_Original(seqno);
-    debug_printf("[PlayBGM_Original] seq=%d\n", seqno);
-    
+    //PlayBGM_Original(seqno);
+    //debug_printf("[PlayBGM_Original] seq=%d\n", seqno);
+    NNS_SndPlayerStopSeqByPlayerNo_Hook(0, 0);
+    debug_printf("before nwav play\n");
+    NWAVPlayer_play(firstWavID);
+    debug_printf("after nwav play\n");
     /*
     int wavID = firstWavID + seqno;
 
@@ -114,7 +117,6 @@ void LONG_CALL PlayBGM_Hook(u16 seqno)
         *currSeq = seqno;
     }
     */
-
 }
 
 
@@ -122,7 +124,7 @@ void LONG_CALL PlayBGM_Hook(u16 seqno)
 BOOL LONG_CALL GF_Snd_LoadSeq(int seqNo) {
     BOOL ret;
     struct SND_WORK *work;
-    if (TRUE)//GetIfSequenced(seqNo) || 
+    if (TRUE)//GetIfSequenced(seqNo)) 
     {
         
         work = GetSoundDataPointer();
