@@ -13,7 +13,7 @@ int firstWavID = 2088; //defo need to update this
 void LONG_CALL NNS_SndInit_Hook(void){
     NNS_SndInit_Original();
     //NWAVPlayer::init();
-    debug_printf("[NNS_SndInit_Hook] Initializing sound system.\n");
+    //debug_printf("[NNS_SndInit_Hook] Initializing sound system.\n");
 }
 
 void LONG_CALL NNS_SndMain_Hook(void){
@@ -24,7 +24,7 @@ void LONG_CALL NNS_SndMain_Hook(void){
 
 void LONG_CALL NNS_SndPlayerSetTempoRatio_Hook(int handle, int tempo){
     NNS_SndPlayerSetTempoRatio_Original(handle, tempo);
-    debug_printf("[NNS_SndPlayerSetTempoRatio_Hook] Setting tempo ratio to %d.\n", tempo);
+    //debug_printf("[NNS_SndPlayerSetTempoRatio_Hook] Setting tempo ratio to %d.\n", tempo);
     //this still needs to be tested.
     //NWAVPlayer_setSpeed(tempo << 12 >> 8);
 }
@@ -34,12 +34,12 @@ void LONG_CALL NNS_SndPlayerSetTempoRatio_Hook(int handle, int tempo){
 void LONG_CALL GF_SndHandleMoveVolume_Hook(int param1, int volume, int frames)
 {
     GF_SndHandleMoveVolume_Original(param1, volume, frames);
-    debug_printf("[GF_SndHandleMoveVolume_Hook] Handling move volume with params: %d, %d, %d.\n", param1, volume, frames);
+    //debug_printf("[GF_SndHandleMoveVolume_Hook] Handling move volume with params: %d, %d, %d.\n", param1, volume, frames);
     //param 1 could be the player ID? only update volume for bgm, not cries or sfx
     
     if (param1 == 0)
     {
-        debug_printf("Player is BGM (GF wrapper).\n");
+        //debug_printf("Player is BGM (GF wrapper).\n");
         //NWAVPlayer_setVolume(volume, frames);
     }
 }
@@ -47,11 +47,11 @@ void LONG_CALL GF_SndHandleMoveVolume_Hook(int param1, int volume, int frames)
 void LONG_CALL NNS_SndPlayerPauseByPlayerNo_Hook(u8 playerID, BOOL paused)
 {
     NNS_SndPlayerPauseByPlayerNo_Original(playerID, paused);
-    debug_printf("[NNS_SndPlayerPauseByPlayerNo_Hook] Setting pause for player %d to %d.\n", playerID, paused);
+    //debug_printf("[NNS_SndPlayerPauseByPlayerNo_Hook] Setting pause for player %d to %d.\n", playerID, paused);
     //field or bgm
     if(playerID == 1 || playerID == 7){
         //NWAVPlayer_setPaused(paused);
-        debug_printf("Player is either field or bgm.\n");
+        //debug_printf("Player is either field or bgm.\n");
     } 
     
 }
@@ -59,7 +59,7 @@ void LONG_CALL NNS_SndPlayerPauseByPlayerNo_Hook(u8 playerID, BOOL paused)
 void LONG_CALL NNS_SndPlayerStopSeqByPlayerNo_Hook(u8 playerID, int fadeFrame)
 {
     NNS_SndPlayerStopSeqByPlayerNo_Original(playerID, fadeFrame);
-    debug_printf("[NNS_SndPlayerStopSeqByPlayerNo_Hook] Stopping sequence for player %d with fade frame %d.\n", playerID, fadeFrame);
+    //debug_printf("[NNS_SndPlayerStopSeqByPlayerNo_Hook] Stopping sequence for player %d with fade frame %d.\n", playerID, fadeFrame);
     
 }
 

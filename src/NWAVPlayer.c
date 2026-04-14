@@ -117,17 +117,11 @@ typedef struct StreamInfo
 \=======================*/
 
 static Header hInfo;
-static StreamInfo sInfo = {
-    .isPlaying = FALSE,
-    .isPaused = TRUE,
-    .speed = 0x1000,
-    .volume = 127,
-    .fadeFrame = 0
-};
+static StreamInfo sInfo;
 static FSFile file;
 
-static u8 strmThreadStack[THREAD_STACK_SIZE];
-static OSThread strmThread;
+static u8* strmThreadStack;
+static OSThread* strmThread;
 static OSMessageQueue msgQ;
 static OSMessage msgBuf;
 
@@ -543,18 +537,28 @@ static void StrmThread(void* arg)
 //Initializes the NWAV player.
 void NWAVPlayer_init(void)
 {
+	sInfo.isPlaying = FALSE;
+    sInfo.isPaused = TRUE;
+    sInfo.speed = 0x1000;
+    sInfo.volume = 127;
+    sInfo.fadeFrame = 0;
+
     //Lock the channels.
     SND_LockChannel(1 << CHANNEL_L_NUM | 1 << CHANNEL_R_NUM, 0);
+
+	// 3. Dynamically allocate the thread and stack to save ROM space!
+    strmThreadStack = (u8*)NWAV_ALLOC(THREAD_STACK_SIZE);
+    strmThread = (OSThread*)NWAV_ALLOC(sizeof(OSThread));
 
     //Startup stream thread.
     OS_InitMessageQueue(&msgQ, &msgBuf, 1);
     OS_CreateThread(
-        &strmThread,
+        strmThread,
         StrmThread,
         NULL,
         &strmThreadStack[THREAD_STACK_SIZE],
         THREAD_STACK_SIZE,
         STREAM_THREAD_PRIO
     );
-    OS_WakeupThreadDirect(&strmThread);
+    OS_WakeUpThreadDirect(strmThread);
 }

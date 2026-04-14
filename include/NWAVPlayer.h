@@ -132,7 +132,7 @@ typedef enum
 #define FX32_SHIFT 12
 
 //void OS_Panic();
-void LONG_CALL OS_WakeupThreadDirect(OSThread *thread);
+void LONG_CALL OS_WakeUpThreadDirect(OSThread *thread);
 void LONG_CALL OS_CreateThread(OSThread *thread, void (*func)(void *), void *arg, void *stack, u32 stackSize, u32 prio);
 BOOL LONG_CALL OS_ReceiveMessage(OSMessageQueue *mq, OSMessage *msg, s32 flags);
 BOOL LONG_CALL OS_SendMessage(OSMessageQueue *mq, OSMessage msg, s32 flags);
