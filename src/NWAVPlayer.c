@@ -332,18 +332,29 @@ static void updateCheckEnd(StreamInfo* sInfo, int len, u32 offset)
     int leftOver = STRM_BUF_PAGESIZE - len;
     if (sInfo->loops)
     {
-        if (sInfo->musicCursor > hInfo.loopEnd)
+        if (sInfo->musicCursor >= hInfo.loopEnd)
         {
             seek(hInfo.loopStart, TRUE);
             if (leftOver > 0)
-            {
+            {   /*
                 FS_ReadFile(&file, pStrmBufL + offset + len, leftOver);
                 if (sInfo->chCount > 1)
                     FS_ReadFile(&file, pStrmBufR + offset + len, leftOver);
-                /*
+                
                 for (int i = 0; i < sInfo->chCount; i++)
                     FS_ReadFile(&file, &(*pBuf)[i][len], leftOver);
                 */
+                // Read Left
+                FS_ReadFile(&file, pStrmBufL + offset + len, leftOver);
+                DC_InvalidateRange(pStrmBufL + offset + len, leftOver);
+                DC_FlushRange(pStrmBufL + offset + len, leftOver);
+
+                // Read Right (if stereo)
+                if (sInfo->chCount > 1) {
+                    FS_ReadFile(&file, pStrmBufR + offset + len, leftOver);
+                    DC_InvalidateRange(pStrmBufR + offset + len, leftOver);
+                    DC_FlushRange(pStrmBufR + offset + len, leftOver);
+                }
             }
             seek(hInfo.loopStart + (leftOver / sInfo->bytesPerSample), TRUE);
         }
@@ -378,7 +389,7 @@ static void update(StreamInfo* sInfo)
         return;
     }
 
-// Calculate the exact byte offset for the current page
+    // Calculate the exact byte offset for the current page
     u32 offset = sInfo->bufPage * STRM_BUF_PAGESIZE;
     sInfo->bufPage = !sInfo->bufPage;
 
@@ -402,7 +413,8 @@ static void update(StreamInfo* sInfo)
     }
 
     // Increment the music cursor.
-    sInfo->musicCursor += sInfo->samplesPerUpdate;
+    //sInfo->musicCursor += sInfo->samplesPerUpdate;
+    sInfo->musicCursor += (len / sInfo->bytesPerSample);
 
     // Pass the offset down so it knows where to append the leftover bytes
     updateCheckEnd(sInfo, len, offset);

@@ -53,7 +53,7 @@ void LONG_CALL GF_SndHandleMoveVolume_Hook(int param1, int volume, int frames)
 void LONG_CALL NNS_SndPlayerPauseByPlayerNo_Hook(u8 playerID, BOOL paused)
 {
     NNS_SndPlayerPauseByPlayerNo_Original(playerID, paused);
-    debug_printf("Setting pause for player %d to %d.\n", playerID, paused);
+    //debug_printf("Setting pause for player %d to %d.\n", playerID, paused);
     
     if(playerID == 0 || playerID == 1 || playerID == 7){
         NWAVPlayer_setPaused(paused);
@@ -64,7 +64,7 @@ void LONG_CALL NNS_SndPlayerPauseByPlayerNo_Hook(u8 playerID, BOOL paused)
 void LONG_CALL NNS_SndPlayerStopSeqByPlayerNo_Hook(u8 playerID, int fadeFrame)
 {
     NNS_SndPlayerStopSeqByPlayerNo_Original(playerID, fadeFrame);
-    debug_printf("Stopping sequence for player %d with fade frame %d.\n", playerID, fadeFrame);
+    //debug_printf("Stopping sequence for player %d with fade frame %d.\n", playerID, fadeFrame);
     if(playerID == 0 || playerID == 1 || playerID == 7){
         NWAVPlayer_stop(fadeFrame);
     }
@@ -116,49 +116,40 @@ void LONG_CALL PlayBGM_Hook(u16 seqno)
 
     BOOL next_is_seq = GetIfSequenced(seqno);
 
-    //Quit active audio
+
     if(current_is_nwav){
         NWAVPlayer_stop(0);
+        if (next_is_seq) {
+            struct SND_WORK *work = GetSoundDataPointer();
+            if (work) {
+                work->currentSeqNo = 0xFFFF; 
+            }
+            PlayBGM_Original(seqno);
+            current_is_nwav = FALSE;
+        } else {
+            int wavID = firstWavID + seqno;
+            NWAVPlayer_play(wavID);
+            NWAVPlayer_setVolume(127, 0);
+            NWAVPlayer_setSpeed(0x1000);
+            current_is_nwav = TRUE;
+        }
     }
-    else{
-        NNS_SndPlayerStopSeqByPlayerNo_Original(0,0); //player might not be 0...
+    else 
+    {
+        if (next_is_seq) {
+            PlayBGM_Original(seqno);
+            current_is_nwav = FALSE;
+        } else {
+            NNS_SndPlayerStopSeqByPlayerNo_Original(0, 20);
+            
+            int wavID = firstWavID + seqno;
+            NWAVPlayer_play(wavID);
+            NWAVPlayer_setVolume(127, 0);
+            NWAVPlayer_setSpeed(0x1000);
+            current_is_nwav = TRUE;
+        }
     }
-
-    if (next_is_seq){
-        PlayBGM_Original(seqno);
-        current_is_nwav = FALSE;
-    }
-    else{
-        int wavID = firstWavID + seqno;
-        NWAVPlayer_play(wavID);
-        NWAVPlayer_setVolume(127, 0);
-        NWAVPlayer_setSpeed(0x1000);
-        current_is_nwav = TRUE;
-    }
-
     current_seq = seqno;
-
-
-    //debug_printf("after nwav play\n");
-    /*
-    int wavID = firstWavID + seqno;
-
-    int* currSeq = (int*)0x02088B64; //this value is for nsmbds, might need the get seq playing?
-    if (GetIfSequenced(seqno)){
-        if(*currSeq != seqno){
-            NWAVPlayer_stop(0);
-        }
-        PlayBGM_Original(seqno);
-        debug_printf("[PlayBGM_Original] seq=%d\n", seqno);
-    }
-    else{
-        if(*currSeq != seqno){
-            NNS_SndPlayerStopSeqByPlayerNo_Hook(0, 0);
-        }
-        NWAVPlayer_play(wavID);
-        *currSeq = seqno;
-    }
-    */
 }
 
 
