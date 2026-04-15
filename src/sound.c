@@ -19,6 +19,11 @@ void LONG_CALL NNS_SndInit_Hook(void){
 void LONG_CALL NNS_SndMain_Hook(void){
     NNS_SndMain_Original();
     NWAVPlayer_updateFade();
+    static int tick_counter = 0;
+    if (tick_counter++ % 60 == 0) // Print once per second
+    {
+        //debug_printf("Stream Sp: %d\n", NWAVPlayer_getSpeed());
+    }
     //Works, spams prints to console :D
 }
 
@@ -95,9 +100,17 @@ void LONG_CALL PlayBGM_Hook(u16 seqno)
     //PlayBGM_Original(seqno);
     //debug_printf("[PlayBGM_Original] seq=%d\n", seqno);
     NNS_SndPlayerStopSeqByPlayerNo_Hook(0, 0);
-    debug_printf("before nwav play\n");
+    //debug_printf("before nwav play\n");
     NWAVPlayer_play(firstWavID);
-    debug_printf("after nwav play\n");
+
+    // Force maximum volume (127) over 0 frames
+    NWAVPlayer_setVolume(127, 0); 
+        
+    // Force 1.0x playback speed
+    NWAVPlayer_setSpeed(0x1000);
+
+
+    //debug_printf("after nwav play\n");
     /*
     int wavID = firstWavID + seqno;
 

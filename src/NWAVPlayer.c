@@ -27,13 +27,13 @@
 |  Player settings, change these according to your game needs.  |
 \==============================================================*/
 
-#define CHANNEL_L_NUM 6
-#define CHANNEL_R_NUM 7
+#define CHANNEL_L_NUM 0
+#define CHANNEL_R_NUM 1
 #define CHANNEL_MASK (1 << CHANNEL_L_NUM | ((1 << CHANNEL_R_NUM) * hInfo.stereo))
-#define ALARM_NUM 1
-#define STREAM_THREAD_PRIO 12
-#define THREAD_STACK_SIZE 512
-#define STRM_BUF_PAGESIZE (64 * 32)
+#define ALARM_NUM 7
+#define STREAM_THREAD_PRIO 1
+#define THREAD_STACK_SIZE 1024
+#define STRM_BUF_PAGESIZE (64 * 32) //was 64x32
 #define STRM_BUF_PAGESIZE_STEREO (STRM_BUF_PAGESIZE * 2)
 #define STRM_BUF_SIZE (STRM_BUF_PAGESIZE * 2)
 
@@ -121,14 +121,17 @@ static StreamInfo sInfo;
 static FSFile file;
 
 static u8* strmThreadStack;
-static OSThread* strmThread;
+static OSThread* strmThread = NULL;
 static OSMessageQueue msgQ;
 static OSMessage msgBuf;
 
 static EventInfo* events;
 
-typedef u8(*pStrmBufT)[2][STRM_BUF_SIZE];
-static pStrmBufT pStrmBuf;
+//typedef u8(*pStrmBufT)[2][STRM_BUF_SIZE];
+//static pStrmBufT pStrmBuf;
+
+static u8* pStrmBufL = NULL;
+static u8* pStrmBufR = NULL;
 
 /*=========================\
 |  Function declarations.  |
@@ -166,6 +169,8 @@ static void seek(int pos, BOOL sample)
         pos *= sInfo.bytesPerSample;
         pos += HEADER_SIZE;
         pos += sInfo.eventBlockSize;
+
+        //debug_printf("Seek Offset: %d (Sample: %d)\n", pos, sInfo.musicCursor);
     }
 
     //Seek position in file.
@@ -255,8 +260,17 @@ static void stop_internal(int frames, BOOL waitForUpdate)
         if (hInfo.numEvents && events != NULL)
             NWAV_FREE(events);
             
-        if (pStrmBuf != NULL)
-            NWAV_FREE(pStrmBuf); 
+       // if (pStrmBuf != NULL)
+       //     NWAV_FREE(pStrmBuf); 
+
+        if (pStrmBufL != NULL) {
+            NWAV_FREE(pStrmBufL);
+            pStrmBufL = NULL;
+        }
+        if (pStrmBufR != NULL) {
+            NWAV_FREE(pStrmBufR);
+            pStrmBufR = NULL;
+        }
     }
 }
 
@@ -312,7 +326,8 @@ BOOL NWAVPlayer_updateFade(void)
 }
 
 //Checks if the music has reached end or loop point and updates the music state accordingly.
-static void updateCheckEnd(StreamInfo* sInfo, pStrmBufT pBuf, int len)
+//static void updateCheckEnd(StreamInfo* sInfo, pStrmBufT pBuf, int len)
+static void updateCheckEnd(StreamInfo* sInfo, int len, u32 offset)
 {
     int leftOver = STRM_BUF_PAGESIZE - len;
     if (sInfo->loops)
@@ -322,8 +337,13 @@ static void updateCheckEnd(StreamInfo* sInfo, pStrmBufT pBuf, int len)
             seek(hInfo.loopStart, TRUE);
             if (leftOver > 0)
             {
+                FS_ReadFile(&file, pStrmBufL + offset + len, leftOver);
+                if (sInfo->chCount > 1)
+                    FS_ReadFile(&file, pStrmBufR + offset + len, leftOver);
+                /*
                 for (int i = 0; i < sInfo->chCount; i++)
                     FS_ReadFile(&file, &(*pBuf)[i][len], leftOver);
+                */
             }
             seek(hInfo.loopStart + (leftOver / sInfo->bytesPerSample), TRUE);
         }
@@ -335,9 +355,13 @@ static void updateCheckEnd(StreamInfo* sInfo, pStrmBufT pBuf, int len)
             //Instead of instantly stopping the music, we must wait for the buffer end, otherwise the music will stop sooner.
             if (leftOver > 0)
             {
+                /*
                 for (int i = 0; i < sInfo->chCount; i++)
-                    // MI_CpuClear8 is a NitroSDK function, but if missing use memset
                     MI_CpuFill8(&(*pBuf)[i][len], 0, leftOver); 
+                */
+                MI_CpuFill8(pStrmBufL + offset + len, 0, leftOver);
+                if (sInfo->chCount > 1)
+                    MI_CpuFill8(pStrmBufR + offset + len, 0, leftOver);
             }
             stop_internal(0, TRUE); //Stop the music and wait for the buffer end.
         }
@@ -354,9 +378,45 @@ static void update(StreamInfo* sInfo)
         return;
     }
 
+// Calculate the exact byte offset for the current page
+    u32 offset = sInfo->bufPage * STRM_BUF_PAGESIZE;
+    sInfo->bufPage = !sInfo->bufPage;
+
+    // Get read length.
+    int len = STRM_BUF_PAGESIZE;
+    int limit = sInfo->loops ? hInfo.loopEnd : sInfo->musicEnd;
+    int remain = (limit - sInfo->musicCursor) * sInfo->bytesPerSample;
+    if (remain < len)
+        len = remain;
+
+    // Read Left
+    FS_ReadFile(&file, pStrmBufL + offset, len);
+    DC_InvalidateRange(pStrmBufL + offset, len);
+    DC_FlushRange(pStrmBufL + offset, len);
+
+    // Read Right
+    if (sInfo->chCount > 1) {
+        FS_ReadFile(&file, pStrmBufR + offset, len);
+        DC_InvalidateRange(pStrmBufR + offset, len);
+        DC_FlushRange(pStrmBufR + offset, len);
+    }
+
+    // Increment the music cursor.
+    sInfo->musicCursor += sInfo->samplesPerUpdate;
+
+    // Pass the offset down so it knows where to append the leftover bytes
+    updateCheckEnd(sInfo, len, offset);
+
+
+
+
+
+    /*
     //Get buffer page and swap.
     pStrmBufT pBuf = (pStrmBufT)(**pStrmBuf + (STRM_BUF_PAGESIZE * sInfo->bufPage));
     sInfo->bufPage = !sInfo->bufPage;
+
+
 
     //Get read length.
     int len = STRM_BUF_PAGESIZE;
@@ -366,8 +426,15 @@ static void update(StreamInfo* sInfo)
         len = remain;
 
     //Read the data to the buffer.
-    for (int i = 0; i < sInfo->chCount; i++)
+    for (int i = 0; i < sInfo->chCount; i++){
         FS_ReadFile(&file, (*pBuf)[i], len);
+    }
+
+    DC_InvalidateRange(pStrmBuf, STRM_BUF_SIZE * sInfo->chCount);
+    DC_FlushRange(pStrmBuf, STRM_BUF_SIZE * sInfo->chCount);
+    
+    u32* check = (u32*)(*pBuf)[0];
+    //debug_printf("4 buf: %08X\n", *check);
 
     //Increment the music cursor.
     sInfo->musicCursor += sInfo->samplesPerUpdate;
@@ -375,23 +442,33 @@ static void update(StreamInfo* sInfo)
     //Update the events.
     updateCheckEnd(sInfo, pBuf, len);
     //updateEvents(sInfo);
+    */
 }
 
 //The sound alarm function that unblocks the thread.
 static void SoundAlarmHandler(void* arg)
 {
     //Unblock updater thread.
+    //debug_printf("A");
     OS_SendMessage(&msgQ, (OSMessage)arg, OS_MESSAGE_NOBLOCK);
 }
 
 //Setups the music channels, timers and sound alarm.
 static void setup(void)
 {
+    if (sInfo.playRate <= 0) sInfo.playRate = 32000; // Emergency default
+
     //Calculate timer values.
     s32 timerValue = SND_TIMER_CLOCK / sInfo.playRate;
     u32 alarmPeriod = timerValue * (STRM_BUF_PAGESIZE / sInfo.bytesPerSample) / 32;
 
     s32 loopLen = STRM_BUF_SIZE / sizeof(u32);
+
+    //DC_FlushRange(pStrmBuf, STRM_BUF_SIZE * sInfo.chCount);
+    DC_FlushRange(pStrmBufL, STRM_BUF_SIZE);
+    if (sInfo.chCount > 1) {
+        DC_FlushRange(pStrmBufR, STRM_BUF_SIZE);
+    }
 
     //Setup channels.
     for (int i = 0; i < sInfo.chCount; i++)
@@ -400,7 +477,8 @@ static void setup(void)
         SND_SetupChannelPcm(
             left ? CHANNEL_L_NUM : CHANNEL_R_NUM,
             hInfo.format,
-            left ? (*pStrmBuf)[0] : (*pStrmBuf)[1],
+            //left ? (*pStrmBuf)[0] : (*pStrmBuf)[1],
+            left ? pStrmBufL : pStrmBufR,
             SND_CHANNEL_LOOP_REPEAT,
             0,
             loopLen,
@@ -413,6 +491,7 @@ static void setup(void)
 
     //Setup sound alarm for updater thread.
     SND_SetupAlarm(ALARM_NUM, alarmPeriod, alarmPeriod, SoundAlarmHandler, &sInfo);
+    //debug_printf("Alarm %d Setup. Per: %d\n", ALARM_NUM, alarmPeriod);
 }
 
 //Reloads the current timers to apply new settings.
@@ -433,9 +512,12 @@ fx32 NWAVPlayer_getSpeed(void) { return sInfo.speed; }
 void NWAVPlayer_setSpeed(fx32 speed)
 {
     //Set the music speed.
-    fx32 sampleRate = hInfo.sampleRate << FX32_SHIFT;
-    sInfo.playRate = FX_MulInline(sampleRate, speed) >> FX32_SHIFT;
+    //fx32 sampleRate = hInfo.sampleRate << FX32_SHIFT;
+    sInfo.playRate = (hInfo.sampleRate * speed) >> FX32_SHIFT;
     sInfo.speed = speed;
+    //debug_printf("playRate is: %d\n", sInfo.playRate);
+    //sInfo.playRate = FX_MulInline(sampleRate, speed) >> FX32_SHIFT;
+    //sInfo.speed = speed;
     reloadTimers();
 }
 
@@ -500,8 +582,13 @@ void NWAVPlayer_play(int fileID)
     if (!FS_OpenFileFast(&file, romArchive, fileID))
         OS_Panic();
 
+    //debug_printf("File ID: %d\n", fileID);
     //Read the file header.
     FS_ReadFile(&file, &hInfo, HEADER_SIZE);
+
+    //debug_printf("Magic: %08X, SampRate: %d, Stereo: %d\n", hInfo.magic, hInfo.sampleRate, hInfo.stereo);
+
+    NNS_SndSetMasterVolume(127);
 
     //Reset variables
     sInfo.loops = hInfo.loopEnd != 0;
@@ -514,27 +601,41 @@ void NWAVPlayer_play(int fileID)
     sInfo.samplesPerUpdate = (STRM_BUF_PAGESIZE / sInfo.bytesPerSample);
 
     //Setup events.
-    if (hInfo.numEvents)
-    {
-        int unalignedEvents = (hInfo.numEvents % 4);
-        sInfo.eventIDBlockSize = hInfo.numEvents + (4 - unalignedEvents);
-        sInfo.eventBlockSize = sInfo.eventIDBlockSize + (hInfo.numEvents * 4);
+    //if (hInfo.numEvents)
+    //{
+    //    int unalignedEvents = (hInfo.numEvents % 4);
+    //    sInfo.eventIDBlockSize = hInfo.numEvents + (4 - unalignedEvents);
+    //    sInfo.eventBlockSize = sInfo.eventIDBlockSize + (hInfo.numEvents * 4);
         //loadEvents();
-    }
-    else
-    {
+    //}
+    //else
+    //{
         sInfo.eventIDBlockSize = 0;
         sInfo.eventBlockSize = 0;
-    }
+    //}
 
     //Calculate music size.
     sInfo.musicEnd = (((hInfo.fileSize - HEADER_SIZE - sInfo.eventBlockSize) / sInfo.chCount) / sInfo.bytesPerSample);
 
     //Allocate stream buffer.
-    pStrmBuf = (pStrmBufT)(NWAV_ALLOC(STRM_BUF_SIZE * sInfo.chCount));
 
-    //Start music read and updater.
+    // Allocate 32 extra bytes to allow for manual alignment
+    //u8* rawMem = (u8*)sys_AllocMemory(3, (STRM_BUF_SIZE * sInfo.chCount) + 32);
+    
+    // Align the pointer to the next 32-byte boundary
+    //pStrmBuf = (pStrmBufT)(((u32)rawMem + 31) & ~31);
+
+    u8* rawMemL = (u8*)sys_AllocMemory(3, STRM_BUF_SIZE + 32);
+    pStrmBufL = (u8*)(((u32)rawMemL + 31) & ~31);
+
+    if (sInfo.chCount > 1) {
+        u8* rawMemR = (u8*)sys_AllocMemory(3, STRM_BUF_SIZE + 32);
+        pStrmBufR = (u8*)(((u32)rawMemR + 31) & ~31);
+    }
+
     seek(0, TRUE);
+    //seek(1000000, FALSE); // Jump 1MB into the raw file data
+    
     NWAVPlayer_setSpeed(sInfo.speed);
 
     sInfo.isPlaying = TRUE;
@@ -545,12 +646,14 @@ void NWAVPlayer_play(int fileID)
 //The OS thread that runs the updater.
 static void StrmThread(void* arg)
 {
+    (void)arg;
     OSMessage message;
 
     //Main thread loop
     while (TRUE)
     {
         OS_ReceiveMessage(&msgQ, &message, OS_MESSAGE_BLOCK); //Block thread until message is received by the sound alarm.
+        //debug_printf("T Wakeup\n");
         update((StreamInfo*)message);       //Update the music.
     }
 }

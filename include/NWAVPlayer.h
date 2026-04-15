@@ -149,6 +149,7 @@ void LONG_CALL SND_LockChannel(u32 chBitMask, u32 flags);
 void LONG_CALL SND_SetupAlarm(int alarmNo, u32 tick, u32 period, SNDAlarmHandler handler, void *arg);
 void LONG_CALL SND_StopTimer(u32 chBitMask, u32 capBitMask, u32 alarmBitMask, u32 flags);
 void LONG_CALL SND_StartTimer(u32 chBitMask, u32 capBitMask, u32 alarmBitMask, u32 flags);
+void LONG_CALL NNS_SndSetMasterVolume(int volume);
 
 BOOL LONG_CALL FS_SeekFile(FSFile *p_file, s32 offset, FSSeekFileMode origin);
 s32  LONG_CALL FS_ReadFile(FSFile *p_file, void *dst, s32 len);
@@ -156,6 +157,9 @@ BOOL LONG_CALL FS_CloseFile(FSFile *p_file);
 BOOL LONG_CALL FS_OpenFileFast(FSFile* p_file, void* archivePtr, int file_id);
 void LONG_CALL FS_InitFile(FSFile *p_file);
 void* LONG_CALL FS_FindArchive(const char* name, int len);
+
+void DC_FlushRange(const void *vAddr, u32 size);
+void DC_InvalidateRange(void *vAddr, u32 size);
 
 
 static inline fx32 FX_MulInline(fx32 v1, fx32 v2) {

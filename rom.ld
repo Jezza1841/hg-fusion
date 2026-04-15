@@ -865,11 +865,16 @@ SND_SetupAlarm =    0x020D5200;
 SND_StartTimer =    0x020D5174;
 SND_StopTimer =     0x020D519C;
 
+NNS_SndSetMasterVolume = 0x020C7988;
+
 FS_InitFile =       0x020D7F98;
 FS_OpenFileFast =   0x020D8208;
 FS_ReadFile =       0x020D83CC;
 FS_SeekFile =       0x020D83DC;
 FS_CloseFile =      0x020D82C0;
 FS_FindArchive =    0x020D7958;
+
+DC_FlushRange =     0x020D2894;
+DC_InvalidateRange = 0x020D285C;
 
 MI_CpuFill8 =       0x020D4994;
