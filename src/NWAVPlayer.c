@@ -406,6 +406,8 @@ static void update(StreamInfo* sInfo)
     u32 offset = sInfo->bufPage * STRM_BUF_PAGESIZE;
     sInfo->bufPage = !sInfo->bufPage;
 
+    DC_InvalidateRange(pStrmBufL + offset, STRM_BUF_PAGESIZE);
+
     // Get read length.
     int len = STRM_BUF_PAGESIZE;
     int limit = sInfo->loops ? hInfo.loopEnd : sInfo->musicEnd;
@@ -417,10 +419,17 @@ static void update(StreamInfo* sInfo)
         len = remain;
 
 // Read the main block of data
+    //if (len > 0) {
+     //   FS_ReadFile(&file, pStrmBufL + offset, len);
+    //}
     if (len > 0) {
-        FS_ReadFile(&file, pStrmBufL + offset, len);
+        s32 bytesRead = FS_ReadFile(&file, pStrmBufL + offset, len);
+        
+        // EOF FAILSAFE: Force the loop wrap if the physical file ends early
+        if (bytesRead < len && sInfo->loops) {
+            sInfo->musicCursor = hInfo.loopEnd;
+        }
     }
-
     // Read Left
     //FS_ReadFile(&file, pStrmBufL + offset, len);
     //DC_InvalidateRange(pStrmBufL + offset, len);
@@ -442,7 +451,7 @@ static void update(StreamInfo* sInfo)
     // Pass the offset down so it knows where to append the leftover bytes
     updateCheckEnd(sInfo, len, offset);
 
-    DC_InvalidateRange(pStrmBufL + offset, STRM_BUF_PAGESIZE);
+    //DC_InvalidateRange(pStrmBufL + offset, STRM_BUF_PAGESIZE);
     DC_FlushRange(pStrmBufL + offset, STRM_BUF_PAGESIZE);
 
 }
@@ -614,6 +623,19 @@ void NWAVPlayer_play(int fileID)
     sInfo.bytesPerSample = hInfo.format ? 2 : 1;
     sInfo.samplesPerUpdate = (STRM_BUF_PAGESIZE / sInfo.bytesPerSample);
 
+    // If the converter tool stores loop points as bytes, divide them back into samples
+    hInfo.loopStart /= sInfo.bytesPerSample;
+    hInfo.loopEnd   /= sInfo.bytesPerSample;
+
+    if (sInfo.bytesPerSample == 2) {
+        hInfo.loopStart &= ~1;
+        hInfo.loopEnd &= ~1;
+    } else {
+        hInfo.loopStart &= ~3;
+        hInfo.loopEnd &= ~3;
+    }
+    
+    sInfo.loops = hInfo.loopEnd != 0;
     debug_printf("LoopEnd: %d.\n", hInfo.loopEnd);
     //Setup events.
     //if (hInfo.numEvents)
