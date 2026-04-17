@@ -28,13 +28,13 @@
 \==============================================================*/
 
 #define CHANNEL_L_NUM 0
-#define CHANNEL_R_NUM 1
-#define CHANNEL_MASK (1 << CHANNEL_L_NUM | ((1 << CHANNEL_R_NUM) * hInfo.stereo))
+//#define CHANNEL_R_NUM 1
+#define CHANNEL_MASK (1 << CHANNEL_L_NUM )//| ((1 << CHANNEL_R_NUM) * hInfo.stereo))
 #define ALARM_NUM 7
 #define STREAM_THREAD_PRIO 1
 #define THREAD_STACK_SIZE 1024
 #define STRM_BUF_PAGESIZE (64 * 32) //was 64x32
-#define STRM_BUF_PAGESIZE_STEREO (STRM_BUF_PAGESIZE * 2)
+//#define STRM_BUF_PAGESIZE_STEREO (STRM_BUF_PAGESIZE * 2)
 #define STRM_BUF_SIZE (STRM_BUF_PAGESIZE * 2)
 
 
@@ -131,7 +131,7 @@ static EventInfo* events;
 //static pStrmBufT pStrmBuf;
 
 static u8* pStrmBufL = NULL;
-static u8* pStrmBufR = NULL;
+//static u8* pStrmBufR = NULL;
 
 /*=========================\
 |  Function declarations.  |
@@ -140,7 +140,18 @@ static u8* pStrmBufR = NULL;
 static void update(StreamInfo* sInfo);
 static void StrmThread(void* arg);
 	
+
+
+
+
+
+
+
+
+
+
 //Aligns a sample so it doesn't mess up on stereo.
+/*
 static int alignSample(int pos)
 {
     if (hInfo.stereo)
@@ -154,7 +165,7 @@ static int alignSample(int pos)
             pos -= unaligned;
     }
     return pos;
-}
+}*/
 
 //Goes to a certain position in the file, either based on byte index or music sample.
 static void seek(int pos, BOOL sample)
@@ -162,10 +173,10 @@ static void seek(int pos, BOOL sample)
     if (sample)
     {
         //Calculate file absolute file position.
-        pos = alignSample(pos);
+        //pos = alignSample(pos);
         sInfo.musicCursor = pos;
 
-        pos *= sInfo.chCount;
+        //pos *= sInfo.chCount;
         pos *= sInfo.bytesPerSample;
         pos += HEADER_SIZE;
         pos += sInfo.eventBlockSize;
@@ -267,10 +278,11 @@ static void stop_internal(int frames, BOOL waitForUpdate)
             NWAV_FREE(pStrmBufL);
             pStrmBufL = NULL;
         }
+        /*
         if (pStrmBufR != NULL) {
             NWAV_FREE(pStrmBufR);
             pStrmBufR = NULL;
-        }
+        }*/
     }
 }
 
@@ -326,7 +338,6 @@ BOOL NWAVPlayer_updateFade(void)
 }
 
 //Checks if the music has reached end or loop point and updates the music state accordingly.
-//static void updateCheckEnd(StreamInfo* sInfo, pStrmBufT pBuf, int len)
 static void updateCheckEnd(StreamInfo* sInfo, int len, u32 offset)
 {
     int leftOver = STRM_BUF_PAGESIZE - len;
@@ -346,15 +357,17 @@ static void updateCheckEnd(StreamInfo* sInfo, int len, u32 offset)
                 */
                 // Read Left
                 FS_ReadFile(&file, pStrmBufL + offset + len, leftOver);
-                DC_InvalidateRange(pStrmBufL + offset + len, leftOver);
-                DC_FlushRange(pStrmBufL + offset + len, leftOver);
+                //DC_InvalidateRange(pStrmBufL + offset + len, leftOver);
+                //DC_FlushRange(pStrmBufL + offset + len, leftOver);
 
                 // Read Right (if stereo)
+                /*
                 if (sInfo->chCount > 1) {
                     FS_ReadFile(&file, pStrmBufR + offset + len, leftOver);
                     DC_InvalidateRange(pStrmBufR + offset + len, leftOver);
                     DC_FlushRange(pStrmBufR + offset + len, leftOver);
                 }
+                */
             }
             seek(hInfo.loopStart + (leftOver / sInfo->bytesPerSample), TRUE);
         }
@@ -371,8 +384,8 @@ static void updateCheckEnd(StreamInfo* sInfo, int len, u32 offset)
                     MI_CpuFill8(&(*pBuf)[i][len], 0, leftOver); 
                 */
                 MI_CpuFill8(pStrmBufL + offset + len, 0, leftOver);
-                if (sInfo->chCount > 1)
-                    MI_CpuFill8(pStrmBufR + offset + len, 0, leftOver);
+                //if (sInfo->chCount > 1)
+                //    MI_CpuFill8(pStrmBufR + offset + len, 0, leftOver);
             }
             stop_internal(0, TRUE); //Stop the music and wait for the buffer end.
         }
@@ -397,20 +410,30 @@ static void update(StreamInfo* sInfo)
     int len = STRM_BUF_PAGESIZE;
     int limit = sInfo->loops ? hInfo.loopEnd : sInfo->musicEnd;
     int remain = (limit - sInfo->musicCursor) * sInfo->bytesPerSample;
+
+    if (remain < 0) remain = 0;
+
     if (remain < len)
         len = remain;
 
+// Read the main block of data
+    if (len > 0) {
+        FS_ReadFile(&file, pStrmBufL + offset, len);
+    }
+
     // Read Left
-    FS_ReadFile(&file, pStrmBufL + offset, len);
-    DC_InvalidateRange(pStrmBufL + offset, len);
-    DC_FlushRange(pStrmBufL + offset, len);
+    //FS_ReadFile(&file, pStrmBufL + offset, len);
+    //DC_InvalidateRange(pStrmBufL + offset, len);
+    //DC_FlushRange(pStrmBufL + offset, len);
 
     // Read Right
+    /*
     if (sInfo->chCount > 1) {
         FS_ReadFile(&file, pStrmBufR + offset, len);
         DC_InvalidateRange(pStrmBufR + offset, len);
         DC_FlushRange(pStrmBufR + offset, len);
     }
+    */
 
     // Increment the music cursor.
     //sInfo->musicCursor += sInfo->samplesPerUpdate;
@@ -419,49 +442,15 @@ static void update(StreamInfo* sInfo)
     // Pass the offset down so it knows where to append the leftover bytes
     updateCheckEnd(sInfo, len, offset);
 
+    DC_InvalidateRange(pStrmBufL + offset, STRM_BUF_PAGESIZE);
+    DC_FlushRange(pStrmBufL + offset, STRM_BUF_PAGESIZE);
 
-
-
-
-    /*
-    //Get buffer page and swap.
-    pStrmBufT pBuf = (pStrmBufT)(**pStrmBuf + (STRM_BUF_PAGESIZE * sInfo->bufPage));
-    sInfo->bufPage = !sInfo->bufPage;
-
-
-
-    //Get read length.
-    int len = STRM_BUF_PAGESIZE;
-    int limit = sInfo->loops ? hInfo.loopEnd : sInfo->musicEnd;
-    int remain = (limit - sInfo->musicCursor) * sInfo->bytesPerSample;
-    if (remain < len)
-        len = remain;
-
-    //Read the data to the buffer.
-    for (int i = 0; i < sInfo->chCount; i++){
-        FS_ReadFile(&file, (*pBuf)[i], len);
-    }
-
-    DC_InvalidateRange(pStrmBuf, STRM_BUF_SIZE * sInfo->chCount);
-    DC_FlushRange(pStrmBuf, STRM_BUF_SIZE * sInfo->chCount);
-    
-    u32* check = (u32*)(*pBuf)[0];
-    //debug_printf("4 buf: %08X\n", *check);
-
-    //Increment the music cursor.
-    sInfo->musicCursor += sInfo->samplesPerUpdate;
-
-    //Update the events.
-    updateCheckEnd(sInfo, pBuf, len);
-    //updateEvents(sInfo);
-    */
 }
 
 //The sound alarm function that unblocks the thread.
 static void SoundAlarmHandler(void* arg)
 {
     //Unblock updater thread.
-    //debug_printf("A");
     OS_SendMessage(&msgQ, (OSMessage)arg, OS_MESSAGE_NOBLOCK);
 }
 
@@ -478,9 +467,11 @@ static void setup(void)
 
     //DC_FlushRange(pStrmBuf, STRM_BUF_SIZE * sInfo.chCount);
     DC_FlushRange(pStrmBufL, STRM_BUF_SIZE);
+    /*
     if (sInfo.chCount > 1) {
         DC_FlushRange(pStrmBufR, STRM_BUF_SIZE);
     }
+  
 
     //Setup channels.
     for (int i = 0; i < sInfo.chCount; i++)
@@ -500,6 +491,20 @@ static void setup(void)
             !hInfo.stereo ? 64 : (left ? 0 : 127)
         );
     }
+    */
+    // Setup Mono Channel
+    SND_SetupChannelPcm(
+        CHANNEL_L_NUM,
+        hInfo.format,
+        pStrmBufL,
+        SND_CHANNEL_LOOP_REPEAT,
+        0,
+        loopLen,
+        sInfo.volume,
+        SND_CHANNEL_DATASHIFT_NONE,
+        timerValue,
+        64 // Hardcoded center pan
+    );
 
     //Setup sound alarm for updater thread.
     SND_SetupAlarm(ALARM_NUM, alarmPeriod, alarmPeriod, SoundAlarmHandler, &sInfo);
@@ -524,12 +529,9 @@ fx32 NWAVPlayer_getSpeed(void) { return sInfo.speed; }
 void NWAVPlayer_setSpeed(fx32 speed)
 {
     //Set the music speed.
-    //fx32 sampleRate = hInfo.sampleRate << FX32_SHIFT;
     sInfo.playRate = (hInfo.sampleRate * speed) >> FX32_SHIFT;
     sInfo.speed = speed;
     //debug_printf("playRate is: %d\n", sInfo.playRate);
-    //sInfo.playRate = FX_MulInline(sampleRate, speed) >> FX32_SHIFT;
-    //sInfo.speed = speed;
     reloadTimers();
 }
 
@@ -608,10 +610,11 @@ void NWAVPlayer_play(int fileID)
     sInfo.fadeFrame = 0;
     sInfo.stopMode = 0;
     sInfo.volume = 127;
-    sInfo.chCount = hInfo.stereo ? 2 : 1;
+    sInfo.chCount = 1; //hInfo.stereo ? 2 : 1;
     sInfo.bytesPerSample = hInfo.format ? 2 : 1;
     sInfo.samplesPerUpdate = (STRM_BUF_PAGESIZE / sInfo.bytesPerSample);
 
+    debug_printf("LoopEnd: %d.\n", hInfo.loopEnd);
     //Setup events.
     //if (hInfo.numEvents)
     //{
@@ -640,10 +643,11 @@ void NWAVPlayer_play(int fileID)
     u8* rawMemL = (u8*)sys_AllocMemory(3, STRM_BUF_SIZE + 32);
     pStrmBufL = (u8*)(((u32)rawMemL + 31) & ~31);
 
+    /*
     if (sInfo.chCount > 1) {
         u8* rawMemR = (u8*)sys_AllocMemory(3, STRM_BUF_SIZE + 32);
         pStrmBufR = (u8*)(((u32)rawMemR + 31) & ~31);
-    }
+    }*/
 
     seek(0, TRUE);
     //seek(1000000, FALSE); // Jump 1MB into the raw file data
@@ -680,6 +684,6 @@ void NWAVPlayer_init(void)
     sInfo.fadeFrame = 0;
 
     //Lock the channels.
-    SND_LockChannel(1 << CHANNEL_L_NUM | 1 << CHANNEL_R_NUM, 0);
+    SND_LockChannel(1 << CHANNEL_L_NUM,0);// | 1 << CHANNEL_R_NUM, 0);
 
 }
