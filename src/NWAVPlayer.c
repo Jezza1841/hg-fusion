@@ -44,7 +44,7 @@
 
 // Route these to hg-engine's internal memory allocators
 // Adjust "0" if you need to allocate to a specific heap ID (like the SOUND heap)
-#define NWAV_ALLOC(size) sys_AllocMemory(3, size) 
+#define NWAV_ALLOC(size) sys_AllocMemory(0, size) 
 #define NWAV_FREE(ptr)   sys_FreeMemoryEz(ptr)
 
 #define OS_MESSAGE_NOBLOCK 0
@@ -141,31 +141,6 @@ static void update(StreamInfo* sInfo);
 static void StrmThread(void* arg);
 	
 
-
-
-
-
-
-
-
-
-
-//Aligns a sample so it doesn't mess up on stereo.
-/*
-static int alignSample(int pos)
-{
-    if (hInfo.stereo)
-    {
-        int sampleAlign = sInfo.samplesPerUpdate;
-        int unaligned = (pos % sampleAlign);
-
-        if (unaligned > (sampleAlign / 2))
-            pos += (sampleAlign - unaligned);
-        else
-            pos -= unaligned;
-    }
-    return pos;
-}*/
 
 //Goes to a certain position in the file, either based on byte index or music sample.
 static void seek(int pos, BOOL sample)
@@ -274,10 +249,10 @@ static void stop_internal(int frames, BOOL waitForUpdate)
        // if (pStrmBuf != NULL)
        //     NWAV_FREE(pStrmBuf); 
 
-        if (pStrmBufL != NULL) {
-            NWAV_FREE(pStrmBufL);
-            pStrmBufL = NULL;
-        }
+        //if (pStrmBufL != NULL) {
+        //    NWAV_FREE(pStrmBufL);
+        //    pStrmBufL = NULL;
+        //}
         /*
         if (pStrmBufR != NULL) {
             NWAV_FREE(pStrmBufR);
@@ -662,9 +637,10 @@ void NWAVPlayer_play(int fileID)
     // Align the pointer to the next 32-byte boundary
     //pStrmBuf = (pStrmBufT)(((u32)rawMem + 31) & ~31);
 
-    u8* rawMemL = (u8*)sys_AllocMemory(3, STRM_BUF_SIZE + 32);
-    pStrmBufL = (u8*)(((u32)rawMemL + 31) & ~31);
-
+    if (pStrmBufL == NULL) {
+        u8* rawMemL = (u8*)sys_AllocMemory(0, STRM_BUF_SIZE + 32);
+        pStrmBufL = (u8*)(((u32)rawMemL + 31) & ~31);
+    }
     /*
     if (sInfo.chCount > 1) {
         u8* rawMemR = (u8*)sys_AllocMemory(3, STRM_BUF_SIZE + 32);

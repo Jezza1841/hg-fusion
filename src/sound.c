@@ -6,34 +6,43 @@
 
 
 
-int firstWavID = 533; //put nwav into base/root/waves folder, build hg-e, check in tinke
+int firstWavID; //put nwav into base/root/waves folder, build hg-e, check in tinke, for now is 533
+static u16 current_seq = 0xFFFF;
+static BOOL current_is_nwav = FALSE;
 
+typedef struct {
+    u32 vanilla_seq;
+    u32 nwav_id;
+} NWAV_Override;
+
+//Use this array to override specific sequences that cannot be reassigned via music_tables.c or DSPRE's header editor
+static const NWAV_Override sNwavOverrides[] = {
+    //{example_sseq, example_nwav}
+    //{1008, 2},  // Title screen -> iris network
+    //{1004, 31}, // Opening  -> feelings risen
+    
+};
 
 
 void LONG_CALL NNS_SndInit_Hook(void){
+    firstWavID = 533;
     NNS_SndInit_Original();
     NWAVPlayer_init();
-    //debug_printf("[NNS_SndInit_Hook] Initializing sound system.\n");
 }
 
 void LONG_CALL NNS_SndMain_Hook(void){
     NNS_SndMain_Original();
     NWAVPlayer_updateFade();
-    static int tick_counter = 0;
-    if (tick_counter++ % 60 == 0) // Print once per second
-    {
-        //debug_printf("Stream Sp: %d\n", NWAVPlayer_getSpeed());
-    }
-    //Works, spams prints to console :D
 }
 
+/*
 void LONG_CALL NNS_SndPlayerSetTempoRatio_Hook(int handle, int tempo){
     NNS_SndPlayerSetTempoRatio_Original(handle, tempo);
     //debug_printf("[NNS_SndPlayerSetTempoRatio_Hook] Setting tempo ratio to %d.\n", tempo);
     //this still needs to be tested.
     //NWAVPlayer_setSpeed(tempo << 12 >> 8);
 }
-
+*/
 
 
 void LONG_CALL GF_SndHandleMoveVolume_Hook(int param1, int volume, int frames)
@@ -42,12 +51,12 @@ void LONG_CALL GF_SndHandleMoveVolume_Hook(int param1, int volume, int frames)
     //debug_printf("[GF_SndHandleMoveVolume_Hook] Handling move volume with params: %d, %d, %d.\n", param1, volume, frames);
     //param 1 could be the player ID? only update volume for bgm, not cries or sfx
     
-    if (param1 == 0)
-    {
-        NWAVPlayer_setVolume(volume, frames);
-        //debug_printf("Player is BGM (GF wrapper).\n");
+    //if (param1 == 0)
+    //{
+    //    NWAVPlayer_setVolume(volume, frames);
+    //    //debug_printf("Player is BGM (GF wrapper).\n");
 
-    }
+    //}
 }
 
 void LONG_CALL NNS_SndPlayerPauseByPlayerNo_Hook(u8 playerID, BOOL paused)
@@ -64,10 +73,10 @@ void LONG_CALL NNS_SndPlayerPauseByPlayerNo_Hook(u8 playerID, BOOL paused)
 void LONG_CALL NNS_SndPlayerStopSeqByPlayerNo_Hook(u8 playerID, int fadeFrame)
 {
     NNS_SndPlayerStopSeqByPlayerNo_Original(playerID, fadeFrame);
-    //debug_printf("Stopping sequence for player %d with fade frame %d.\n", playerID, fadeFrame);
-    if(playerID == 0 || playerID == 1 || playerID == 7){
-        NWAVPlayer_stop(fadeFrame);
-    }
+    //debug_printf("Stop seq for p %d with fframe %d.\n", playerID, fadeFrame);
+    //if(playerID == 9 || current_seq == 2){
+    //    NWAVPlayer_stop(fadeFrame);
+    //}
 }
 
 
@@ -95,39 +104,48 @@ static BOOL GetIfSequenced(int seqID)
 }
 
 
-
 //replace the play function
 void LONG_CALL PlayBGM_Hook(u16 seqno)
 {
-
-/*
-    NNS_SndPlayerStopSeqByPlayerNo_Hook(0, 0);
-    NWAVPlayer_play(firstWavID);
-    NWAVPlayer_setVolume(127, 0); 
-    NWAVPlayer_setSpeed(0x1000);
-*/
-
-    static u16 current_seq = 0xFFFF;
-    static BOOL current_is_nwav = FALSE;
-
     if (current_seq == seqno) {
+        return; 
+    }
+
+    if (seqno == 0xFFFF) {
+        if (current_is_nwav) {
+            NWAVPlayer_stop(30);
+            current_is_nwav = FALSE;
+        } else {
+            PlayBGM_Original(0xFFFF);
+        }
+        current_seq = 0xFFFF;
         return;
-    }//do nothing if same song
+    }
 
     BOOL next_is_seq = GetIfSequenced(seqno);
+    int wavID = firstWavID + seqno;
 
+    int num_overrides = sizeof(sNwavOverrides) / sizeof(sNwavOverrides[0]);
+    for (int i = 0; i < num_overrides; i++) {
+        if(seqno == sNwavOverrides[i].vanilla_seq) {
+            next_is_seq = FALSE;
+            wavID = firstWavID + sNwavOverrides[i].nwav_id;
+            break;
+        }
+    }
 
     if(current_is_nwav){
-        NWAVPlayer_stop(0);
+        NWAVPlayer_stop(30);
         if (next_is_seq) {
-            struct SND_WORK *work = GetSoundDataPointer();
-            if (work) {
-                work->currentSeqNo = 0xFFFF; 
-            }
+            //struct SND_WORK *work = GetSoundDataPointer();
+            //if (work) {
+            //    work->currentSeqNo = 0xFFFF; 
+            //}
+            NNS_SndPlayerStopSeqByPlayerNo_Original(0, 0);
             PlayBGM_Original(seqno);
             current_is_nwav = FALSE;
         } else {
-            int wavID = firstWavID + seqno;
+            
             NWAVPlayer_play(wavID);
             NWAVPlayer_setVolume(127, 0);
             NWAVPlayer_setSpeed(0x1000);
@@ -140,9 +158,7 @@ void LONG_CALL PlayBGM_Hook(u16 seqno)
             PlayBGM_Original(seqno);
             current_is_nwav = FALSE;
         } else {
-            NNS_SndPlayerStopSeqByPlayerNo_Original(0, 20);
-            
-            int wavID = firstWavID + seqno;
+            NNS_SndPlayerStopSeqByPlayerNo_Original(9, 30);
             NWAVPlayer_play(wavID);
             NWAVPlayer_setVolume(127, 0);
             NWAVPlayer_setSpeed(0x1000);
@@ -151,8 +167,6 @@ void LONG_CALL PlayBGM_Hook(u16 seqno)
     }
     current_seq = seqno;
 }
-
-
 
 BOOL LONG_CALL GF_Snd_LoadSeq(int seqNo) {
     BOOL ret;
@@ -177,14 +191,9 @@ BOOL LONG_CALL GF_Snd_LoadSeq(int seqNo) {
             sprintf(buf, "[GF_Snd_LoadSeq] Loaded song %d.  There are 0x%x bytes left in the sound heap.\n", seqNo, SoundHeapFreeSize);
             debugsyscall(buf);
         }
-    }
-#endif // DEBUG_SOUND_SSEQ_LOADS
-    else
-    {
-        debug_printf("[GF_Snd_LoadSeq] Bypassed heap load for NWAV song %d.\n", seqNo);
-        ret = TRUE;
-    }
     
+#endif // DEBUG_SOUND_SSEQ_LOADS
+    }
     return ret;
 }
 
