@@ -3,6 +3,7 @@
 #include "../include/debug.h"
 #include "../include/sound.h"
 #include "../include/NWAVPlayer.h"
+#include "../include/constants/sndseq.h"
 
 
 
@@ -73,10 +74,12 @@ void LONG_CALL NNS_SndPlayerPauseByPlayerNo_Hook(u8 playerID, BOOL paused)
 void LONG_CALL NNS_SndPlayerStopSeqByPlayerNo_Hook(u8 playerID, int fadeFrame)
 {
     NNS_SndPlayerStopSeqByPlayerNo_Original(playerID, fadeFrame);
-    //debug_printf("Stop seq for p %d with fframe %d.\n", playerID, fadeFrame);
-    //if(playerID == 9 || current_seq == 2){
-    //    NWAVPlayer_stop(fadeFrame);
-    //}
+    debug_printf("Stop seq for p %d with fframe %d.\n", playerID, fadeFrame);
+    if(playerID == 9 && fadeFrame > 0 || current_seq == NWAV_KEVES_BATTLE){
+        NWAVPlayer_stop(fadeFrame);
+        current_seq = 0xFFFF;
+        current_is_nwav = FALSE;
+    }
 }
 
 
@@ -141,7 +144,9 @@ void LONG_CALL PlayBGM_Hook(u16 seqno)
             //if (work) {
             //    work->currentSeqNo = 0xFFFF; 
             //}
-            NNS_SndPlayerStopSeqByPlayerNo_Original(0, 0);
+            NNS_SndPlayerStopSeqByPlayerNo_Original(0, 30); // Kills vanilla BGM
+            NNS_SndPlayerStopSeqByPlayerNo_Original(1, 30); // Kills Eye Music
+            NNS_SndPlayerStopSeqByPlayerNo_Original(9, 30);
             PlayBGM_Original(seqno);
             current_is_nwav = FALSE;
         } else {
@@ -158,7 +163,10 @@ void LONG_CALL PlayBGM_Hook(u16 seqno)
             PlayBGM_Original(seqno);
             current_is_nwav = FALSE;
         } else {
+            NNS_SndPlayerStopSeqByPlayerNo_Original(0, 30); // Kills vanilla BGM
+            NNS_SndPlayerStopSeqByPlayerNo_Original(1, 30); // Kills Eye Music
             NNS_SndPlayerStopSeqByPlayerNo_Original(9, 30);
+
             NWAVPlayer_play(wavID);
             NWAVPlayer_setVolume(127, 0);
             NWAVPlayer_setSpeed(0x1000);
