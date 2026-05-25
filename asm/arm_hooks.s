@@ -47,20 +47,7 @@ NNS_SndMain_Original:
 .pool
 
 
-.global NNS_SndPlayerSetTempoRatio_ASM
-NNS_SndPlayerSetTempoRatio_ASM:
-    push {lr}
-    blx NNS_SndPlayerSetTempoRatio_Hook
-    pop {pc}
 
-.global NNS_SndPlayerSetTempoRatio_Original
-NNS_SndPlayerSetTempoRatio_Original:
-    push {r3, lr}
-    ldr  r2, [r0]  
-    ldr ip, =0x020C82E4
-    bx ip
-
-.pool
 
 
 .global NNS_SndPlayerStopSeqByPlayerNo_ASM
