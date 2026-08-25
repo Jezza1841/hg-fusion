@@ -2938,7 +2938,7 @@ const ITEMDATA __data[] =
 
 [ITEM_HP_UP] =
 {
-    ITEM_PRICE(10000),
+    ITEM_PRICE(1000),
     .holdEffect = 0,
     .holdEffectParam = 0,
     .pluckEffect = 0,
@@ -3003,7 +3003,7 @@ const ITEMDATA __data[] =
 
 [ITEM_PROTEIN] =
 {
-    ITEM_PRICE(10000),
+    ITEM_PRICE(1000),
     .holdEffect = 0,
     .holdEffectParam = 0,
     .pluckEffect = 0,
@@ -3068,7 +3068,7 @@ const ITEMDATA __data[] =
 
 [ITEM_IRON] =
 {
-    ITEM_PRICE(10000),
+    ITEM_PRICE(1000),
     .holdEffect = 0,
     .holdEffectParam = 0,
     .pluckEffect = 0,
@@ -3133,7 +3133,7 @@ const ITEMDATA __data[] =
 
 [ITEM_CARBOS] =
 {
-    ITEM_PRICE(10000),
+    ITEM_PRICE(1000),
     .holdEffect = 0,
     .holdEffectParam = 0,
     .pluckEffect = 0,
@@ -3198,7 +3198,7 @@ const ITEMDATA __data[] =
 
 [ITEM_CALCIUM] =
 {
-    ITEM_PRICE(10000),
+    ITEM_PRICE(1000),
     .holdEffect = 0,
     .holdEffectParam = 0,
     .pluckEffect = 0,
@@ -3393,7 +3393,7 @@ const ITEMDATA __data[] =
 
 [ITEM_ZINC] =
 {
-    ITEM_PRICE(10000),
+    ITEM_PRICE(1000),
     .holdEffect = 0,
     .holdEffectParam = 0,
     .pluckEffect = 0,
@@ -41938,7 +41938,7 @@ const ITEMDATA __data[] =
 
 [ITEM_ABILITY_CAPSULE] =
 {
-    ITEM_PRICE(100000),
+    ITEM_PRICE(5000),
     .holdEffect = 0,
     .holdEffectParam = 0,
     .pluckEffect = 0,
@@ -42653,7 +42653,7 @@ const ITEMDATA __data[] =
 
 [ITEM_GENGARITE] =
 {
-    ITEM_PRICE(0),
+    ITEM_PRICE(5000),
     .holdEffect = 0,
     .holdEffectParam = 0,
     .pluckEffect = 0,
@@ -42718,7 +42718,7 @@ const ITEMDATA __data[] =
 
 [ITEM_GARDEVOIRITE] =
 {
-    ITEM_PRICE(0),
+    ITEM_PRICE(5000),
     .holdEffect = 0,
     .holdEffectParam = 0,
     .pluckEffect = 0,
@@ -42783,7 +42783,7 @@ const ITEMDATA __data[] =
 
 [ITEM_AMPHAROSITE] =
 {
-    ITEM_PRICE(0),
+    ITEM_PRICE(5000),
     .holdEffect = 0,
     .holdEffectParam = 0,
     .pluckEffect = 0,
@@ -42913,7 +42913,7 @@ const ITEMDATA __data[] =
 
 [ITEM_CHARIZARDITE_X] =
 {
-    ITEM_PRICE(0),
+    ITEM_PRICE(5000),
     .holdEffect = 0,
     .holdEffectParam = 0,
     .pluckEffect = 0,
@@ -42978,7 +42978,7 @@ const ITEMDATA __data[] =
 
 [ITEM_BLASTOISINITE] =
 {
-    ITEM_PRICE(0),
+    ITEM_PRICE(5000),
     .holdEffect = 0,
     .holdEffectParam = 0,
     .pluckEffect = 0,
@@ -43173,7 +43173,7 @@ const ITEMDATA __data[] =
 
 [ITEM_BLAZIKENITE] =
 {
-    ITEM_PRICE(0),
+    ITEM_PRICE(5000),
     .holdEffect = 0,
     .holdEffectParam = 0,
     .pluckEffect = 0,
@@ -43238,7 +43238,7 @@ const ITEMDATA __data[] =
 
 [ITEM_MEDICHAMITE] =
 {
-    ITEM_PRICE(0),
+    ITEM_PRICE(5000),
     .holdEffect = 0,
     .holdEffectParam = 0,
     .pluckEffect = 0,
@@ -43303,7 +43303,7 @@ const ITEMDATA __data[] =
 
 [ITEM_HOUNDOOMINITE] =
 {
-    ITEM_PRICE(0),
+    ITEM_PRICE(5000),
     .holdEffect = 0,
     .holdEffectParam = 0,
     .pluckEffect = 0,
@@ -43433,7 +43433,7 @@ const ITEMDATA __data[] =
 
 [ITEM_BANETTITE] =
 {
-    ITEM_PRICE(0),
+    ITEM_PRICE(5000),
     .holdEffect = 0,
     .holdEffectParam = 0,
     .pluckEffect = 0,
@@ -43498,7 +43498,7 @@ const ITEMDATA __data[] =
 
 [ITEM_TYRANITARITE] =
 {
-    ITEM_PRICE(0),
+    ITEM_PRICE(5000),
     .holdEffect = 0,
     .holdEffectParam = 0,
     .pluckEffect = 0,
@@ -43563,7 +43563,7 @@ const ITEMDATA __data[] =
 
 [ITEM_SCIZORITE] =
 {
-    ITEM_PRICE(0),
+    ITEM_PRICE(5000),
     .holdEffect = 0,
     .holdEffectParam = 0,
     .pluckEffect = 0,
@@ -43628,7 +43628,7 @@ const ITEMDATA __data[] =
 
 [ITEM_PINSIRITE] =
 {
-    ITEM_PRICE(0),
+    ITEM_PRICE(5000),
     .holdEffect = 0,
     .holdEffectParam = 0,
     .pluckEffect = 0,
@@ -43693,7 +43693,7 @@ const ITEMDATA __data[] =
 
 [ITEM_AERODACTYLITE] =
 {
-    ITEM_PRICE(0),
+    ITEM_PRICE(5000),
     .holdEffect = 0,
     .holdEffectParam = 0,
     .pluckEffect = 0,
@@ -43758,7 +43758,7 @@ const ITEMDATA __data[] =
 
 [ITEM_LUCARIONITE] =
 {
-    ITEM_PRICE(0),
+    ITEM_PRICE(5000),
     .holdEffect = 0,
     .holdEffectParam = 0,
     .pluckEffect = 0,
@@ -43823,7 +43823,7 @@ const ITEMDATA __data[] =
 
 [ITEM_ABOMASITE] =
 {
-    ITEM_PRICE(0),
+    ITEM_PRICE(5000),
     .holdEffect = 0,
     .holdEffectParam = 0,
     .pluckEffect = 0,
@@ -43888,7 +43888,7 @@ const ITEMDATA __data[] =
 
 [ITEM_KANGASKHANITE] =
 {
-    ITEM_PRICE(0),
+    ITEM_PRICE(5000),
     .holdEffect = 0,
     .holdEffectParam = 0,
     .pluckEffect = 0,
@@ -43953,7 +43953,7 @@ const ITEMDATA __data[] =
 
 [ITEM_GYARADOSITE] =
 {
-    ITEM_PRICE(0),
+    ITEM_PRICE(5000),
     .holdEffect = 0,
     .holdEffectParam = 0,
     .pluckEffect = 0,
@@ -44018,7 +44018,7 @@ const ITEMDATA __data[] =
 
 [ITEM_ABSOLITE] =
 {
-    ITEM_PRICE(0),
+    ITEM_PRICE(5000),
     .holdEffect = 0,
     .holdEffectParam = 0,
     .pluckEffect = 0,
@@ -44083,7 +44083,7 @@ const ITEMDATA __data[] =
 
 [ITEM_CHARIZARDITE_Y] =
 {
-    ITEM_PRICE(0),
+    ITEM_PRICE(5000),
     .holdEffect = 0,
     .holdEffectParam = 0,
     .pluckEffect = 0,
@@ -44148,7 +44148,7 @@ const ITEMDATA __data[] =
 
 [ITEM_ALAKAZITE] =
 {
-    ITEM_PRICE(0),
+    ITEM_PRICE(5000),
     .holdEffect = 0,
     .holdEffectParam = 0,
     .pluckEffect = 0,
@@ -44213,7 +44213,7 @@ const ITEMDATA __data[] =
 
 [ITEM_HERACRONITE] =
 {
-    ITEM_PRICE(0),
+    ITEM_PRICE(5000),
     .holdEffect = 0,
     .holdEffectParam = 0,
     .pluckEffect = 0,
@@ -44278,7 +44278,7 @@ const ITEMDATA __data[] =
 
 [ITEM_MAWILITE] =
 {
-    ITEM_PRICE(0),
+    ITEM_PRICE(5000),
     .holdEffect = 0,
     .holdEffectParam = 0,
     .pluckEffect = 0,
@@ -44341,9 +44341,74 @@ const ITEMDATA __data[] =
     },
 },
 
+// [ITEM_MACHAMPITE] =
+// {
+//     ITEM_PRICE(5000),
+//     .holdEffect = 0,
+//     .holdEffectParam = 0,
+//     .pluckEffect = 0,
+//     .flingEffect = 0,
+//     .flingPower = 0,
+//     .naturalGiftPower = 0,
+//     .naturalGiftType = 31,
+//     .prevent_toss = FALSE,
+//     .selectable = FALSE,
+//     .fieldPocket = POCKET_ITEMS,
+//     .battlePocket = BATTLE_POCKET_NONE,
+//     .fieldUseFunc = 0,
+//     .battleUseFunc = 0,
+//     .partyUse = 1,
+//     .partyUseParam = {
+//         .slp_heal = FALSE,
+//         .psn_heal = FALSE,
+//         .brn_heal = FALSE,
+//         .frz_heal = FALSE,
+//         .prz_heal = FALSE,
+//         .cfs_heal = FALSE,
+//         .inf_heal = FALSE,
+//         .guard_spec = FALSE,
+//         .revive = FALSE,
+//         .revive_all = FALSE,
+//         .level_up = FALSE,
+//         .evolve = FALSE,
+//         .atk_stages = 0,
+//         .def_stages = 0,
+//         .spatk_stages = 0,
+//         .spdef_stages = 0,
+//         .speed_stages = 0,
+//         .accuracy_stages = 0,
+//         .critrate_stages = 0,
+//         .pp_up = FALSE,
+//         .pp_max = FALSE,
+//         .pp_restore = FALSE,
+//         .pp_restore_all = FALSE,
+//         .hp_restore = FALSE,
+//         .hp_ev_up = FALSE,
+//         .atk_ev_up = FALSE,
+//         .def_ev_up = FALSE,
+//         .speed_ev_up = FALSE,
+//         .spatk_ev_up = FALSE,
+//         .spdef_ev_up = FALSE,
+//         .friendship_mod_lo = FALSE,
+//         .friendship_mod_med = FALSE,
+//         .friendship_mod_hi = FALSE,
+//         .hp_ev_up_param = 0,
+//         .atk_ev_up_param = 0,
+//         .def_ev_up_param = 0,
+//         .speed_ev_up_param = 0,
+//         .spatk_ev_up_param = 0,
+//         .spdef_ev_up_param = 0,
+//         .hp_restore_param = 0,
+//         .pp_restore_param = 0,
+//         .friendship_mod_lo_param = 0,
+//         .friendship_mod_med_param = 0,
+//         .friendship_mod_hi_param = 0,
+//     },
+// },
+
 [ITEM_MANECTITE] =
 {
-    ITEM_PRICE(0),
+    ITEM_PRICE(5000),
     .holdEffect = 0,
     .holdEffectParam = 0,
     .pluckEffect = 0,
@@ -48958,7 +49023,7 @@ const ITEMDATA __data[] =
 
 [ITEM_SCEPTILITE] =
 {
-    ITEM_PRICE(0),
+    ITEM_PRICE(5000),
     .holdEffect = 0,
     .holdEffectParam = 0,
     .pluckEffect = 0,
@@ -49023,7 +49088,7 @@ const ITEMDATA __data[] =
 
 [ITEM_SABLENITE] =
 {
-    ITEM_PRICE(0),
+    ITEM_PRICE(5000),
     .holdEffect = 0,
     .holdEffectParam = 0,
     .pluckEffect = 0,
@@ -49088,7 +49153,7 @@ const ITEMDATA __data[] =
 
 [ITEM_ALTARIANITE] =
 {
-    ITEM_PRICE(0),
+    ITEM_PRICE(5000),
     .holdEffect = 0,
     .holdEffectParam = 0,
     .pluckEffect = 0,
@@ -49153,7 +49218,7 @@ const ITEMDATA __data[] =
 
 [ITEM_GALLADITE] =
 {
-    ITEM_PRICE(0),
+    ITEM_PRICE(5000),
     .holdEffect = 0,
     .holdEffectParam = 0,
     .pluckEffect = 0,
@@ -49218,7 +49283,7 @@ const ITEMDATA __data[] =
 
 [ITEM_AUDINITE] =
 {
-    ITEM_PRICE(0),
+    ITEM_PRICE(5000),
     .holdEffect = 0,
     .holdEffectParam = 0,
     .pluckEffect = 0,
@@ -49283,7 +49348,7 @@ const ITEMDATA __data[] =
 
 [ITEM_METAGROSSITE] =
 {
-    ITEM_PRICE(0),
+    ITEM_PRICE(5000),
     .holdEffect = 0,
     .holdEffectParam = 0,
     .pluckEffect = 0,
@@ -49348,7 +49413,7 @@ const ITEMDATA __data[] =
 
 [ITEM_SHARPEDONITE] =
 {
-    ITEM_PRICE(0),
+    ITEM_PRICE(5000),
     .holdEffect = 0,
     .holdEffectParam = 0,
     .pluckEffect = 0,
@@ -49413,7 +49478,7 @@ const ITEMDATA __data[] =
 
 [ITEM_SLOWBRONITE] =
 {
-    ITEM_PRICE(0),
+    ITEM_PRICE(5000),
     .holdEffect = 0,
     .holdEffectParam = 0,
     .pluckEffect = 0,
@@ -49543,7 +49608,7 @@ const ITEMDATA __data[] =
 
 [ITEM_PIDGEOTITE] =
 {
-    ITEM_PRICE(0),
+    ITEM_PRICE(5000),
     .holdEffect = 0,
     .holdEffectParam = 0,
     .pluckEffect = 0,
@@ -49608,7 +49673,7 @@ const ITEMDATA __data[] =
 
 [ITEM_GLALITITE] =
 {
-    ITEM_PRICE(0),
+    ITEM_PRICE(5000),
     .holdEffect = 0,
     .holdEffectParam = 0,
     .pluckEffect = 0,
@@ -49866,9 +49931,139 @@ const ITEMDATA __data[] =
     },
 },
 
+// [ITEM_NIDOQUEENITE] =
+// {
+//     ITEM_PRICE(5000),
+//     .holdEffect = 0,
+//     .holdEffectParam = 0,
+//     .pluckEffect = 0,
+//     .flingEffect = 0,
+//     .flingPower = 0,
+//     .naturalGiftPower = 0,
+//     .naturalGiftType = 31,
+//     .prevent_toss = FALSE,
+//     .selectable = FALSE,
+//     .fieldPocket = POCKET_ITEMS,
+//     .battlePocket = BATTLE_POCKET_NONE,
+//     .fieldUseFunc = 0,
+//     .battleUseFunc = 0,
+//     .partyUse = 1,
+//     .partyUseParam = {
+//         .slp_heal = FALSE,
+//         .psn_heal = FALSE,
+//         .brn_heal = FALSE,
+//         .frz_heal = FALSE,
+//         .prz_heal = FALSE,
+//         .cfs_heal = FALSE,
+//         .inf_heal = FALSE,
+//         .guard_spec = FALSE,
+//         .revive = FALSE,
+//         .revive_all = FALSE,
+//         .level_up = FALSE,
+//         .evolve = FALSE,
+//         .atk_stages = 0,
+//         .def_stages = 0,
+//         .spatk_stages = 0,
+//         .spdef_stages = 0,
+//         .speed_stages = 0,
+//         .accuracy_stages = 0,
+//         .critrate_stages = 0,
+//         .pp_up = FALSE,
+//         .pp_max = FALSE,
+//         .pp_restore = FALSE,
+//         .pp_restore_all = FALSE,
+//         .hp_restore = FALSE,
+//         .hp_ev_up = FALSE,
+//         .atk_ev_up = FALSE,
+//         .def_ev_up = FALSE,
+//         .speed_ev_up = FALSE,
+//         .spatk_ev_up = FALSE,
+//         .spdef_ev_up = FALSE,
+//         .friendship_mod_lo = FALSE,
+//         .friendship_mod_med = FALSE,
+//         .friendship_mod_hi = FALSE,
+//         .hp_ev_up_param = 0,
+//         .atk_ev_up_param = 0,
+//         .def_ev_up_param = 0,
+//         .speed_ev_up_param = 0,
+//         .spatk_ev_up_param = 0,
+//         .spdef_ev_up_param = 0,
+//         .hp_restore_param = 0,
+//         .pp_restore_param = 0,
+//         .friendship_mod_lo_param = 0,
+//         .friendship_mod_med_param = 0,
+//         .friendship_mod_hi_param = 0,
+//     },
+// },
+
+// [ITEM_NIDOKINGITE] =
+// {
+//     ITEM_PRICE(5000),
+//     .holdEffect = 0,
+//     .holdEffectParam = 0,
+//     .pluckEffect = 0,
+//     .flingEffect = 0,
+//     .flingPower = 0,
+//     .naturalGiftPower = 0,
+//     .naturalGiftType = 31,
+//     .prevent_toss = FALSE,
+//     .selectable = FALSE,
+//     .fieldPocket = POCKET_ITEMS,
+//     .battlePocket = BATTLE_POCKET_NONE,
+//     .fieldUseFunc = 0,
+//     .battleUseFunc = 0,
+//     .partyUse = 1,
+//     .partyUseParam = {
+//         .slp_heal = FALSE,
+//         .psn_heal = FALSE,
+//         .brn_heal = FALSE,
+//         .frz_heal = FALSE,
+//         .prz_heal = FALSE,
+//         .cfs_heal = FALSE,
+//         .inf_heal = FALSE,
+//         .guard_spec = FALSE,
+//         .revive = FALSE,
+//         .revive_all = FALSE,
+//         .level_up = FALSE,
+//         .evolve = FALSE,
+//         .atk_stages = 0,
+//         .def_stages = 0,
+//         .spatk_stages = 0,
+//         .spdef_stages = 0,
+//         .speed_stages = 0,
+//         .accuracy_stages = 0,
+//         .critrate_stages = 0,
+//         .pp_up = FALSE,
+//         .pp_max = FALSE,
+//         .pp_restore = FALSE,
+//         .pp_restore_all = FALSE,
+//         .hp_restore = FALSE,
+//         .hp_ev_up = FALSE,
+//         .atk_ev_up = FALSE,
+//         .def_ev_up = FALSE,
+//         .speed_ev_up = FALSE,
+//         .spatk_ev_up = FALSE,
+//         .spdef_ev_up = FALSE,
+//         .friendship_mod_lo = FALSE,
+//         .friendship_mod_med = FALSE,
+//         .friendship_mod_hi = FALSE,
+//         .hp_ev_up_param = 0,
+//         .atk_ev_up_param = 0,
+//         .def_ev_up_param = 0,
+//         .speed_ev_up_param = 0,
+//         .spatk_ev_up_param = 0,
+//         .spdef_ev_up_param = 0,
+//         .hp_restore_param = 0,
+//         .pp_restore_param = 0,
+//         .friendship_mod_lo_param = 0,
+//         .friendship_mod_med_param = 0,
+//         .friendship_mod_hi_param = 0,
+//     },
+// },
+
 [ITEM_CAMERUPTITE] =
 {
-    ITEM_PRICE(0),
+    ITEM_PRICE(5000),
     .holdEffect = 0,
     .holdEffectParam = 0,
     .pluckEffect = 0,
@@ -49933,7 +50128,7 @@ const ITEMDATA __data[] =
 
 [ITEM_LOPUNNITE] =
 {
-    ITEM_PRICE(0),
+    ITEM_PRICE(5000),
     .holdEffect = 0,
     .holdEffectParam = 0,
     .pluckEffect = 0,
@@ -49998,7 +50193,7 @@ const ITEMDATA __data[] =
 
 [ITEM_SALAMENCITE] =
 {
-    ITEM_PRICE(0),
+    ITEM_PRICE(5000),
     .holdEffect = 0,
     .holdEffectParam = 0,
     .pluckEffect = 0,
@@ -50063,7 +50258,7 @@ const ITEMDATA __data[] =
 
 [ITEM_BEEDRILLITE] =
 {
-    ITEM_PRICE(0),
+    ITEM_PRICE(5000),
     .holdEffect = 0,
     .holdEffectParam = 0,
     .pluckEffect = 0,
@@ -50125,6 +50320,71 @@ const ITEMDATA __data[] =
         .friendship_mod_hi_param = 0,
     },
 },
+
+// [ITEM_BUTTERFRITE] =
+// {
+//     ITEM_PRICE(5000),
+//     .holdEffect = 0,
+//     .holdEffectParam = 0,
+//     .pluckEffect = 0,
+//     .flingEffect = 0,
+//     .flingPower = 0,
+//     .naturalGiftPower = 0,
+//     .naturalGiftType = 31,
+//     .prevent_toss = FALSE,
+//     .selectable = FALSE,
+//     .fieldPocket = POCKET_ITEMS,
+//     .battlePocket = BATTLE_POCKET_NONE,
+//     .fieldUseFunc = 0,
+//     .battleUseFunc = 0,
+//     .partyUse = 1,
+//     .partyUseParam = {
+//         .slp_heal = FALSE,
+//         .psn_heal = FALSE,
+//         .brn_heal = FALSE,
+//         .frz_heal = FALSE,
+//         .prz_heal = FALSE,
+//         .cfs_heal = FALSE,
+//         .inf_heal = FALSE,
+//         .guard_spec = FALSE,
+//         .revive = FALSE,
+//         .revive_all = FALSE,
+//         .level_up = FALSE,
+//         .evolve = FALSE,
+//         .atk_stages = 0,
+//         .def_stages = 0,
+//         .spatk_stages = 0,
+//         .spdef_stages = 0,
+//         .speed_stages = 0,
+//         .accuracy_stages = 0,
+//         .critrate_stages = 0,
+//         .pp_up = FALSE,
+//         .pp_max = FALSE,
+//         .pp_restore = FALSE,
+//         .pp_restore_all = FALSE,
+//         .hp_restore = FALSE,
+//         .hp_ev_up = FALSE,
+//         .atk_ev_up = FALSE,
+//         .def_ev_up = FALSE,
+//         .speed_ev_up = FALSE,
+//         .spatk_ev_up = FALSE,
+//         .spdef_ev_up = FALSE,
+//         .friendship_mod_lo = FALSE,
+//         .friendship_mod_med = FALSE,
+//         .friendship_mod_hi = FALSE,
+//         .hp_ev_up_param = 0,
+//         .atk_ev_up_param = 0,
+//         .def_ev_up_param = 0,
+//         .speed_ev_up_param = 0,
+//         .spatk_ev_up_param = 0,
+//         .spdef_ev_up_param = 0,
+//         .hp_restore_param = 0,
+//         .pp_restore_param = 0,
+//         .friendship_mod_lo_param = 0,
+//         .friendship_mod_med_param = 0,
+//         .friendship_mod_hi_param = 0,
+//     },
+// },
 
 [ITEM_METEORITE_ORAS_THIRD] =
 {
@@ -104403,7 +104663,7 @@ const ITEMDATA __data[] =
 
 [ITEM_ABILITY_PATCH] =
 {
-    ITEM_PRICE(500000),
+    ITEM_PRICE(10000),
     .holdEffect = 0,
     .holdEffectParam = 0,
     .pluckEffect = 0,
@@ -166348,7 +166608,7 @@ const ITEMDATA __data[] =
 
 [ITEM_CLEFABLITE] =
 {
-    .price = 0,
+    ITEM_PRICE(0),
     .holdEffect = 0,
     .holdEffectParam = 0,
     .pluckEffect = 0,
@@ -166413,7 +166673,7 @@ const ITEMDATA __data[] =
 
 [ITEM_VICTREEBELITE] =
 {
-    .price = 0,
+    ITEM_PRICE(5000),
     .holdEffect = 0,
     .holdEffectParam = 0,
     .pluckEffect = 0,
@@ -166478,7 +166738,7 @@ const ITEMDATA __data[] =
 
 [ITEM_STARMINITE] =
 {
-    .price = 0,
+    ITEM_PRICE(5000),
     .holdEffect = 0,
     .holdEffectParam = 0,
     .pluckEffect = 0,
@@ -166608,7 +166868,7 @@ const ITEMDATA __data[] =
 
 [ITEM_MEGANIUMITE] =
 {
-    .price = 0,
+    ITEM_PRICE(5000),
     .holdEffect = 0,
     .holdEffectParam = 0,
     .pluckEffect = 0,
@@ -166671,9 +166931,74 @@ const ITEMDATA __data[] =
     },
 },
 
+// [ITEM_TYPHLONITITE] =
+// {
+//     ITEM_PRICE(5000),
+//     .holdEffect = 0,
+//     .holdEffectParam = 0,
+//     .pluckEffect = 0,
+//     .flingEffect = 0,
+//     .flingPower = 0,
+//     .naturalGiftPower = 0,
+//     .naturalGiftType = 31,
+//     .prevent_toss = FALSE,
+//     .selectable = FALSE,
+//     .fieldPocket = POCKET_ITEMS,
+//     .battlePocket = BATTLE_POCKET_NONE,
+//     .fieldUseFunc = 0,
+//     .battleUseFunc = 0,
+//     .partyUse = 1,
+//     .partyUseParam = {
+//         .slp_heal = FALSE,
+//         .psn_heal = FALSE,
+//         .brn_heal = FALSE,
+//         .frz_heal = FALSE,
+//         .prz_heal = FALSE,
+//         .cfs_heal = FALSE,
+//         .inf_heal = FALSE,
+//         .guard_spec = FALSE,
+//         .revive = FALSE,
+//         .revive_all = FALSE,
+//         .level_up = FALSE,
+//         .evolve = FALSE,
+//         .atk_stages = 0,
+//         .def_stages = 0,
+//         .spatk_stages = 0,
+//         .spdef_stages = 0,
+//         .speed_stages = 0,
+//         .accuracy_stages = 0,
+//         .critrate_stages = 0,
+//         .pp_up = FALSE,
+//         .pp_max = FALSE,
+//         .pp_restore = FALSE,
+//         .pp_restore_all = FALSE,
+//         .hp_restore = FALSE,
+//         .hp_ev_up = FALSE,
+//         .atk_ev_up = FALSE,
+//         .def_ev_up = FALSE,
+//         .speed_ev_up = FALSE,
+//         .spatk_ev_up = FALSE,
+//         .spdef_ev_up = FALSE,
+//         .friendship_mod_lo = FALSE,
+//         .friendship_mod_med = FALSE,
+//         .friendship_mod_hi = FALSE,
+//         .hp_ev_up_param = 0,
+//         .atk_ev_up_param = 0,
+//         .def_ev_up_param = 0,
+//         .speed_ev_up_param = 0,
+//         .spatk_ev_up_param = 0,
+//         .spdef_ev_up_param = 0,
+//         .hp_restore_param = 0,
+//         .pp_restore_param = 0,
+//         .friendship_mod_lo_param = 0,
+//         .friendship_mod_med_param = 0,
+//         .friendship_mod_hi_param = 0,
+//     },
+// },
+
 [ITEM_FERALIGITE] =
 {
-    .price = 0,
+    ITEM_PRICE(5000),
     .holdEffect = 0,
     .holdEffectParam = 0,
     .pluckEffect = 0,
@@ -166738,7 +167063,7 @@ const ITEMDATA __data[] =
 
 [ITEM_SKARMORITE] =
 {
-    .price = 0,
+    ITEM_PRICE(5000),
     .holdEffect = 0,
     .holdEffectParam = 0,
     .pluckEffect = 0,
@@ -166803,7 +167128,7 @@ const ITEMDATA __data[] =
 
 [ITEM_FROSLASSITE] =
 {
-    .price = 0,
+    ITEM_PRICE(5000),
     .holdEffect = 0,
     .holdEffectParam = 0,
     .pluckEffect = 0,
@@ -166998,7 +167323,7 @@ const ITEMDATA __data[] =
 
 [ITEM_EMBOARITE] =
 {
-    .price = 0,
+    ITEM_PRICE(5000),
     .holdEffect = 0,
     .holdEffectParam = 0,
     .pluckEffect = 0,
@@ -167063,7 +167388,7 @@ const ITEMDATA __data[] =
 
 [ITEM_EXCADRITE] =
 {
-    .price = 0,
+    ITEM_PRICE(5000),
     .holdEffect = 0,
     .holdEffectParam = 0,
     .pluckEffect = 0,
@@ -167128,7 +167453,7 @@ const ITEMDATA __data[] =
 
 [ITEM_SCOLIPITE] =
 {
-    .price = 0,
+    ITEM_PRICE(5000),
     .holdEffect = 0,
     .holdEffectParam = 0,
     .pluckEffect = 0,
@@ -167191,9 +167516,74 @@ const ITEMDATA __data[] =
     },
 },
 
+// [ITEM_CENTISKORCHITE] =
+// {
+//     ITEM_PRICE(5000),
+//     .holdEffect = 0,
+//     .holdEffectParam = 0,
+//     .pluckEffect = 0,
+//     .flingEffect = 0,
+//     .flingPower = 0,
+//     .naturalGiftPower = 0,
+//     .naturalGiftType = 31,
+//     .prevent_toss = FALSE,
+//     .selectable = FALSE,
+//     .fieldPocket = POCKET_ITEMS,
+//     .battlePocket = BATTLE_POCKET_NONE,
+//     .fieldUseFunc = 0,
+//     .battleUseFunc = 0,
+//     .partyUse = 1,
+//     .partyUseParam = {
+//         .slp_heal = FALSE,
+//         .psn_heal = FALSE,
+//         .brn_heal = FALSE,
+//         .frz_heal = FALSE,
+//         .prz_heal = FALSE,
+//         .cfs_heal = FALSE,
+//         .inf_heal = FALSE,
+//         .guard_spec = FALSE,
+//         .revive = FALSE,
+//         .revive_all = FALSE,
+//         .level_up = FALSE,
+//         .evolve = FALSE,
+//         .atk_stages = 0,
+//         .def_stages = 0,
+//         .spatk_stages = 0,
+//         .spdef_stages = 0,
+//         .speed_stages = 0,
+//         .accuracy_stages = 0,
+//         .critrate_stages = 0,
+//         .pp_up = FALSE,
+//         .pp_max = FALSE,
+//         .pp_restore = FALSE,
+//         .pp_restore_all = FALSE,
+//         .hp_restore = FALSE,
+//         .hp_ev_up = FALSE,
+//         .atk_ev_up = FALSE,
+//         .def_ev_up = FALSE,
+//         .speed_ev_up = FALSE,
+//         .spatk_ev_up = FALSE,
+//         .spdef_ev_up = FALSE,
+//         .friendship_mod_lo = FALSE,
+//         .friendship_mod_med = FALSE,
+//         .friendship_mod_hi = FALSE,
+//         .hp_ev_up_param = 0,
+//         .atk_ev_up_param = 0,
+//         .def_ev_up_param = 0,
+//         .speed_ev_up_param = 0,
+//         .spatk_ev_up_param = 0,
+//         .spdef_ev_up_param = 0,
+//         .hp_restore_param = 0,
+//         .pp_restore_param = 0,
+//         .friendship_mod_lo_param = 0,
+//         .friendship_mod_med_param = 0,
+//         .friendship_mod_hi_param = 0,
+//     },
+// },
+
 [ITEM_SCRAFTINITE] =
 {
-    .price = 0,
+    ITEM_PRICE(5000),
     .holdEffect = 0,
     .holdEffectParam = 0,
     .pluckEffect = 0,
@@ -167258,7 +167648,7 @@ const ITEMDATA __data[] =
 
 [ITEM_EELEKTROSSITE] =
 {
-    .price = 0,
+    ITEM_PRICE(5000),
     .holdEffect = 0,
     .holdEffectParam = 0,
     .pluckEffect = 0,
@@ -167323,7 +167713,7 @@ const ITEMDATA __data[] =
 
 [ITEM_CHANDELURITE] =
 {
-    .price = 0,
+    ITEM_PRICE(5000),
     .holdEffect = 0,
     .holdEffectParam = 0,
     .pluckEffect = 0,
@@ -167388,7 +167778,7 @@ const ITEMDATA __data[] =
 
 [ITEM_CHESNAUGHTITE] =
 {
-    .price = 0,
+    ITEM_PRICE(5000),
     .holdEffect = 0,
     .holdEffectParam = 0,
     .pluckEffect = 0,
@@ -167453,7 +167843,7 @@ const ITEMDATA __data[] =
 
 [ITEM_DELPHOXITE] =
 {
-    .price = 0,
+    ITEM_PRICE(5000),
     .holdEffect = 0,
     .holdEffectParam = 0,
     .pluckEffect = 0,
@@ -167583,7 +167973,7 @@ const ITEMDATA __data[] =
 
 [ITEM_PYROARITE] =
 {
-    .price = 0,
+    ITEM_PRICE(5000),
     .holdEffect = 0,
     .holdEffectParam = 0,
     .pluckEffect = 0,
@@ -167713,7 +168103,7 @@ const ITEMDATA __data[] =
 
 [ITEM_MALAMARITE] =
 {
-    .price = 0,
+    ITEM_PRICE(5000),
     .holdEffect = 0,
     .holdEffectParam = 0,
     .pluckEffect = 0,
@@ -167778,7 +168168,7 @@ const ITEMDATA __data[] =
 
 [ITEM_BARBARACITE] =
 {
-    .price = 0,
+    ITEM_PRICE(5000),
     .holdEffect = 0,
     .holdEffectParam = 0,
     .pluckEffect = 0,
@@ -167843,7 +168233,7 @@ const ITEMDATA __data[] =
 
 [ITEM_DRAGALGITE] =
 {
-    .price = 0,
+    ITEM_PRICE(5000),
     .holdEffect = 0,
     .holdEffectParam = 0,
     .pluckEffect = 0,
@@ -167908,7 +168298,7 @@ const ITEMDATA __data[] =
 
 [ITEM_HAWLUCHANITE] =
 {
-    .price = 0,
+    ITEM_PRICE(5000),
     .holdEffect = 0,
     .holdEffectParam = 0,
     .pluckEffect = 0,
@@ -168038,7 +168428,7 @@ const ITEMDATA __data[] =
 
 [ITEM_DRAMPANITE] =
 {
-    .price = 0,
+    ITEM_PRICE(5000),
     .holdEffect = 0,
     .holdEffectParam = 0,
     .pluckEffect = 0,
@@ -168168,7 +168558,7 @@ const ITEMDATA __data[] =
 
 [ITEM_FALINKSITE] =
 {
-    .price = 0,
+    ITEM_PRICE(5000),
     .holdEffect = 0,
     .holdEffectParam = 0,
     .pluckEffect = 0,
@@ -171288,7 +171678,7 @@ const ITEMDATA __data[] =
 
 [ITEM_RAICHUNITE_X] =
 {
-    .price = 0,
+    ITEM_PRICE(5000),
     .holdEffect = 0,
     .holdEffectParam = 0,
     .pluckEffect = 0,
@@ -171353,7 +171743,7 @@ const ITEMDATA __data[] =
 
 [ITEM_RAICHUNITE_Y] =
 {
-    .price = 0,
+    ITEM_PRICE(5000),
     .holdEffect = 0,
     .holdEffectParam = 0,
     .pluckEffect = 0,
@@ -171418,7 +171808,7 @@ const ITEMDATA __data[] =
 
 [ITEM_CHIMECHITE] =
 {
-    .price = 0,
+    ITEM_PRICE(5000),
     .holdEffect = 0,
     .holdEffectParam = 0,
     .pluckEffect = 0,
@@ -171483,7 +171873,7 @@ const ITEMDATA __data[] =
 
 [ITEM_ABSOLITE_Z] =
 {
-    .price = 0,
+    ITEM_PRICE(5000),
     .holdEffect = 0,
     .holdEffectParam = 0,
     .pluckEffect = 0,
@@ -171678,7 +172068,7 @@ const ITEMDATA __data[] =
 
 [ITEM_LUCARIONITE_Z] =
 {
-    .price = 0,
+    ITEM_PRICE(5000),
     .holdEffect = 0,
     .holdEffectParam = 0,
     .pluckEffect = 0,
@@ -171743,7 +172133,7 @@ const ITEMDATA __data[] =
 
 [ITEM_GOLURKITE] =
 {
-    .price = 0,
+    ITEM_PRICE(5000),
     .holdEffect = 0,
     .holdEffectParam = 0,
     .pluckEffect = 0,
@@ -171808,7 +172198,7 @@ const ITEMDATA __data[] =
 
 [ITEM_MEOWSTICITE] =
 {
-    .price = 0,
+    ITEM_PRICE(5000),
     .holdEffect = 0,
     .holdEffectParam = 0,
     .pluckEffect = 0,
@@ -171873,7 +172263,7 @@ const ITEMDATA __data[] =
 
 [ITEM_CRABOMINITE] =
 {
-    .price = 0,
+    ITEM_PRICE(5000),
     .holdEffect = 0,
     .holdEffectParam = 0,
     .pluckEffect = 0,
@@ -171938,7 +172328,7 @@ const ITEMDATA __data[] =
 
 [ITEM_GOLISOPITE] =
 {
-    .price = 0,
+    ITEM_PRICE(0),
     .holdEffect = 0,
     .holdEffectParam = 0,
     .pluckEffect = 0,
@@ -172068,7 +172458,7 @@ const ITEMDATA __data[] =
 
 [ITEM_SCOVILLAINITE] =
 {
-    .price = 0,
+    ITEM_PRICE(5000),
     .holdEffect = 0,
     .holdEffectParam = 0,
     .pluckEffect = 0,
@@ -172133,7 +172523,7 @@ const ITEMDATA __data[] =
 
 [ITEM_GLIMMORANITE] =
 {
-    .price = 0,
+    ITEM_PRICE(5000),
     .holdEffect = 0,
     .holdEffectParam = 0,
     .pluckEffect = 0,
@@ -172263,7 +172653,7 @@ const ITEMDATA __data[] =
 
 [ITEM_BAXCALIBRITE] =
 {
-    .price = 0,
+    ITEM_PRICE(5000),
     .holdEffect = 0,
     .holdEffectParam = 0,
     .pluckEffect = 0,
@@ -174488,6 +174878,200 @@ const ITEMDATA __data[] =
     .fieldUseFunc = 0,
     .battleUseFunc = 0,
     .partyUse = 0,
+    .partyUseParam = {
+        .slp_heal = FALSE,
+        .psn_heal = FALSE,
+        .brn_heal = FALSE,
+        .frz_heal = FALSE,
+        .prz_heal = FALSE,
+        .cfs_heal = FALSE,
+        .inf_heal = FALSE,
+        .guard_spec = FALSE,
+        .revive = FALSE,
+        .revive_all = FALSE,
+        .level_up = FALSE,
+        .evolve = FALSE,
+        .atk_stages = 0,
+        .def_stages = 0,
+        .spatk_stages = 0,
+        .spdef_stages = 0,
+        .speed_stages = 0,
+        .accuracy_stages = 0,
+        .critrate_stages = 0,
+        .pp_up = FALSE,
+        .pp_max = FALSE,
+        .pp_restore = FALSE,
+        .pp_restore_all = FALSE,
+        .hp_restore = FALSE,
+        .hp_ev_up = FALSE,
+        .atk_ev_up = FALSE,
+        .def_ev_up = FALSE,
+        .speed_ev_up = FALSE,
+        .spatk_ev_up = FALSE,
+        .spdef_ev_up = FALSE,
+        .friendship_mod_lo = FALSE,
+        .friendship_mod_med = FALSE,
+        .friendship_mod_hi = FALSE,
+        .hp_ev_up_param = 0,
+        .atk_ev_up_param = 0,
+        .def_ev_up_param = 0,
+        .speed_ev_up_param = 0,
+        .spatk_ev_up_param = 0,
+        .spdef_ev_up_param = 0,
+        .hp_restore_param = 0,
+        .pp_restore_param = 0,
+        .friendship_mod_lo_param = 0,
+        .friendship_mod_med_param = 0,
+        .friendship_mod_hi_param = 0,
+    },
+},
+// [ITEM_INFINITE_CANDY - NUM_UNKNOWN_SLOTS_EXPLORER_KIT] =
+// {
+//     .price = 0,
+//     .holdEffect = 0,
+//     .holdEffectParam = 0,
+//     .pluckEffect = 0,
+//     .flingEffect = 0,
+//     .flingPower = 30,
+//     .naturalGiftPower = 0,
+//     .naturalGiftType = 31,
+//     .prevent_toss = TRUE,
+//     .selectable = FALSE,
+//     .fieldPocket = POCKET_KEY_ITEMS,
+//     .battlePocket = BATTLE_POCKET_NONE,
+//     .fieldUseFunc = 1,
+//     .battleUseFunc = 0,
+//     .partyUse = 1,
+//     .partyUseParam = {
+//         .slp_heal = FALSE,
+//         .psn_heal = FALSE,
+//         .brn_heal = FALSE,
+//         .frz_heal = FALSE,
+//         .prz_heal = FALSE,
+//         .cfs_heal = FALSE,
+//         .inf_heal = FALSE,
+//         .guard_spec = FALSE,
+//         .revive = TRUE,
+//         .revive_all = FALSE,
+//         .level_up = TRUE,
+//         .evolve = FALSE,
+//         .atk_stages = 0,
+//         .def_stages = 0,
+//         .spatk_stages = 0,
+//         .spdef_stages = 0,
+//         .speed_stages = 0,
+//         .accuracy_stages = 0,
+//         .critrate_stages = 0,
+//         .pp_up = FALSE,
+//         .pp_max = FALSE,
+//         .pp_restore = FALSE,
+//         .pp_restore_all = FALSE,
+//         .hp_restore = FALSE,
+//         .hp_ev_up = FALSE,
+//         .atk_ev_up = FALSE,
+//         .def_ev_up = FALSE,
+//         .speed_ev_up = FALSE,
+//         .spatk_ev_up = FALSE,
+//         .spdef_ev_up = FALSE,
+//         .friendship_mod_lo = TRUE,
+//         .friendship_mod_med = TRUE,
+//         .friendship_mod_hi = TRUE,
+//         .hp_ev_up_param = 0,
+//         .atk_ev_up_param = 0,
+//         .def_ev_up_param = 0,
+//         .speed_ev_up_param = 0,
+//         .spatk_ev_up_param = 0,
+//         .spdef_ev_up_param = 0,
+//         .hp_restore_param = 0,
+//         .pp_restore_param = 0,
+//         .friendship_mod_lo_param =  5,
+//         .friendship_mod_med_param = 3,
+//         .friendship_mod_hi_param =  2,
+//     },
+// },
+
+[ITEM_ELESNARLITE] =
+{
+    ITEM_PRICE(5000),
+    .holdEffect = 0,
+    .holdEffectParam = 0,
+    .pluckEffect = 0,
+    .flingEffect = 0,
+    .flingPower = 0,
+    .naturalGiftPower = 0,
+    .naturalGiftType = 31,
+    .prevent_toss = FALSE,
+    .selectable = FALSE,
+    .fieldPocket = POCKET_ITEMS,
+    .battlePocket = BATTLE_POCKET_NONE,
+    .fieldUseFunc = 0,
+    .battleUseFunc = 0,
+    .partyUse = 1,
+    .partyUseParam = {
+        .slp_heal = FALSE,
+        .psn_heal = FALSE,
+        .brn_heal = FALSE,
+        .frz_heal = FALSE,
+        .prz_heal = FALSE,
+        .cfs_heal = FALSE,
+        .inf_heal = FALSE,
+        .guard_spec = FALSE,
+        .revive = FALSE,
+        .revive_all = FALSE,
+        .level_up = FALSE,
+        .evolve = FALSE,
+        .atk_stages = 0,
+        .def_stages = 0,
+        .spatk_stages = 0,
+        .spdef_stages = 0,
+        .speed_stages = 0,
+        .accuracy_stages = 0,
+        .critrate_stages = 0,
+        .pp_up = FALSE,
+        .pp_max = FALSE,
+        .pp_restore = FALSE,
+        .pp_restore_all = FALSE,
+        .hp_restore = FALSE,
+        .hp_ev_up = FALSE,
+        .atk_ev_up = FALSE,
+        .def_ev_up = FALSE,
+        .speed_ev_up = FALSE,
+        .spatk_ev_up = FALSE,
+        .spdef_ev_up = FALSE,
+        .friendship_mod_lo = FALSE,
+        .friendship_mod_med = FALSE,
+        .friendship_mod_hi = FALSE,
+        .hp_ev_up_param = 0,
+        .atk_ev_up_param = 0,
+        .def_ev_up_param = 0,
+        .speed_ev_up_param = 0,
+        .spatk_ev_up_param = 0,
+        .spdef_ev_up_param = 0,
+        .hp_restore_param = 0,
+        .pp_restore_param = 0,
+        .friendship_mod_lo_param = 0,
+        .friendship_mod_med_param = 0,
+        .friendship_mod_hi_param = 0,
+    },
+},
+
+[ITEM_DRAGAPULTITE] =
+{
+    ITEM_PRICE(5000),
+    .holdEffect = 0,
+    .holdEffectParam = 0,
+    .pluckEffect = 0,
+    .flingEffect = 0,
+    .flingPower = 0,
+    .naturalGiftPower = 0,
+    .naturalGiftType = 31,
+    .prevent_toss = FALSE,
+    .selectable = FALSE,
+    .fieldPocket = POCKET_ITEMS,
+    .battlePocket = BATTLE_POCKET_NONE,
+    .fieldUseFunc = 0,
+    .battleUseFunc = 0,
+    .partyUse = 1,
     .partyUseParam = {
         .slp_heal = FALSE,
         .psn_heal = FALSE,
