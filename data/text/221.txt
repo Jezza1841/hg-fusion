@@ -2682,5 +2682,12 @@ Custom item description
 
 
 
-
+A held item that allows Elesnarl to Mega Evolve.
+A held item that allows Florgapult to Mega Evolve.
 A candy that is packed with energy.\nIt raises the level of a single Pokémon\nby one.
+A held item that allows Vanillfree to Mega Evolve.
+A held item that allows Cofaskorch to Mega Evolve.
+A held item that allows Obstachamp to Mega Evolve.
+A held item that allows Conkelking to Mega Evolve.
+A held item that allows Walqueen to Mega Evolve.
+A held item that allows Typhlonite to Mega Evolve.

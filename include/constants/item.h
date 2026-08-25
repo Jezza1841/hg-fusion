@@ -2697,16 +2697,16 @@
 #define ITEM_ELESNARLITE                  MAX_BASE_ITEM_NUM + 1
 #define ITEM_DRAGAPULTITE                 MAX_BASE_ITEM_NUM + 2
 #define ITEM_INFINITE_CANDY               MAX_BASE_ITEM_NUM + 3
-// #define ITEM_BUTTERFRITE                  MAX_BASE_ITEM_NUM + 2
-// #define ITEM_CENTISKORCHITE               MAX_BASE_ITEM_NUM + 3
-// #define ITEM_MACHAMPITE                   MAX_BASE_ITEM_NUM + 4
-// #define ITEM_NIDOKINGITE                  MAX_BASE_ITEM_NUM + 5
-// #define ITEM_NIDOQUEENITE                 MAX_BASE_ITEM_NUM + 6
-// #define ITEM_TYPHLONITITE                 MAX_BASE_ITEM_NUM + 7
+#define ITEM_BUTTERFRITE                  MAX_BASE_ITEM_NUM + 4
+#define ITEM_CENTISKORCHITE               MAX_BASE_ITEM_NUM + 5
+#define ITEM_MACHAMPITE                   MAX_BASE_ITEM_NUM + 6
+#define ITEM_NIDOKINGITE                  MAX_BASE_ITEM_NUM + 7
+#define ITEM_NIDOQUEENITE                 MAX_BASE_ITEM_NUM + 8
+#define ITEM_TYPHLONITITE                 MAX_BASE_ITEM_NUM + 9
 
 
 
-#define MAX_TOTAL_ITEM_NUM ITEM_DRAGAPULTITE
+#define MAX_TOTAL_ITEM_NUM ITEM_TYPHLONITITE
 
 #define NUM_MEGA_STONES (48) // includes the pixie plate, doesn't include plza megas due to overflowing bag
 #define NUM_HMS         (ITEM_HM08 - ITEM_HM01 + 1) // intentionally do not include HM07_ORAS (Dive)
