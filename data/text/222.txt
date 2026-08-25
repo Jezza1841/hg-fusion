@@ -654,33 +654,33 @@ Rich Mulch
 Surprise Mulch
 Boost Mulch
 Amaze Mulch
-Gengarite
-Gardevoirite
-Ampharosite
+Hydreigarite
+Gardeninjite
+Starpharosite
 Venusaurite
-Charizardite X
-Blastoisinite
-Mewtwonite X
-Mewtwonite Y
-Blazikenite
-Medichamite
-Houndoominite
+Charchompite X
+Blastdranite
+Meworanite X
+Meworanite Y
+Meowzikenite
+Ledichamite
+Houndbuninite
 Aggronite
-Banettite
-Tyranitarite
-Scizorite
-Pinsirite
-Aerodactylite
-Lucarionite
-Abomasite
-Kangaskhanite
-Gyaradosite
-Absolite
-Charizardite Y
-Alakazite
-Heracronite
-Mawilite
-Manectite
+Baneloctite
+Tyranisaurite
+Sciztailite
+Pachisirite
+Aerovishite
+Lucarudonite
+Lickisnite
+Mimiskhanite
+Gyaralixite
+Abtombite
+Charchompite Y
+Prikazite
+Heranite
+Taurwilite
+Mightytite
 Garchompite
 Latiasite
 Latiosite
@@ -751,24 +751,24 @@ Mega Tiara
 Mega Anklet
 Meteorite
 Swampertite
-Sceptilite
-Sablenite
-Altarianite
-Galladite
-Audinite
-Metagrossite
-Sharpedonite
-Slowbronite
+Scepronite
+Smearenite
+Altaronite
+Gallninjite
+Indeenite
+Swampgrossite
+Sharpessite
+Toxbronite
 Steelixite
-Pidgeotite
-Glalitite
+Duskniotite
+Glalvitite
 Diancite
 Prison Bottle
 Mega Cuff
-Cameruptite
-Lopunnite
-Salamencite
-Beedrillite
+Pangoruptite
+Crawpunnite
+Salaroarite
+Beekingite
 Meteorite
 Meteorite
 Key Stone
@@ -2557,35 +2557,35 @@ Scarlet Book
 Violet Book
 Briar’s Book
 Seed of Mastery
-Clefablite
-Victreebelite
-Starminite
+Clefbeetite
+Coalreebelite
+Starpexite
 Dragoninite
-Meganiumite
-Feraligite
-Skarmorite
-Froslassite
+Goodraniumite
+Feralihite
+Skarprasite
+Froviarite
 Heatranite
 Darkranite
-Emboarite
-Excadrite
-Scolipite
-Scraftinite
-Eelektrossite
-Chandelurite
-Chesnaughtite
-Delphoxite
+Quaboarite
+Excadite
+Scoligite
+Toxinite
+Hydratrossite
+Chandegonite
+Chesnaclite
+Delphlunite
 Greninjite
-Pyroarite
+Frosroarite
 Floettite
-Malamarite
-Barbaracite
-Dragalgite
-Hawluchanite
+Sandamarite
+Barbsolite
+Dragiusite
+Bruxchanite
 Zygardite
-Drampanite
+Drampkinite
 Zeraorite
-Falinksite
+Squalinksite
 Key to Room 202
 Super Lumiose Galette
 Lab Key Card A
@@ -2633,22 +2633,22 @@ Green Canari Plush
 Blue Canari Plush
 Blue Canari Plush
 Blue Canari Plush
-Raichunite X
-Raichunite Y
-Chimechite
-Absolite Z
+Rairottite X
+Rairottite Y
+Cherrechite
+Abtombite Z
 Staraptite
 Garchompite Z
-Lucarionite Z
-Golurkite
-Meowsticite
-Crabominite
-Golisopite
+Lucarudonite Z
+Goltitanite
+Meowtissite
+Craboarnite
+Golisokite
 Magearnite
-Scovillainite
-Baxcalibrite
+Zorvillainite
+Kincalibrite
 Tatsugirinite
-Glimmoranite
+Tentamoranite
 Hyper Cheri Berry
 Hyper Chesto Berry
 Hyper Pecha Berry
@@ -2683,3 +2683,4 @@ Hyper Babiri Berry
 Hyper Chilan Berry
 Hyper Roseli Berry
 Canari Bread
+Ininite Candy
