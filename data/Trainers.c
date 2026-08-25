@@ -14,7 +14,7 @@ const TrainerData sTrainerData[] = {
     },
 
     [1] = {
-        .name = "Silver",
+        .name = "Silver", //Azalea Town
         .data = {
             .trainerType = TRAINER_DATA_TYPE_NOTHING,
             .trainerClass = TRAINERCLASS_RIVAL,
@@ -24,26 +24,43 @@ const TrainerData sTrainerData[] = {
         },
         .party = {
             {
-                .ivs = 30,
-                .abilitySlot = TRAINER_POKEMON_ABILITY_1,
-                .level = 14,
-                .species = SPECIES_GASTLY,
-                .ballSeal = 0,
+                .species = SPECIES_WIMPOD,
+                .level = 19,
+                .moves = {MOVE_SKITTER_SMACK, MOVE_SPIKES, MOVE_WING_ATTACK, MOVE_THIEF},
+                .ability = TRAINER_POKEMON_ABILITY_2,
+                .setIvs = {31,31,31,31,0,31},
+                .setEvs = {0,32,0,28,0,0},
+                .nature = NATURE_ADAMANT,
             },
             {
-                .ivs = 30,
-                .abilitySlot = TRAINER_POKEMON_ABILITY_1,
-                .level = 16,
-                .species = SPECIES_ZUBAT,
-                .ballSeal = 0,
-            },
-            {
-                .ivs = 30,
-                .abilitySlot = TRAINER_POKEMON_ABILITY_1,
+                .species = SPECIES_CRANIDOS,
                 .level = 18,
-                .species = SPECIES_BAYLEEF,
-                .ballSeal = 0,
+                .moves = {MOVE_ROCK_TOMB, MOVE_THUNDER_SHOCK, MOVE_TAKE_DOWN, MOVE_FOCUS_ENERGY},
+                .ability = TRAINER_POKEMON_ABILITY_2,
+                .setIvs = {31,31,31,31,0,31},
+                .setEvs = {0,32,0,28,0,0},
+                .nature = NATURE_JOLLY,
             },
+            {
+                .species = SPECIES_HAUNTER,
+                .level = 20,
+                .item = ITEM_SITRUS_BERRY,
+                .moves = {MOVE_DRAGON_BREATH, MOVE_HEX, MOVE_ASSURANCE, MOVE_HYPNOSIS},
+                .ability = TRAINER_POKEMON_ABILITY_1,
+                .setIvs = {31,0,31,31,31,31},
+                .setEvs = {0,0,0,28,32,0},
+                .nature = NATURE_TIMID,
+            },
+            {
+                .species = SPECIES_BAYLEEF,
+                .level = 22,
+                .item = ITEM_MIRACLE_SEED,
+                .moves = {MOVE_DRAGON_BREATH, MOVE_ACID_SPRAY, MOVE_MAGICAL_LEAF, MOVE_WATER_GUN},
+                .ability = TRAINER_POKEMON_ABILITY_1,
+                .setIvs = {31,31,31,31,0,31},
+                .setEvs = {0,0,0,0,32,28},
+                .nature = NATURE_MODEST,
+            }
         },
         .text = {
             {
@@ -66,7 +83,7 @@ const TrainerData sTrainerData[] = {
     },
 
     [2] = {
-        .name = "Silver",
+        .name = "Silver", // Cherrygrove
         .data = {
             .trainerType = TRAINER_DATA_TYPE_NOTHING,
             .trainerClass = TRAINERCLASS_RIVAL,
@@ -86,7 +103,7 @@ const TrainerData sTrainerData[] = {
     },
 
     [3] = {
-        .name = "Silver",
+        .name = "Silver", // Cherryrgove
         .data = {
             .trainerType = TRAINER_DATA_TYPE_NOTHING,
             .trainerClass = TRAINERCLASS_RIVAL,
@@ -831,28 +848,70 @@ const TrainerData sTrainerData[] = {
             .trainerType = TRAINER_DATA_TYPE_MOVES | TRAINER_DATA_TYPE_ITEMS,
             .trainerClass = TRAINERCLASS_LEADER_FALKNER,
             .items = { ITEM_NONE, ITEM_NONE, ITEM_NONE, ITEM_NONE },
-            .aiFlags = F_PRIORITIZE_SUPER_EFFECTIVE | F_EVALUATE_ATTACKS,
+            .aiFlags = F_PRIORITIZE_SUPER_EFFECTIVE | F_EVALUATE_ATTACKS | F_EXPERT_ATTACKS,
             .battleType = SINGLE_BATTLE,
         },
         .party = {
             {
-                .ivs = 50,
-                .abilitySlot = TRAINER_POKEMON_ABILITY_1,
-                .level = 9,
-                .species = SPECIES_PIDGEY,
-                .item = ITEM_NONE,
-                .moves = { MOVE_TACKLE, MOVE_SAND_ATTACK, MOVE_NONE, MOVE_NONE },
-                .ballSeal = 0,
+                .species = SPECIES_PIDOVE,
+                .level = 12,
+                .item = ITEM_ORAN_BERRY,
+                .moves = {MOVE_STEALTH_ROCK,MOVE_AERIAL_ACE,MOVE_BULLDOZE,MOVE_ROLLOUT},
+                .ability = TRAINER_POKEMON_ABILITY_2,
+                .setIvs = {31,31,31,31,0,31},
+                .setEvs = {24,28,0,0,0,0},
+                .nature = NATURE_ADAMANT,
             },
             {
-                .ivs = 50,
-                .abilitySlot = TRAINER_POKEMON_ABILITY_1,
-                .level = 13,
-                .species = SPECIES_PIDGEOTTO,
-                .item = ITEM_NONE,
-                .moves = { MOVE_TACKLE, MOVE_ROOST, MOVE_GUST, MOVE_NONE },
-                .ballSeal = 0,
+                .species = SPECIES_CHATOT,
+                .level = 12,
+                .item = ITEM_LEFTOVERS,
+                .moves = {MOVE_CHATTER, MOVE_ROOST, MOVE_WATER_PULSE, MOVE_LIGHT_SCREEN},
+                .ability = TRAINER_POKEMON_ABILITY_1,
+                .setIvs = {31,0,31,31,31,31},
+                .setEvs = {30,0,0,0,0,22},
+                .nature = NATURE_TIMID,
             },
+            {
+                .species = SPECIES_MAREEP,
+                .level = 12,
+                .item = ITEM_ORAN_BERRY,
+                .moves = {MOVE_ROOST,MOVE_QUICK_ATTACK,MOVE_WING_ATTACK,MOVE_TRAILBLAZE},
+                .ability = TRAINER_POKEMON_ABILITY_1,
+                .setIvs = {31,31,31,31,0,31},
+                .setEvs = {0,26,0,26,0,0},
+                .nature = NATURE_JOLLY,
+            },
+            {
+                .species = SPECIES_TAILLOW,
+                .level = 14,
+                .item = ITEM_LUM_BERRY,
+                .moves = {MOVE_BITE, MOVE_AERIAL_ACE, MOVE_FIRE_FANG, MOVE_ICE_FANG},
+                .ability = TRAINER_POKEMON_ABILITY_2,
+                .setIvs = {31,31,31,31,0,31},
+                .setEvs = {26,26,0,0,0,0},
+                .nature = NATURE_JOLLY
+            },
+            {
+                .species = SPECIES_SNORUNT,
+                .level = 14,
+                .item = ITEM_LIFE_ORB,
+                .moves = {MOVE_WATER_PULSE, MOVE_AIR_CUTTER, MOVE_ICY_WIND, MOVE_ROCK_TOMB},
+                .ability = TRAINER_POKEMON_ABILITY_1,
+                .setIvs = {31,31,31,31,31,31},
+                .setEvs = {0,0,0,26,26,0},
+                .nature = NATURE_NAIVE, 
+            },
+            {
+                .species = SPECIES_PIDGEOTTO,
+                .level = 15,
+                .item = ITEM_EVIOLITE,
+                .moves = {MOVE_SHADOW_SNEAK, MOVE_AERIAL_ACE, MOVE_QUICK_ATTACK, MOVE_THUNDER_PUNCH},
+                .ability = TRAINER_POKEMON_ABILITY_2,
+                .setIvs = {31,31,31,31,0,31},
+                .setEvs = {30,0,22,0,0,0},
+                .nature = NATURE_ADAMANT,
+            }
         },
         .text = {
             {
@@ -881,32 +940,65 @@ const TrainerData sTrainerData[] = {
         },
         .party = {
             {
-                .ivs = 80,
-                .abilitySlot = TRAINER_POKEMON_ABILITY_2,
-                .level = 17,
-                .species = SPECIES_SCYTHER,
+                .species = SPECIES_CLEFAIRY,
+                .level = 18,
+                .item = ITEM_EVIOLITE,
+                .moves = {MOVE_REFLECT, MOVE_DISARMING_VOICE, MOVE_STRUGGLE_BUG, MOVE_ENERGY_BALL},
+                .ability = TRAINER_POKEMON_ABILITY_2,
+                .setIvs = {31,0,31,31,31,31},
+                .setEvs = {32,0,28,0,0,0},
+                .nature = NATURE_BOLD,
+            },
+            {
+                .species = SPECIES_YANMA,
+                .level = 18,
+                .item = ITEM_FOCUS_SASH,
+                .moves = {MOVE_STRUGGLE_BUG, MOVE_PSYCHIC_NOISE, MOVE_AIR_CUTTER, MOVE_ANCIENT_POWER},
+                .ability = TRAINER_POKEMON_ABILITY_1,
+                .setIvs = {31,0,31,31,31,31},
+                .setEvs = {0,0,0,28,32,0},
+                .nature = NATURE_TIMID,
+            },
+            {
+                .species = SPECIES_MEDITITE,
+                .level = 18,
+                .item = ITEM_LIFE_ORB,
+                .moves = {MOVE_DRAIN_PUNCH, MOVE_U_TURN, MOVE_ICE_PUNCH, MOVE_ZEN_HEADBUTT},
+                .ability = TRAINER_POKEMON_ABILITY_1,
+                .setIvs = {31,31,31,31,0,31},
+                .setEvs = {0,32,0,28,0,0},
+                .nature = NATURE_JOLLY,
+            },
+            {
+                .species = SPECIES_SIZZLIPEDE,
+                .level = 19,
+                .item = ITEM_ROCKY_HELMET,
+                .moves = {MOVE_HEX, MOVE_WILL_O_WISP, MOVE_STRUGGLE_BUG, MOVE_EMBER},
+                .ability = TRAINER_POKEMON_ABILITY_2,
+                .setIvs = {31,0,31,31,31,31},
+                .setEvs = {28,0,0,0,32,0},
+                .nature = NATURE_MODEST,
+            },
+            {
+                .species = SPECIES_PINSIR,
+                .level = 19,
                 .item = ITEM_SITRUS_BERRY,
-                .moves = { MOVE_QUICK_ATTACK, MOVE_LEER, MOVE_U_TURN, MOVE_FOCUS_ENERGY },
-                .ballSeal = 0,
+                .moves = {MOVE_SPARK, MOVE_BUG_BITE, MOVE_TRAILBLAZE, MOVE_ROCK_SLIDE},
+                .ability = TRAINER_POKEMON_ABILITY_HIDDEN,
+                .setIvs = {31,31,31,31,0,31},
+                .setEvs = {0,32,0,28,0,0},
+                .nature = NATURE_JOLLY,
             },
             {
-                .ivs = 80,
-                .abilitySlot = TRAINER_POKEMON_ABILITY_1,
-                .level = 15,
-                .species = SPECIES_KAKUNA,
-                .item = ITEM_NONE,
-                .moves = { MOVE_POISON_STING, MOVE_NONE, MOVE_NONE, MOVE_NONE },
-                .ballSeal = 0,
-            },
-            {
-                .ivs = 80,
-                .abilitySlot = TRAINER_POKEMON_ABILITY_1,
-                .level = 15,
-                .species = SPECIES_METAPOD,
-                .item = ITEM_NONE,
-                .moves = { MOVE_TACKLE, MOVE_NONE, MOVE_NONE, MOVE_NONE },
-                .ballSeal = 0,
-            },
+                .species = SPECIES_HERACROSS,
+                .level = 21,
+                .item = ITEM_FLAME_ORB,
+                .moves = {MOVE_SKITTER_SMACK, MOVE_BRICK_BREAK, MOVE_METAL_CLAW, MOVE_ROCK_TOMB},
+                .ability = TRAINER_POKEMON_ABILITY_2,
+                .setIvs = {31,31,31,31,0,31},
+                .setEvs = {0,32,0,28,0,0},
+                .nature = NATURE_ADAMANT,
+            }
         },
         .text = {
             {
@@ -1254,22 +1346,64 @@ const TrainerData sTrainerData[] = {
         },
         .party = {
             {
-                .ivs = 100,
-                .abilitySlot = TRAINER_POKEMON_ABILITY_1,
-                .level = 17,
-                .species = SPECIES_CLEFAIRY,
-                .item = ITEM_NONE,
-                .moves = { MOVE_DOUBLE_SLAP, MOVE_MIMIC, MOVE_ENCORE, MOVE_METRONOME },
-                .ballSeal = 0,
+                .species = SPECIES_SABLEYE,
+                .level = 21,
+                .item = ITEM_LEFTOVERS,
+                .moves = {MOVE_SKETCH, MOVE_FAKE_OUT, MOVE_SHADOW_SNEAK, MOVE_FOUL_PLAY},
+                .ability = TRAINER_POKEMON_ABILITY_2,
+                .setIvs = {31,31,31,31,0,31},
+                .setEvs = {32,0,0,28,0,0},
+                .nature = NATURE_IMPISH,
             },
             {
-                .ivs = 100,
-                .abilitySlot = TRAINER_POKEMON_ABILITY_2,
-                .level = 19,
-                .species = SPECIES_MILTANK,
+                .species = SPECIES_MUNCHLAX,
+                .level = 21,
+                .item = ITEM_ROCKY_HELMET,
+                .moves = {MOVE_LEECH_SEED, MOVE_SPIKES, MOVE_THUNDER_WAVE, MOVE_BODY_SLAM},
+                .ability = TRAINER_POKEMON_ABILITY_1,
+                .setIvs = {31,31,31,31,0,31},
+                .setEvs = {32,0,0,0,0,28},
+                .nature = NATURE_CAREFUL,
+            },
+            {
+                .species = SPECIES_HONEDGE,
+                .level = 21,
+                .item = ITEM_EVIOLITE,
+                .moves = {MOVE_SLASH, MOVE_METAL_CLAW, MOVE_TRAILBLAZE, MOVE_AERIAL_ACE},
+                .ability = TRAINER_POKEMON_ABILITY_1,
+                .setIvs = {31,31,31,31,0,31},
+                .setEvs = {32,28,0,0,0,0},
+                .nature = NATURE_ADAMANT,
+            },
+            {
+                .species = SPECIES_CHANSEY,
+                .level = 22,
+                .item = ITEM_EVIOLITE,
+                .moves = {MOVE_THUNDER_PUNCH, MOVE_SEISMIC_TOSS, MOVE_SMACK_DOWN, MOVE_TAKE_DOWN},
+                .ability = TRAINER_POKEMON_ABILITY_2,
+                .setIvs = {31,31,31,31,0,31},
+                .setEvs = {32,0,28,0,0,0},
+                .nature = NATURE_CAREFUL,
+            },
+            {
+                .species = SPECIES_FLOATZEL,
+                .level = 22,
+                .item = ITEM_LOADED_DICE,
+                .moves = {MOVE_TAIL_SLAP, MOVE_BULLET_SEED, MOVE_AQUA_JET, MOVE_ROCK_BLAST},
+                .ability = TRAINER_POKEMON_ABILITY_2,
+                .setIvs = {31,31,31,31,0,31},
+                .setEvs = {0,32,0,28,0,0},
+                .nature = NATURE_JOLLY,
+            },
+            {
+                .species = SPECIES_KANGASKHAN,
+                .level = 24,
                 .item = ITEM_LUM_BERRY,
-                .moves = { MOVE_ROLLOUT, MOVE_ATTRACT, MOVE_STOMP, MOVE_MILK_DRINK },
-                .ballSeal = 0,
+                .moves = {MOVE_SWORDS_DANCE, MOVE_HEADBUTT, MOVE_SHADOW_SNEAK, MOVE_ROCK_SMASH},
+                .ability = TRAINER_POKEMON_ABILITY_1,
+                .setIvs = {31,31,31,31,0,31},
+                .setEvs = {0,32,0,28,0,0},
+                .nature = NATURE_ADAMANT,
             },
         },
         .text = {
@@ -1299,40 +1433,64 @@ const TrainerData sTrainerData[] = {
         },
         .party = {
             {
-                .ivs = 100,
-                .abilitySlot = TRAINER_POKEMON_ABILITY_1,
-                .level = 21,
-                .species = SPECIES_GASTLY,
-                .item = ITEM_NONE,
-                .moves = { MOVE_LICK, MOVE_SPITE, MOVE_MEAN_LOOK, MOVE_CURSE },
-                .ballSeal = 0,
+                .species = SPECIES_SKRELP,
+                .level = 27,
+                .item = ITEM_BLACK_SLUDGE,
+                .moves = {MOVE_WATER_PULSE, MOVE_VENOSHOCK, MOVE_TOXIC_SPIKES, MOVE_HEX},
+                .ability = TRAINER_POKEMON_ABILITY_1,
+                .setIvs = {31,0,31,31,31,31},
+                .setEvs = {0,0,0,32,28,0},
+                .nature = NATURE_TIMID,
             },
             {
-                .ivs = 100,
-                .abilitySlot = TRAINER_POKEMON_ABILITY_1,
-                .level = 21,
-                .species = SPECIES_HAUNTER,
-                .item = ITEM_NONE,
-                .moves = { MOVE_HYPNOSIS, MOVE_DREAM_EATER, MOVE_CURSE, MOVE_NIGHTMARE },
-                .ballSeal = 0,
+                .species = SPECIES_SHUPPET,
+                .level = 27,
+                .item = ITEM_MUSCLE_BAND,
+                .moves = {MOVE_POWER_UP_PUNCH, MOVE_SHADOW_SNEAK, MOVE_POUNCE, MOVE_THIEF},
+                .ability = TRAINER_POKEMON_ABILITY_HIDDEN,
+                .setIvs = {31,31,31,31,0,31},
+                .setEvs = {0,32,0,38,0,0},
+                .nature = NATURE_ADAMANT,
             },
             {
-                .ivs = 100,
-                .abilitySlot = TRAINER_POKEMON_ABILITY_1,
-                .level = 25,
-                .species = SPECIES_GENGAR,
+                .species = SPECIES_WATCHOG,
+                .level = 28,
                 .item = ITEM_SITRUS_BERRY,
-                .moves = { MOVE_HYPNOSIS, MOVE_SHADOW_BALL, MOVE_MEAN_LOOK, MOVE_SUCKER_PUNCH },
-                .ballSeal = 0,
+                .moves = {MOVE_SHADOW_CLAW, MOVE_HORN_LEECH, MOVE_FACADE, MOVE_POWER_UP_PUNCH},
+                .ability = TRAINER_POKEMON_ABILITY_HIDDEN,
+                .setIvs = {31,31,31,31,0,31},
+                .setEvs = {0,32,0,28,0,0},
+                .nature = NATURE_ADAMANT,
             },
             {
-                .ivs = 100,
-                .abilitySlot = TRAINER_POKEMON_ABILITY_1,
-                .level = 23,
-                .species = SPECIES_HAUNTER,
-                .item = ITEM_NONE,
-                .moves = { MOVE_CURSE, MOVE_MEAN_LOOK, MOVE_SUCKER_PUNCH, MOVE_NIGHT_SHADE },
-                .ballSeal = 0,
+                .species = SPECIES_BINACLE,
+                .level = 28,
+                .item =ITEM_SHELL_BELL,
+                .moves = {MOVE_ROCK_SLIDE, MOVE_SHADOW_CLAW, MOVE_RAZOR_SHELL, MOVE_BULLDOZE},
+                .ability = TRAINER_POKEMON_ABILITY_1,
+                .setIvs = {31,31,31,31,0,31},
+                .setEvs = {0,32,0,28,0,0},
+                .nature = NATURE_ADAMANT,
+            },
+            {
+                .species = SPECIES_SYLVEON,
+                .level = 28,
+                .item = ITEM_LEFTOVERS,
+                .moves = {MOVE_SHADOW_BALL, MOVE_PSYCHIC, MOVE_DRAINING_KISS, MOVE_NASTY_PLOT},
+                .ability = TRAINER_POKEMON_ABILITY_2,
+                .setIvs = {31,0,31,31,31,31},
+                .setEvs = {0,0,0,32,28,0},
+                .nature = NATURE_TIMID,
+            },
+            {
+                .species = SPECIES_GENGAR,
+                .level = 29,
+                .item = ITEM_WISE_GLASSES,
+                .moves = {MOVE_SLUDGE_BOMB, MOVE_SHADOW_BALL, MOVE_DARK_PULSE, MOVE_ENERGY_BALL},
+                .ability = TRAINER_POKEMON_ABILITY_1,
+                .setIvs = {31,0,31,31,31,31},
+                .setEvs = {0,0,0,32,28,0},
+                .nature = NATURE_TIMID,
             },
         },
         .text = {
@@ -1416,31 +1574,63 @@ const TrainerData sTrainerData[] = {
         },
         .party = {
             {
-                .ivs = 150,
-                .abilitySlot = TRAINER_POKEMON_ABILITY_1,
-                .level = 30,
-                .species = SPECIES_MAGNEMITE,
-                .item = ITEM_NONE,
-                .moves = { MOVE_THUNDERBOLT, MOVE_SUPERSONIC, MOVE_SONIC_BOOM, MOVE_THUNDER_WAVE },
-                .ballSeal = 0,
+                .species = SPECIES_METANG,
+                .level = 37,
+                .item = ITEM_EVIOLITE,
+                .moves = {MOVE_EARTHQUAKE, MOVE_METAL_CLAW, MOVE_BULLET_PUNCH, MOVE_ZEN_HEADBUTT},
+                .ability = TRAINER_POKEMON_ABILITY_1,
+                .setIvs = {31,31,31,31,0,31},
+                .setEvs = {252,252,6,0,0,0},
+                .nature = NATURE_IMPISH,
             },
             {
-                .ivs = 150,
-                .abilitySlot = TRAINER_POKEMON_ABILITY_2,
-                .level = 30,
-                .species = SPECIES_MAGNEMITE,
-                .item = ITEM_NONE,
-                .moves = { MOVE_THUNDERBOLT, MOVE_SUPERSONIC, MOVE_SONIC_BOOM, MOVE_THUNDER_WAVE },
-                .ballSeal = 0,
+                .species = SPECIES_ARCTIBAX,
+                .level = 38,
+                .item = ITEM_EVIOLITE,
+                .moves = {MOVE_AVALANCHE, MOVE_DIG, MOVE_DRAGON_CLAW, MOVE_IRON_HEAD},
+                .ability = TRAINER_POKEMON_ABILITY_1,
+                .setIvs = {31,31,31,31,0,31},
+                .setEvs = {252,252,6,0,0,0},
+                .nature = NATURE_ADAMANT,
             },
             {
-                .ivs = 150,
-                .abilitySlot = TRAINER_POKEMON_ABILITY_2,
-                .level = 35,
-                .species = SPECIES_STEELIX,
-                .item = ITEM_SITRUS_BERRY,
-                .moves = { MOVE_SCREECH, MOVE_SANDSTORM, MOVE_ROCK_THROW, MOVE_IRON_TAIL },
-                .ballSeal = 0,
+                .species = SPECIES_ROSERADE,
+                .level = 38,
+                .item = ITEM_CHOICE_SPECS,
+                .moves = {MOVE_SLUDGE_BOMB, MOVE_FLASH_CANNON, MOVE_GIGA_DRAIN, MOVE_THUNDERBOLT},
+                .ability = TRAINER_POKEMON_ABILITY_2,
+                .setIvs = {31,0,31,31,31,31},
+                .setEvs = {6,0,0,252,252,0},
+                .nature = NATURE_TIMID,
+            },
+            {
+                .species = SPECIES_TOUCANNON,
+                .level = 39,
+                .item = ITEM_CHOICE_BAND,
+                .moves = {MOVE_BEAK_BLAST, MOVE_BULLET_SEED, MOVE_ROCK_BLAST, MOVE_GEAR_GRIND},
+                .ability = TRAINER_POKEMON_ABILITY_2,
+                .setIvs = {31,31,31,31,0,31},
+                .setEvs = {6,252,0,252,0,0},
+                .nature = NATURE_ADAMANT,
+            },
+            {
+                .species = SPECIES_AEGISLASH,
+                .level = 39,
+                .item = ITEM_LEFTOVERS,
+                .moves = {MOVE_KINGS_SHIELD, MOVE_IRON_HEAD, MOVE_SWORDS_DANCE, MOVE_EARTHQUAKE},
+                .setIvs = {31,31,31,31,0,31},
+                .setEvs = {252,252,6,0,0,0},
+                .nature = NATURE_ADAMANT,
+            },
+            {
+                .species = SPECIES_GYARADOS,
+                .level = 40,
+                .item = ITEM_GYARADOSITE,
+                .moves = {MOVE_WATERFALL, MOVE_DRAGON_DANCE, MOVE_EARTHQUAKE, MOVE_IRON_HEAD},
+                .ability = TRAINER_POKEMON_ABILITY_HIDDEN,
+                .setIvs = {31,31,31,31,0,31},
+                .setEvs = {252,252,6,0,0,0},
+                .nature = NATURE_ADAMANT,
             },
         },
         .text = {
@@ -1470,22 +1660,64 @@ const TrainerData sTrainerData[] = {
         },
         .party = {
             {
-                .ivs = 150,
-                .abilitySlot = TRAINER_POKEMON_ABILITY_1,
-                .level = 29,
-                .species = SPECIES_PRIMEAPE,
-                .item = ITEM_NONE,
-                .moves = { MOVE_LEER, MOVE_DOUBLE_TEAM, MOVE_FOCUS_PUNCH, MOVE_ROCK_SLIDE },
-                .ballSeal = 0,
+                .species = SPECIES_SAWK,
+                .level = 34,
+                .item = ITEM_EXPERT_BELT,
+                .moves = {MOVE_ICE_PUNCH, MOVE_CLOSE_COMBAT, MOVE_THUNDER_PUNCH, MOVE_ROCK_SLIDE},
+                .ability = TRAINER_POKEMON_ABILITY_HIDDEN,
+                .setIvs = {31,31,31,31,0,31},
+                .setEvs = {6,252,0,252,0,0},
+                .nature = NATURE_JOLLY,
             },
             {
-                .ivs = 150,
-                .abilitySlot = TRAINER_POKEMON_ABILITY_1,
-                .level = 31,
-                .species = SPECIES_POLIWRATH,
-                .item = ITEM_SITRUS_BERRY,
-                .moves = { MOVE_HYPNOSIS, MOVE_SURF, MOVE_FOCUS_PUNCH, MOVE_BODY_SLAM },
-                .ballSeal = 0,
+                .species = SPECIES_LYCANROC_DUSK,
+                .level = 33,
+                .item = ITEM_MUSCLE_BAND,
+                .moves = {MOVE_KNOCK_OFF, MOVE_ACCELEROCK, MOVE_ROCK_SLIDE, MOVE_BRICK_BREAK},
+                .ability = TRAINER_POKEMON_ABILITY_1,
+                .setIvs = {31,31,31,31,0,31},
+                .setEvs = {6,252,0,252,0,0},
+                .nature = NATURE_JOLLY,
+            },
+            {
+                .species = SPECIES_MIENFOO,
+                .level = 33,
+                .item = ITEM_FLYING_GEM,
+                .moves = {MOVE_U_TURN, MOVE_PLAY_ROUGH, MOVE_ACROBATICS, MOVE_FORCE_PALM},
+                .ability = TRAINER_POKEMON_ABILITY_2,
+                .setIvs = {31,31,31,31,0,31},
+                .setEvs = {6,252,0,252,0,0},
+                .nature = NATURE_ADAMANT,
+            },
+            {
+                .species = SPECIES_CAMERUPT,
+                .level = 34,
+                .item = ITEM_CHOICE_BAND,
+                .moves = {MOVE_DRAIN_PUNCH, MOVE_BULLDOZE, MOVE_PAYBACK, MOVE_FIRE_PUNCH},
+                .ability = TRAINER_POKEMON_ABILITY_HIDDEN,
+                .setIvs = {31,31,31,31,0,31},
+                .setEvs = {252,252,6,0,0,0},
+                .nature = NATURE_ADAMANT,
+            },
+            {
+                .species = SPECIES_MACHAMP,
+                .level = 34,
+                .item = ITEM_FLAME_ORB,
+                .moves = {MOVE_OBSTRUCT, MOVE_BRICK_BREAK, MOVE_KNOCK_OFF, MOVE_POISON_JAB},
+                .ability = TRAINER_POKEMON_ABILITY_1,
+                .setIvs = {31,31,31,31,0,31},
+                .setEvs = {252,252,6,0,0,0},
+                .nature = NATURE_ADAMANT,
+            },
+            {
+                .species = SPECIES_NIDOKING,
+                .level = 35,
+                .item = ITEM_NIDOKINGITE,
+                .moves = {MOVE_DRAIN_PUNCH, MOVE_MACH_PUNCH, MOVE_POISON_JAB, MOVE_ICE_PUNCH},
+                .ability = TRAINER_POKEMON_ABILITY_HIDDEN,
+                .setIvs = {31,31,31,31,0,31},
+                .setEvs = {252,252,6,0,0,0},
+                .nature = NATURE_ADAMANT,
             },
         },
         .text = {
@@ -11015,7 +11247,7 @@ const TrainerData sTrainerData[] = {
     },
 
     [263] = {
-        .name = "Silver",
+        .name = "Silver", // Burned Tower
         .data = {
             .trainerType = TRAINER_DATA_TYPE_MOVES,
             .trainerClass = TRAINERCLASS_RIVAL,
@@ -11025,36 +11257,53 @@ const TrainerData sTrainerData[] = {
         },
         .party = {
             {
-                .ivs = 80,
-                .abilitySlot = TRAINER_POKEMON_ABILITY_1,
-                .level = 20,
-                .species = SPECIES_GASTLY,
-                .moves = { MOVE_LICK, MOVE_CONFUSE_RAY, MOVE_MEAN_LOOK, MOVE_CURSE },
-                .ballSeal = 0,
+                .species = SPECIES_WIMPOD,
+                .level = 25,
+                .item = ITEM_QUICK_CLAW,
+                .moves = {MOVE_SKITTER_SMACK, MOVE_SPIKES, MOVE_WING_ATTACK, MOVE_ASSURANCE},
+                .ability = TRAINER_POKEMON_ABILITY_2,
+                .setIvs = {31,31,31,31,0,31},
+                .setEvs = {0,32,0,28,0,0},
+                .nature = NATURE_ADAMANT,
             },
             {
-                .ivs = 80,
-                .abilitySlot = TRAINER_POKEMON_ABILITY_1,
-                .level = 18,
-                .species = SPECIES_MAGNEMITE,
-                .moves = { MOVE_THUNDER_WAVE, MOVE_THUNDER_SHOCK, MOVE_SUPERSONIC, MOVE_SONIC_BOOM },
-                .ballSeal = 0,
+                .species = SPECIES_TOGEPI,
+                .level = 24,
+                .item = ITEM_CHARCOAL,
+                .moves = {MOVE_DRAINING_KISS, MOVE_EMBER, MOVE_CONFUSE_RAY, MOVE_ANCIENT_POWER},
+                .ability = TRAINER_POKEMON_ABILITY_2,
+                .setIvs = {31,0,31,31,31,31},
+                .setEvs = {0,0,0,28,32,0},
+                .nature = NATURE_TIMID,
             },
             {
-                .ivs = 80,
-                .abilitySlot = TRAINER_POKEMON_ABILITY_1,
-                .level = 20,
-                .species = SPECIES_ZUBAT,
-                .moves = { MOVE_ASTONISH, MOVE_SUPERSONIC, MOVE_BITE, MOVE_WING_ATTACK },
-                .ballSeal = 0,
+                .species = SPECIES_CRANIDOS,
+                .level = 25,
+                .item = ITEM_SITRUS_BERRY,
+                .moves = {MOVE_ROCK_TOMB, MOVE_VOLT_SWITCH, MOVE_BULLDOZE, MOVE_FOCUS_ENERGY},
+                .ability = TRAINER_POKEMON_ABILITY_2,
+                .setIvs = {31,31,31,31,0,31},
+                .setEvs = {0,32,0,28,0,0},
+                .nature = NATURE_JOLLY,
             },
             {
-                .ivs = 80,
-                .abilitySlot = TRAINER_POKEMON_ABILITY_1,
-                .level = 22,
+                .species = SPECIES_HAUNTER,
+                .level = 26,
+                .item = ITEM_SITRUS_BERRY,
+                .moves = {MOVE_DRAGON_BREATH, MOVE_HEX, MOVE_ASSURANCE, MOVE_HYPNOSIS},
+                .ability = TRAINER_POKEMON_ABILITY_1,
+                .setIvs = {31,0,31,31,31,31},
+                .setEvs = {0,0,0,28,32,0},
+                .nature = NATURE_TIMID,
+            },
+            {
                 .species = SPECIES_BAYLEEF,
-                .moves = { MOVE_SYNTHESIS, MOVE_REFLECT, MOVE_MAGICAL_LEAF, MOVE_POISON_POWDER },
-                .ballSeal = 0,
+                .level = 27,
+                .item = ITEM_MIRACLE_SEED,
+                .moves = {MOVE_DRAGON_BREATH, MOVE_ACID_SPRAY, MOVE_MAGICAL_LEAF, MOVE_LEECH_SEED},
+                .setIvs = {31,0,31,31,31,31},
+                .setEvs = {0,0,0,0,32,28},
+                .nature = NATURE_MODEST,
             },
         },
         .text = {
@@ -11078,7 +11327,7 @@ const TrainerData sTrainerData[] = {
     },
 
     [264] = {
-        .name = "Silver",
+        .name = "Silver", // Victory Road
         .data = {
             .trainerType = TRAINER_DATA_TYPE_MOVES,
             .trainerClass = TRAINERCLASS_RIVAL,
@@ -11157,7 +11406,7 @@ const TrainerData sTrainerData[] = {
     },
 
     [265] = {
-        .name = "Silver",
+        .name = "Silver", // Cherrugrove
         .data = {
             .trainerType = TRAINER_DATA_TYPE_NOTHING,
             .trainerClass = TRAINERCLASS_RIVAL,
@@ -11177,7 +11426,7 @@ const TrainerData sTrainerData[] = {
     },
 
     [266] = {
-        .name = "Silver",
+        .name = "Silver", // Azalea Town
         .data = {
             .trainerType = TRAINER_DATA_TYPE_NOTHING,
             .trainerClass = TRAINERCLASS_RIVAL,
@@ -11187,25 +11436,42 @@ const TrainerData sTrainerData[] = {
         },
         .party = {
             {
-                .ivs = 30,
-                .abilitySlot = TRAINER_POKEMON_ABILITY_1,
-                .level = 14,
-                .species = SPECIES_GASTLY,
-                .ballSeal = 0,
+                .species = SPECIES_WIMPOD,
+                .level = 19,
+                .moves = {MOVE_SKITTER_SMACK, MOVE_SPIKES, MOVE_WING_ATTACK, MOVE_THIEF},
+                .ability = TRAINER_POKEMON_ABILITY_2,
+                .setIvs = {31,31,31,31,0,31},
+                .setEvs = {0,32,0,28,0,0},
+                .nature = NATURE_ADAMANT,
             },
             {
-                .ivs = 30,
-                .abilitySlot = TRAINER_POKEMON_ABILITY_1,
-                .level = 16,
-                .species = SPECIES_ZUBAT,
-                .ballSeal = 0,
-            },
-            {
-                .ivs = 30,
-                .abilitySlot = TRAINER_POKEMON_ABILITY_1,
+                .species = SPECIES_CRANIDOS,
                 .level = 18,
+                .moves = {MOVE_ROCK_TOMB, MOVE_THUNDER_SHOCK, MOVE_TAKE_DOWN, MOVE_FOCUS_ENERGY},
+                .ability = TRAINER_POKEMON_ABILITY_2,
+                .setIvs = {31,31,31,31,0,31},
+                .setEvs = {0,32,0,28,0,0},
+                .nature = NATURE_JOLLY,
+            },
+            {
+                .species = SPECIES_HAUNTER,
+                .level = 20,
+                .item = ITEM_SITRUS_BERRY,
+                .moves = {MOVE_DRAGON_BREATH, MOVE_HEX, MOVE_ASSURANCE, MOVE_HYPNOSIS},
+                .ability = TRAINER_POKEMON_ABILITY_1,
+                .setIvs = {31,0,31,31,31,31},
+                .setEvs = {0,0,0,28,32,0},
+                .nature = NATURE_TIMID,
+            },
+            {
                 .species = SPECIES_QUILAVA,
-                .ballSeal = 0,
+                .level = 22,
+                .item = ITEM_CHARCOAL,
+                .moves = {MOVE_FIRE_SPIN, MOVE_TWISTER, MOVE_THUNDER_WAVE, MOVE_SMOKESCREEN},
+                .ability = TRAINER_POKEMON_ABILITY_1,
+                .setIvs = {31,0,31,31,31,31},
+                .setEvs = {0,0,0,28,32,0},
+                .nature = NATURE_TIMID, 
             },
         },
         .text = {
@@ -11229,7 +11495,7 @@ const TrainerData sTrainerData[] = {
     },
 
     [267] = {
-        .name = "Silver",
+        .name = "Silver", // Burned Tower
         .data = {
             .trainerType = TRAINER_DATA_TYPE_MOVES,
             .trainerClass = TRAINERCLASS_RIVAL,
@@ -11239,36 +11505,54 @@ const TrainerData sTrainerData[] = {
         },
         .party = {
             {
-                .ivs = 80,
-                .abilitySlot = TRAINER_POKEMON_ABILITY_1,
-                .level = 20,
-                .species = SPECIES_GASTLY,
-                .moves = { MOVE_LICK, MOVE_CONFUSE_RAY, MOVE_MEAN_LOOK, MOVE_CURSE },
-                .ballSeal = 0,
+                .species = SPECIES_WIMPOD,
+                .level = 25,
+                .item = ITEM_QUICK_CLAW,
+                .moves = {MOVE_SKITTER_SMACK, MOVE_SPIKES, MOVE_WING_ATTACK, MOVE_ASSURANCE},
+                .ability = TRAINER_POKEMON_ABILITY_2,
+                .setIvs = {31,31,31,31,0,31},
+                .setEvs = {0,32,0,28,0,0},
+                .nature = NATURE_ADAMANT,
             },
             {
-                .ivs = 80,
-                .abilitySlot = TRAINER_POKEMON_ABILITY_1,
-                .level = 18,
-                .species = SPECIES_MAGNEMITE,
-                .moves = { MOVE_THUNDER_WAVE, MOVE_THUNDER_SHOCK, MOVE_SUPERSONIC, MOVE_SONIC_BOOM },
-                .ballSeal = 0,
+                .species = SPECIES_IMPIDIMP,
+                .level = 24,
+                .item = ITEM_MAGNET,
+                .moves = {MOVE_FAKE_OUT, MOVE_SHOCK_WAVE, MOVE_ASSURANCE, MOVE_LOW_KICK},
+                .ability = TRAINER_POKEMON_ABILITY_2,
+                .setIvs = {31,31,31,31,0,31},
+                .setEvs = {0,32,0,28,0,0},
+                .nature = NATURE_ADAMANT,
             },
             {
-                .ivs = 80,
-                .abilitySlot = TRAINER_POKEMON_ABILITY_1,
-                .level = 20,
-                .species = SPECIES_ZUBAT,
-                .moves = { MOVE_ASTONISH, MOVE_SUPERSONIC, MOVE_BITE, MOVE_WING_ATTACK },
-                .ballSeal = 0,
+                .species = SPECIES_CRANIDOS,
+                .level = 25,
+                .item = ITEM_SITRUS_BERRY,
+                .moves = {MOVE_ROCK_TOMB, MOVE_VOLT_SWITCH, MOVE_BULLDOZE, MOVE_FOCUS_ENERGY},
+                .ability = TRAINER_POKEMON_ABILITY_2,
+                .setIvs = {31,31,31,31,0,31},
+                .setEvs = {0,32,0,28,0,0},
+                .nature = NATURE_JOLLY,
             },
             {
-                .ivs = 80,
-                .abilitySlot = TRAINER_POKEMON_ABILITY_1,
-                .level = 22,
+                .species = SPECIES_HAUNTER,
+                .level = 26,
+                .item = ITEM_SITRUS_BERRY,
+                .moves = {MOVE_DRAGON_BREATH, MOVE_HEX, MOVE_ASSURANCE, MOVE_HYPNOSIS},
+                .ability = TRAINER_POKEMON_ABILITY_1,
+                .setIvs = {31,0,31,31,31,31},
+                .setEvs = {0,0,0,28,32,0},
+                .nature = NATURE_TIMID,
+            },
+            {
                 .species = SPECIES_QUILAVA,
-                .moves = { MOVE_FLAME_WHEEL, MOVE_SMOKESCREEN, MOVE_EMBER, MOVE_QUICK_ATTACK },
-                .ballSeal = 0,
+                .level = 27,
+                .item = ITEM_CHARCOAL,
+                .moves = {MOVE_FIRE_SPIN, MOVE_TWISTER, MOVE_THUNDER_WAVE, MOVE_SMOKESCREEN},
+                .ability = TRAINER_POKEMON_ABILITY_1,
+                .setIvs = {31,0,31,31,31,31},
+                .setEvs = {0,0,0,28,32,0},
+                .nature = NATURE_TIMID,
             },
         },
         .text = {
@@ -11292,7 +11576,7 @@ const TrainerData sTrainerData[] = {
     },
 
     [268] = {
-        .name = "Silver",
+        .name = "Silver", // Victory Road
         .data = {
             .trainerType = TRAINER_DATA_TYPE_MOVES,
             .trainerClass = TRAINERCLASS_RIVAL,
@@ -11371,7 +11655,7 @@ const TrainerData sTrainerData[] = {
     },
 
     [269] = {
-        .name = "Silver",
+        .name = "Silver", // Azalea Town
         .data = {
             .trainerType = TRAINER_DATA_TYPE_NOTHING,
             .trainerClass = TRAINERCLASS_RIVAL,
@@ -11380,26 +11664,42 @@ const TrainerData sTrainerData[] = {
             .battleType = SINGLE_BATTLE,
         },
         .party = {
-            {
-                .ivs = 30,
-                .abilitySlot = TRAINER_POKEMON_ABILITY_1,
-                .level = 14,
-                .species = SPECIES_GASTLY,
-                .ballSeal = 0,
+           {
+                .species = SPECIES_WIMPOD,
+                .level = 19,
+                .moves = {MOVE_SKITTER_SMACK, MOVE_SPIKES, MOVE_WING_ATTACK, MOVE_THIEF},
+                .ability = TRAINER_POKEMON_ABILITY_2,
+                .setIvs = {31,31,31,31,0,31},
+                .setEvs = {0,32,0,28,0,0},
+                .nature = NATURE_ADAMANT,
             },
             {
-                .ivs = 30,
-                .abilitySlot = TRAINER_POKEMON_ABILITY_1,
-                .level = 16,
-                .species = SPECIES_ZUBAT,
-                .ballSeal = 0,
-            },
-            {
-                .ivs = 30,
-                .abilitySlot = TRAINER_POKEMON_ABILITY_1,
+                .species = SPECIES_CRANIDOS,
                 .level = 18,
+                .moves = {MOVE_ROCK_TOMB, MOVE_THUNDER_SHOCK, MOVE_TAKE_DOWN, MOVE_FOCUS_ENERGY},
+                .ability = TRAINER_POKEMON_ABILITY_2,
+                .setIvs = {31,31,31,31,0,31},
+                .setEvs = {0,32,0,28,0,0},
+                .nature = NATURE_JOLLY,
+            },
+            {
+                .species = SPECIES_HAUNTER,
+                .level = 20,
+                .item = ITEM_SITRUS_BERRY,
+                .moves = {MOVE_DRAGON_BREATH, MOVE_HEX, MOVE_ASSURANCE, MOVE_HYPNOSIS},
+                .ability = TRAINER_POKEMON_ABILITY_1,
+                .setIvs = {31,0,31,31,31,31},
+                .setEvs = {0,0,0,28,32,0},
+                .nature = NATURE_TIMID,
+            },
+            {
                 .species = SPECIES_CROCONAW,
-                .ballSeal = 0,
+                .level = 22,
+                .item = ITEM_MYSTIC_WATER,
+                .moves = {MOVE_ICE_FANG, MOVE_DRAGON_CLAW, MOVE_WATER_PULSE, MOVE_ASSURANCE},
+                .setIvs = {31,31,31,31,0,31},
+                .setEvs = {28,32,0,0,0,0},
+                .nature = NATURE_ADAMANT,
             },
         },
         .text = {
@@ -11423,7 +11723,7 @@ const TrainerData sTrainerData[] = {
     },
 
     [270] = {
-        .name = "Silver",
+        .name = "Silver", // Burned Tower
         .data = {
             .trainerType = TRAINER_DATA_TYPE_MOVES,
             .trainerClass = TRAINERCLASS_RIVAL,
@@ -11433,36 +11733,53 @@ const TrainerData sTrainerData[] = {
         },
         .party = {
             {
-                .ivs = 80,
-                .abilitySlot = TRAINER_POKEMON_ABILITY_1,
-                .level = 20,
-                .species = SPECIES_GASTLY,
-                .moves = { MOVE_LICK, MOVE_CONFUSE_RAY, MOVE_MEAN_LOOK, MOVE_CURSE },
-                .ballSeal = 0,
+                .species = SPECIES_WIMPOD,
+                .level = 25,
+                .item = ITEM_QUICK_CLAW,
+                .moves = {MOVE_SKITTER_SMACK, MOVE_SPIKES, MOVE_WING_ATTACK, MOVE_ASSURANCE},
+                .ability = TRAINER_POKEMON_ABILITY_2,
+                .setIvs = {31,31,31,31,0,31},
+                .setEvs = {0,32,0,28,0,0},
+                .nature = NATURE_ADAMANT,
             },
             {
-                .ivs = 80,
-                .abilitySlot = TRAINER_POKEMON_ABILITY_1,
-                .level = 18,
-                .species = SPECIES_MAGNEMITE,
-                .moves = { MOVE_THUNDER_WAVE, MOVE_THUNDER_SHOCK, MOVE_SUPERSONIC, MOVE_SONIC_BOOM },
-                .ballSeal = 0,
+                .species = SPECIES_TYNAMO,
+                .level = 24,
+                .moves = {MOVE_CHARGE_BEAM, MOVE_ASTONISH, MOVE_THUNDER_WAVE, MOVE_NONE},
+                .ability = TRAINER_POKEMON_ABILITY_1,
+                .setIvs = {31,0,31,31,31,31},
+                .setEvs = {0,0,0,0,32,28},
+                .nature = NATURE_QUIET,
             },
             {
-                .ivs = 80,
-                .abilitySlot = TRAINER_POKEMON_ABILITY_1,
-                .level = 20,
-                .species = SPECIES_ZUBAT,
-                .moves = { MOVE_ASTONISH, MOVE_SUPERSONIC, MOVE_BITE, MOVE_WING_ATTACK },
-                .ballSeal = 0,
+                .species = SPECIES_CRANIDOS,
+                .level = 25,
+                .item = ITEM_SITRUS_BERRY,
+                .moves = {MOVE_ROCK_TOMB, MOVE_VOLT_SWITCH, MOVE_BULLDOZE, MOVE_FOCUS_ENERGY},
+                .ability = TRAINER_POKEMON_ABILITY_2,
+                .setIvs = {31,31,31,31,0,31},
+                .setEvs = {0,32,0,28,0,0},
+                .nature = NATURE_JOLLY,
             },
             {
-                .ivs = 80,
-                .abilitySlot = TRAINER_POKEMON_ABILITY_1,
-                .level = 22,
+                .species = SPECIES_HAUNTER,
+                .level = 26,
+                .item = ITEM_SITRUS_BERRY,
+                .moves = {MOVE_DRAGON_BREATH, MOVE_HEX, MOVE_ASSURANCE, MOVE_HYPNOSIS},
+                .ability = TRAINER_POKEMON_ABILITY_1,
+                .setIvs = {31,0,31,31,31,31},
+                .setEvs = {0,0,0,28,32,0},
+                .nature = NATURE_TIMID,
+            },
+            {
                 .species = SPECIES_CROCONAW,
-                .moves = { MOVE_SCARY_FACE, MOVE_ICE_FANG, MOVE_WATER_GUN, MOVE_BITE },
-                .ballSeal = 0,
+                .level = 27,
+                .item = ITEM_MYSTIC_WATER,
+                .moves = {MOVE_ICE_FANG, MOVE_DRAGON_CLAW, MOVE_WATER_PULSE, MOVE_ASSURANCE},
+                .ability = TRAINER_POKEMON_ABILITY_1,
+                .setIvs = {31,31,31,31,0,31},
+                .setEvs = {28,32,0,0,0,0},
+                .nature = NATURE_ADAMANT,
             },
         },
         .text = {
@@ -11486,7 +11803,7 @@ const TrainerData sTrainerData[] = {
     },
 
     [271] = {
-        .name = "Silver",
+        .name = "Silver", // Goldenrod Tunnel
         .data = {
             .trainerType = TRAINER_DATA_TYPE_MOVES,
             .trainerClass = TRAINERCLASS_RIVAL,
@@ -11557,7 +11874,7 @@ const TrainerData sTrainerData[] = {
     },
 
     [272] = {
-        .name = "Silver",
+        .name = "Silver", // Victory Road
         .data = {
             .trainerType = TRAINER_DATA_TYPE_MOVES,
             .trainerClass = TRAINERCLASS_RIVAL,
@@ -12110,7 +12427,7 @@ const TrainerData sTrainerData[] = {
     },
 
     [285] = {
-        .name = "Silver",
+        .name = "Silver", // MT Moon
         .data = {
             .trainerType = TRAINER_DATA_TYPE_MOVES,
             .trainerClass = TRAINERCLASS_RIVAL,
@@ -12189,7 +12506,7 @@ const TrainerData sTrainerData[] = {
     },
 
     [286] = {
-        .name = "Silver",
+        .name = "Silver", // Mt Moon
         .data = {
             .trainerType = TRAINER_DATA_TYPE_MOVES,
             .trainerClass = TRAINERCLASS_RIVAL,
@@ -12268,7 +12585,7 @@ const TrainerData sTrainerData[] = {
     },
 
     [287] = {
-        .name = "Silver",
+        .name = "Silver", // mt Moon
         .data = {
             .trainerType = TRAINER_DATA_TYPE_MOVES,
             .trainerClass = TRAINERCLASS_RIVAL,
@@ -12347,7 +12664,7 @@ const TrainerData sTrainerData[] = {
     },
 
     [288] = {
-        .name = "Silver",
+        .name = "Silver", // Goldenrod Tunnel
         .data = {
             .trainerType = TRAINER_DATA_TYPE_MOVES,
             .trainerClass = TRAINERCLASS_RIVAL,
@@ -12418,7 +12735,7 @@ const TrainerData sTrainerData[] = {
     },
 
     [289] = {
-        .name = "Silver",
+        .name = "Silver", //Goldenrod Tunnel
         .data = {
             .trainerType = TRAINER_DATA_TYPE_MOVES,
             .trainerClass = TRAINERCLASS_RIVAL,
@@ -20380,7 +20697,7 @@ const TrainerData sTrainerData[] = {
     },
 
     [489] = {
-        .name = "Silver",
+        .name = "Silver", // Indigo Plateau rematch
         .data = {
             .trainerType = TRAINER_DATA_TYPE_MOVES,
             .trainerClass = TRAINERCLASS_RIVAL,
@@ -20459,7 +20776,7 @@ const TrainerData sTrainerData[] = {
     },
 
     [490] = {
-        .name = "Silver",
+        .name = "Silver", // Indigo Plateau reamtch
         .data = {
             .trainerType = TRAINER_DATA_TYPE_MOVES,
             .trainerClass = TRAINERCLASS_RIVAL,
@@ -20538,7 +20855,7 @@ const TrainerData sTrainerData[] = {
     },
 
     [491] = {
-        .name = "Silver",
+        .name = "Silver", // Indigo Plateau Rematch
         .data = {
             .trainerType = TRAINER_DATA_TYPE_MOVES | TRAINER_DATA_TYPE_ITEMS,
             .trainerClass = TRAINERCLASS_RIVAL,
@@ -29589,7 +29906,7 @@ const TrainerData sTrainerData[] = {
                 .ivs = 250,
                 .abilitySlot = TRAINER_POKEMON_ABILITY_1,
                 .level = 52,
-                .species = SPECIES_GIRAFARIG,
+                .species = SPECIES_CRUSTLE,
                 .item = ITEM_NONE,
                 .moves = { MOVE_PSYCHIC, MOVE_SHADOW_BALL, MOVE_CALM_MIND, MOVE_BATON_PASS },
                 .ballSeal = 0,
@@ -29598,7 +29915,7 @@ const TrainerData sTrainerData[] = {
                 .ivs = 200,
                 .abilitySlot = TRAINER_POKEMON_ABILITY_1,
                 .level = 50,
-                .species = SPECIES_LICKILICKY,
+                .species = SPECIES_ABOMASNOW,
                 .item = ITEM_NONE,
                 .moves = { MOVE_WRING_OUT, MOVE_FLAMETHROWER, MOVE_ICE_BEAM, MOVE_THUNDERBOLT },
                 .ballSeal = 0,
@@ -29616,7 +29933,7 @@ const TrainerData sTrainerData[] = {
                 .ivs = 250,
                 .abilitySlot = TRAINER_POKEMON_ABILITY_2,
                 .level = 54,
-                .species = SPECIES_DELCATTY,
+                .species = SPECIES_XATU,
                 .item = ITEM_NONE,
                 .moves = { MOVE_FAKE_OUT, MOVE_ASSIST, MOVE_CALM_MIND, MOVE_BATON_PASS },
                 .ballSeal = 0,
@@ -29634,7 +29951,7 @@ const TrainerData sTrainerData[] = {
                 .ivs = 200,
                 .abilitySlot = TRAINER_POKEMON_ABILITY_2,
                 .level = 58,
-                .species = SPECIES_MILTANK,
+                .species = SPECIES_FLAMIGO,
                 .item = ITEM_LUM_BERRY,
                 .moves = { MOVE_BODY_SLAM, MOVE_ATTRACT, MOVE_SLEEP_TALK, MOVE_REST },
                 .ballSeal = 0,
@@ -29679,7 +29996,7 @@ const TrainerData sTrainerData[] = {
                 .ivs = 200,
                 .abilitySlot = TRAINER_POKEMON_ABILITY_1,
                 .level = 52,
-                .species = SPECIES_DUSKNOIR,
+                .species = SPECIES_PIDGEOT,
                 .item = ITEM_NONE,
                 .moves = { MOVE_PAIN_SPLIT, MOVE_WILL_O_WISP, MOVE_SUBSTITUTE, MOVE_PAYBACK },
                 .ballSeal = 0,
@@ -29697,7 +30014,7 @@ const TrainerData sTrainerData[] = {
                 .ivs = 200,
                 .abilitySlot = TRAINER_POKEMON_ABILITY_1,
                 .level = 54,
-                .species = SPECIES_MISMAGIUS,
+                .species = SPECIES_DRAGALGE,
                 .item = ITEM_NONE,
                 .moves = { MOVE_PERISH_SONG, MOVE_MEAN_LOOK, MOVE_CONFUSE_RAY, MOVE_ASTONISH },
                 .ballSeal = 0,
@@ -31041,7 +31358,7 @@ const TrainerData sTrainerData[] = {
     },
 
     [735] = {
-        .name = "Silver",
+        .name = "Silver", // Dragons Den
         .data = {
             .trainerType = TRAINER_DATA_TYPE_MOVES | TRAINER_DATA_TYPE_ITEMS,
             .trainerClass = TRAINERCLASS_RIVAL,
@@ -31081,7 +31398,7 @@ const TrainerData sTrainerData[] = {
     },
 
     [736] = {
-        .name = "Silver",
+        .name = "Silver", // Dragons Den
         .data = {
             .trainerType = TRAINER_DATA_TYPE_MOVES | TRAINER_DATA_TYPE_ITEMS,
             .trainerClass = TRAINERCLASS_RIVAL,
@@ -31121,7 +31438,7 @@ const TrainerData sTrainerData[] = {
     },
 
     [737] = {
-        .name = "Silver",
+        .name = "Silver", // Dragons Den
         .data = {
             .trainerType = TRAINER_DATA_TYPE_MOVES | TRAINER_DATA_TYPE_ITEMS,
             .trainerClass = TRAINERCLASS_RIVAL,
