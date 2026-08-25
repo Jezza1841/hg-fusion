@@ -367,7 +367,7 @@ const EvolutionTable __data[MAX_SPECIES_INCLUDING_FORMS + 1] =
     [SPECIES_PIKACHU] = {
         .entries = {
             { EVO_STONE, ITEM_THUNDER_STONE, SPECIES_RAICHU },
-            { EVO_NONE, 0, SPECIES_NONE },
+            { EVO_ITEM_DAY, ITEM_SUN_STONE, SPECIES_RAICHU_ALOLAN },
             { EVO_NONE, 0, SPECIES_NONE },
             { EVO_NONE, 0, SPECIES_NONE },
             { EVO_NONE, 0, SPECIES_NONE },
@@ -1472,8 +1472,8 @@ const EvolutionTable __data[MAX_SPECIES_INCLUDING_FORMS + 1] =
 
     [SPECIES_CUBONE] = {
         .entries = {
-            { EVO_LEVEL, 28, SPECIES_MAROWAK },
-            { EVO_NONE, 0, SPECIES_NONE },
+            { EVO_LEVEL_PID_LO, 28, SPECIES_MAROWAK },
+            { EVO_LEVEL_PID_HI, 28, SPECIES_MAROWAK_ALOLAN },
             { EVO_NONE, 0, SPECIES_NONE },
             { EVO_NONE, 0, SPECIES_NONE },
             { EVO_NONE, 0, SPECIES_NONE },
