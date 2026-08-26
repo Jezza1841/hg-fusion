@@ -1836,4 +1836,8 @@ BOOL LONG_CALL GetTMHMCompatBySpeciesAndForm(u16 species, u16 form, u8 tmhmIdx);
 
 void LONG_CALL DeleteMonFirstMoveAndAppend(struct PartyPokemon *mon, u16 move);
 
+BOOL LONG_CALL GetMonMachineMoveCompat(struct PartyPokemon *pp, u16 machineMoveIndex);
+
+BOOL LONG_CALL CanAccessFieldMove(struct PartyPokemon *mon, u16 fieldMove, int heapID);
+
 #endif

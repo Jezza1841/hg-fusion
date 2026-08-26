@@ -111,6 +111,7 @@
 #define HEAPID_BATTLE_HEAP 5
 #define HEAPID_WORLD       11
 #define HEAP_ID_PARTY_MENU 12
+#define HEAP_ID_FIELD3 32
 
 // overlay id's
 #define OVERLAY_WIFI                                 0

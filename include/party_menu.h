@@ -450,4 +450,6 @@ void LONG_CALL PartyMenu_DisableMainScreenBlend_AfterYesNo(void);
 void LONG_CALL PartyMonContextMenuAction_RotomCatalog(struct PartyMenu *partyMenu, int *pState);
 void LONG_CALL PartyMonContextMenuAction_QuitToBag(struct PartyMenu *partyMenu, int *pState);
 
+// BOOL LONG_CALL CanAccessFieldMove(struct PartyPokemon *mon, u16 fieldMove, int heapID);
+
 #endif // POKEHEARTGOLD_PARTY_MENU_H

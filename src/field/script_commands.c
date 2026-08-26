@@ -413,3 +413,56 @@ void SetupAndStartTotemBattle(TaskManager *taskManager, u16 species, u8 level, u
 
     CallTask_StartEncounter(taskManager, setup, BattleSetup_GetWildTransitionEffect(setup), BattleSetup_GetWildBattleMusic(setup), winFlag);
 }
+BOOL ScrCmd_GetPartySlotWithMove(SCRIPTCONTEXT *ctx) {
+    FieldSystem *fsys = ctx->fsys;
+    u16 *slot = ScriptGetVarPointer(ctx);
+    u16 move = ScriptGetVar(ctx);
+    u8 i;
+
+    struct Party *party = SaveData_GetPlayerPartyPtr(fsys->savedata);
+    u8 partyCount = party->count;
+
+    for (i = 0, *slot = 6; i < partyCount; i++) {
+        struct PartyPokemon *mon = Party_GetMonByIndex(party, i);
+        if (GetMonData(mon, MON_DATA_IS_EGG, NULL)) {
+            continue;
+        }
+
+        /*if (GetMonData(mon, MON_DATA_MOVE1, NULL) == move || GetMonData(mon, MON_DATA_MOVE2, NULL) == move || GetMonData(mon, MON_DATA_MOVE3, NULL) == move || GetMonData(mon, MON_DATA_MOVE4, NULL) == move) {
+            *slot = i;
+            break;
+        }*/
+
+        if (CanAccessFieldMove(mon, move, HEAPID_MAIN_HEAP))
+        {
+            *slot = i;
+            break;
+        }
+    }
+
+    return FALSE;
+}
+
+int ScrCmd_GetIdxOfFirstPartyMonWithMove(struct Party *party, u16 move) {
+    struct PartyPokemon *mon;
+    u8 partyCount = party->count;
+    int i;
+
+    for (i = 0; i < partyCount; i++) {
+        mon = Party_GetMonByIndex(party, i);
+        if (GetMonData(mon, MON_DATA_IS_EGG, NULL)) {
+            continue;
+        }
+        /*if (GetMonData(mon, MON_DATA_MOVE1, NULL) == move
+            || GetMonData(mon, MON_DATA_MOVE2, NULL) == move
+            || GetMonData(mon, MON_DATA_MOVE3, NULL) == move
+            || GetMonData(mon, MON_DATA_MOVE4, NULL) == move) {
+            return i;
+        }*/
+        if (CanAccessFieldMove(mon, move, HEAPID_MAIN_HEAP))
+        {
+            return i;
+        }
+    }
+    return 0xFF;
+}

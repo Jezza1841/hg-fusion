@@ -9,9 +9,13 @@
 #include "../include/constants/species.h"
 #include "../include/message.h"
 #include "../include/overlay.h"
+#include "../include/party_menu.h"
 #include "../include/pokemon.h"
 #include "../include/types.h"
 #include "../include/window.h"
+#include "../include/constants/generated/learnsets.h"
+
+u16 GetFieldEffectMoveID(u8 fieldEffect);
 
 extern const u16 sButtonFrameTileOffsets[];
 extern const u8 sButtonRects[][4];
@@ -28,8 +32,9 @@ void PartyMenu_ShowRotomCatalogList(struct PartyMenu *partyMenu);
 u8 LONG_CALL sub_0207B0B0(struct PartyMenu *wk, u8 *buf)
 {
     struct PartyPokemon *pp = Party_GetMonByIndex(wk->args->party, wk->partyMonIndex);
+    // u32 *learnset = GetCompleteLearnset(pp, HEAP_ID_FIELD3);
     u16 move;
-    u8 fieldMoveIndex = 0;
+    u8 displayedCount = 0;
     u8 i;
     u8 count = 0;
     u8 fieldEffect;
@@ -52,7 +57,7 @@ u8 LONG_CALL sub_0207B0B0(struct PartyMenu *wk, u8 *buf)
             buf[count] = PARTY_MON_CONTEXT_MENU_QUIT;
             ++count;
 
-            // here is where a custom check would go.  replace the below for loop with your own checks
+            int fieldEffectsToDisplay[4];
 
             for (i = 0; i < MAX_MON_MOVES; ++i) {
                 move = GetMonData(pp, MON_DATA_MOVE1 + i, NULL);
@@ -61,14 +66,53 @@ u8 LONG_CALL sub_0207B0B0(struct PartyMenu *wk, u8 *buf)
                 }
 
                 fieldEffect = MoveId_GetFieldEffectId(move);
-                if (fieldEffect != 0xFF) {
-                    buf[count] = fieldEffect;
-                    ++count;
-                    PartyMenu_ContextMenuAddFieldMove(wk, move, fieldMoveIndex);
-                    ++fieldMoveIndex;
+                if (fieldEffect > PARTY_MON_CONTEXT_MENU_FLASH && fieldEffect != 0xFF)
+                {
+                    fieldEffectsToDisplay[displayedCount] = fieldEffect;
+                    ++displayedCount;
                 }
             }
-        } else {
+
+        // Priority 2: Fly.
+            i = PARTY_MON_CONTEXT_MENU_FLY;
+            if (CanAccessFieldMove(pp, GetFieldEffectMoveID(i), HEAP_ID_PARTY_MENU)
+            && displayedCount < 4)
+            {
+                fieldEffectsToDisplay[displayedCount] = i;
+                ++displayedCount;
+            }
+
+            // Priority 3: Flash.
+            i = PARTY_MON_CONTEXT_MENU_FLASH;
+            if (CanAccessFieldMove(pp, GetFieldEffectMoveID(i), HEAP_ID_PARTY_MENU)
+            && displayedCount < 4)
+            {
+                fieldEffectsToDisplay[displayedCount] = i;
+                ++displayedCount;
+            }
+
+            // Priority 4: Unknown (valid) HM field moves.
+            for (i = PARTY_MON_CONTEXT_MENU_FIELD_MOVES_BEGIN; i <= PARTY_MON_CONTEXT_MENU_WHIRLPOOL; i++)
+            {
+                if (displayedCount == 4) break;
+                if (i == PARTY_MON_CONTEXT_MENU_FLY || i == PARTY_MON_CONTEXT_MENU_FLASH) continue;
+                if (CanAccessFieldMove(pp, GetFieldEffectMoveID(i), HEAP_ID_PARTY_MENU))
+                {
+                    fieldEffectsToDisplay[displayedCount] = i;
+                    ++displayedCount;
+                }
+            }
+
+            // Loop through fieldEffectsToDisplay and display all selected field moves.
+            for (i = 0; i < displayedCount; i++)
+            {
+                buf[count] = fieldEffectsToDisplay[i];
+                ++count;
+                PartyMenu_ContextMenuAddFieldMove(wk, GetFieldEffectMoveID(fieldEffectsToDisplay[i]), i);
+            }
+        }
+        else
+        {
             buf[count] = PARTY_MON_CONTEXT_MENU_QUIT;
             ++count;
         }
@@ -80,6 +124,196 @@ u8 LONG_CALL sub_0207B0B0(struct PartyMenu *wk, u8 *buf)
     return count;
 }
 
+BOOL LONG_CALL CanAccessFieldMove(struct PartyPokemon *mon, u16 fieldMove, int heapID)
+{
+    BAG_DATA *bag = Sav2_Bag_get(SaveBlock2_get());
+    switch (fieldMove)
+    {
+        case MOVE_CUT:
+            if (Bag_HasItem(bag, ITEM_HM01, 1, heapID))
+            {
+                if (GetMonMachineMoveCompat(mon, ItemToMachineMoveIndex(ITEM_HM01)))
+                {
+                    return TRUE;
+                }
+            }
+            break;
+        case MOVE_FLY:
+            if (Bag_HasItem(bag, ITEM_HM02, 1, heapID))
+            {
+                if (GetMonMachineMoveCompat(mon, ItemToMachineMoveIndex(ITEM_HM02)))
+                {
+                    return TRUE;
+                }
+            }
+            break;
+        case MOVE_SURF:
+            if (Bag_HasItem(bag, ITEM_HM03, 1, heapID))
+            {
+                if (GetMonMachineMoveCompat(mon, ItemToMachineMoveIndex(ITEM_HM03)))
+                {
+                    return TRUE;
+                }
+            }
+            break;
+        case MOVE_STRENGTH:
+            if (Bag_HasItem(bag, ITEM_HM04, 1, heapID))
+            {
+                if (GetMonMachineMoveCompat(mon, ItemToMachineMoveIndex(ITEM_HM04)))
+                {
+                    return TRUE;
+                }
+            }
+            break;
+        case MOVE_ROCK_SMASH:
+            if (Bag_HasItem(bag, ITEM_HM06, 1, heapID))
+            {
+                if (GetMonMachineMoveCompat(mon, ItemToMachineMoveIndex(ITEM_HM06)))
+                {
+                    return TRUE;
+                }
+            }
+            break;
+        case MOVE_WATERFALL:
+            if (Bag_HasItem(bag, ITEM_HM07, 1, heapID))
+            {
+                if (GetMonMachineMoveCompat(mon, ItemToMachineMoveIndex(ITEM_HM07)))
+                {
+                    return TRUE;
+                }
+            }
+            break;
+        case MOVE_ROCK_CLIMB:
+            if (Bag_HasItem(bag, ITEM_HM08, 1, heapID))
+            {
+                if (GetMonMachineMoveCompat(mon, ItemToMachineMoveIndex(ITEM_HM08)))
+                {
+                    return TRUE;
+                }
+            }
+            break;
+        case MOVE_WHIRLPOOL:
+            if (Bag_HasItem(bag, ITEM_HM05, 1, heapID))
+            {
+                if (GetMonMachineMoveCompat(mon, ItemToMachineMoveIndex(ITEM_HM05)))
+                {
+                    return TRUE;
+                }
+            }
+            break;
+        case MOVE_FLASH:
+            if (Bag_HasItem(bag, ITEM_TM070, 1, heapID))
+            {
+                if (GetMonMachineMoveCompat(mon, ItemToMachineMoveIndex(ITEM_TM070)))
+                {
+                    return TRUE;
+                }
+            }
+            break;
+        case MOVE_HEADBUTT:
+            if (GetMonData(mon, MON_DATA_MOVE1, NULL) == MOVE_HEADBUTT || GetMonData(mon, MON_DATA_MOVE2, NULL) == MOVE_HEADBUTT || GetMonData(mon, MON_DATA_MOVE3, NULL) == MOVE_HEADBUTT || GetMonData(mon, MON_DATA_MOVE4, NULL) == MOVE_HEADBUTT)
+            {
+                return TRUE;
+            }
+            break;
+        /*case MOVE_TELEPORT:
+            break;
+        case MOVE_DIG:
+            if (Bag_HasItem(bag, ITEM_TM028, 1, heapID))
+            {
+                if (GetMonMachineMoveCompat(mon, ItemToMachineMoveIndex(ITEM_TM028)))
+                {
+                    return TRUE;
+                }
+            }
+            break;
+        case MOVE_SWEET_SCENT:
+            break;
+        case MOVE_CHATTER:
+            break;
+        case MOVE_MILK_DRINK:
+            break;
+        case MOVE_SOFT_BOILED:
+            break;*/
+        default: break;
+    }
+    return FALSE;
+}
+
+u16 GetFieldEffectMoveID(u8 fieldEffect)
+{
+    switch (fieldEffect)
+    {
+        case PARTY_MON_CONTEXT_MENU_CUT:
+            return MOVE_CUT;
+        case PARTY_MON_CONTEXT_MENU_FLY:
+            return MOVE_FLY;
+        case PARTY_MON_CONTEXT_MENU_SURF:
+            return MOVE_SURF;
+        case PARTY_MON_CONTEXT_MENU_STRENGTH:
+            return MOVE_STRENGTH;
+        case PARTY_MON_CONTEXT_MENU_ROCK_SMASH:
+            return MOVE_ROCK_SMASH;
+        case PARTY_MON_CONTEXT_MENU_WATERFALL:
+            return MOVE_WATERFALL;
+        case PARTY_MON_CONTEXT_MENU_ROCK_CLIMB:
+            return MOVE_ROCK_CLIMB;
+        case PARTY_MON_CONTEXT_MENU_WHIRLPOOL:
+           return MOVE_WHIRLPOOL;
+        case PARTY_MON_CONTEXT_MENU_FLASH:
+            return MOVE_FLASH;
+        case PARTY_MON_CONTEXT_MENU_TELEPORT:
+            return MOVE_TELEPORT;
+        case PARTY_MON_CONTEXT_MENU_DIG:
+            return MOVE_DIG;
+        case PARTY_MON_CONTEXT_MENU_SWEET_SCENT:
+            return MOVE_SWEET_SCENT;
+        case PARTY_MON_CONTEXT_MENU_CHATTER:
+            return MOVE_CHATTER;
+        case PARTY_MON_CONTEXT_MENU_HEADBUTT:
+            return MOVE_HEADBUTT;
+        case PARTY_MON_CONTEXT_MENU_MILK_DRINK:
+            return MOVE_SWEET_SCENT;
+        case PARTY_MON_CONTEXT_MENU_SOFTBOILED:
+            return MOVE_SOFT_BOILED;
+        default: break;
+    }
+    return MOVE_NONE;
+}
+
+u32 *GetCompleteLearnset(struct PartyPokemon *mon, int heapID) {
+    u32 species = (u16)GetMonData(mon, MON_DATA_SPECIES, NULL);
+    u32 form = GetMonData(mon, MON_DATA_FORM, NULL);
+
+    u32 *returnTable = sys_AllocMemory(heapID, MAX_LEVELUP_MOVES * sizeof(u32));
+
+    // Load level up learnset into levelUpTable.
+    u32 *levelUpTable = sys_AllocMemory(heapID, MAX_LEVELUP_MOVES * sizeof(u32));
+    LoadLevelUpLearnset_HandleAlternateForm(species, form, levelUpTable);
+
+    // Add levelUpTable to returnTable.
+
+    // Be sure to dispose of levelUpTable since we had to allocate memory.
+    sys_FreeMemoryEz(levelUpTable);
+
+    // Load TM learnset.
+    u32 machineLearnset[MACHINE_LEARNSETS_BITFIELD_COUNT];
+    ReadFromNarcMemberByIdPair(machineLearnset, ARC_CODE_ADDONS, CODE_ADDON_MACHINE_LEARNSETS, PokeOtherFormMonsNoGet(species, form) * MACHINE_LEARNSETS_BITFIELD_COUNT * sizeof(u32), MACHINE_LEARNSETS_BITFIELD_COUNT * sizeof(u32));
+
+    // Add TM learnset to returnTable.
+
+    // Load tutor learnset.
+    u32 tutorLearnset[TUTOR_LEARNSETS_BITFIELD_COUNT];
+    ReadFromNarcMemberByIdPair(tutorLearnset, ARC_CODE_ADDONS, CODE_ADDON_TUTOR_LEARNSETS, PokeOtherFormMonsNoGet(species, form) * TUTOR_LEARNSETS_BITFIELD_COUNT * sizeof(u32), TUTOR_LEARNSETS_BITFIELD_COUNT * sizeof(u32));
+
+    // Add tutorLearnset to returnTable.
+
+    // Load egg moves?
+
+    return returnTable;
+}
+
+// void LONG_CALL sub_0207AFC4(struct PLIST_WORK *wk)
 void LONG_CALL sub_0207AFC4(struct PartyMenu *wk)
 {
     ClearFrameAndWindow2(&wk->windows[PARTY_MENU_WINDOW_ID_32], TRUE);

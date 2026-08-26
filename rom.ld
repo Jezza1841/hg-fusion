@@ -827,6 +827,8 @@ Encounter_New = 0x020506BC | 1;
 TaskManager_Call = 0x02050530 | 1;
 Task_TutorialBattle = 0x0205128C | 1;
 
+SaveArray_Party_Get = 0x02074904 | 1;
+
 GetItemAttrSub = 0x02077E48 | 1;
 
 gSystem = 0x021D110C;
@@ -870,6 +872,7 @@ sButtonWindowTemplates = 0x02101654;
 sButtonWindowIDs = 0x021016B4;
 PartyMenu_DisableMainScreenBlend_AfterYesNo = 0x0207CB90 | 1;
 sBattleBgProfileTable = 0x0226E70C;
+
 UpdateFriendshipFainted = 0x02248558 | 1;
 
 Save_GameStats_Get = 0x0202CF54 | 1;
