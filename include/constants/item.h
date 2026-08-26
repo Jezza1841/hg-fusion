@@ -2696,7 +2696,7 @@
 // #define ITEM_CUSTOM_1 (MAX_BASE_ITEM_NUM + 1)
 #define ITEM_ELESNARLITE                  MAX_BASE_ITEM_NUM + 1
 #define ITEM_DRAGAPULTITE                 MAX_BASE_ITEM_NUM + 2
-#define ITEM_INFINITE_CANDY               MAX_BASE_ITEM_NUM + 3
+#define ITEM_INFINITE_RARE_CANDY               MAX_BASE_ITEM_NUM + 3
 #define ITEM_BUTTERFRITE                  MAX_BASE_ITEM_NUM + 4
 #define ITEM_CENTISKORCHITE               MAX_BASE_ITEM_NUM + 5
 #define ITEM_MACHAMPITE                   MAX_BASE_ITEM_NUM + 6

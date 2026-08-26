@@ -174666,7 +174666,7 @@ const ITEMDATA __data[] =
     },
 },
 
-[ITEM_INFINITE_CANDY - NUM_UNKNOWN_SLOTS_EXPLORER_KIT] =
+[ITEM_INFINITE_RARE_CANDY] =
 {
     .price = 0,
     .holdEffect = 0,
@@ -174725,9 +174725,9 @@ const ITEMDATA __data[] =
         .spdef_ev_up_param = 0,
         .hp_restore_param = 0,
         .pp_restore_param = 0,
-        .friendship_mod_lo_param =  5,
+        .friendship_mod_lo_param = 5,
         .friendship_mod_med_param = 3,
-        .friendship_mod_hi_param =  2,
+        .friendship_mod_hi_param = 2,
     },
 },
 
