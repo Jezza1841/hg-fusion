@@ -790,3 +790,10 @@ $(MSGDATA_NARC): $(MSGDATA_DEPENDENCIES) $(MSGDATA_COMPILETIME_DEPENDENCIES)
 	for file in $(MSGDATA_DEPENDENCIES); do $(PYTHON) tools/source/dumptools/validate_text_archive.py $(CHARMAP) $$file || exit 1; done
 	for file in $^; do $(MSGENC) -e -c $(CHARMAP) $$file $(MSGDATA_DIR)/7_$$(basename $$file .txt); done
 	$(NARCHIVE) create $@ $(MSGDATA_DIR) -nf
+
+TRADE_NARC_TARGET := $(FILESYS)/a/1/1/2
+TRADE_WORK_DIR := trade_work
+TRADE_WORK_DEPENDENCIES := $(wildcard $(TRADE_WORK_DIR)/2_*)
+
+$(TRADE_NARC_TARGET): $(TRADE_WORK_DEPENDENCIES)
+	$(NARCHIVE) create $@ $(TRADE_WORK_DIR) -nf
