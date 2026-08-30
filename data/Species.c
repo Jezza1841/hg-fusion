@@ -72905,7 +72905,7 @@ const SpeciesDataEntry sSpeciesData[MAX_SPECIES_INCLUDING_FORMS + 1] = {
 
     [SPECIES_ROCKRUFF_OWN_TEMPO] = {
         .textData = {
-            .name = "-----",
+            .name = "Farruff",
             .pokedexEntry = "",
             .classification = "Puppy Duck Pokémon",
             .height = "???’??”",
