@@ -11,7 +11,13 @@ void __attribute__((section(".init"))) CreateTradeMon_Internal(struct PartyPokem
     u32 mapsec;
     int heapId_2;
 
-    PokeParaSet(mon, trade_dat->give_species, level, 32, TRUE, trade_dat->pid, OT_ID_PRESET, trade_dat->otId);
+    s32 give_species = trade_dat->give_species;
+
+    if (tradeno == 0) {
+        give_species = SPECIES_ROCKRUFF_OWN_TEMPO;
+    }
+    
+    PokeParaSet(mon, give_species, level, 32, TRUE, trade_dat->pid, OT_ID_PRESET, trade_dat->otId);
 
     heapId_2 = (int)heapId;
     name = _GetNpcTradeName(heapId_2, tradeno);
